@@ -1,0 +1,410 @@
+import React, { useMemo } from 'react';
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  LineChart, Line, PieChart, Pie, Cell, LabelList
+} from 'recharts';
+import { useData } from '../context/DataContext';
+import orcamentoReal from '../data/orcamento_real.json';
+import AnimatedSection, { useAnimateOnScroll } from './AnimatedSection';
+
+const tooltipStyle = {
+  backgroundColor: '#052e16',
+  border: '1px solid #1a4530',
+  borderRadius: 8,
+  color: '#fff',
+  fontSize: 13
+};
+
+const ANIM_DUR = 1200;
+const COR_EXCLUSIVO = '#4ade80';
+const COR_NAO_EXCLUSIVO = '#1e3a5f';
+
+const NOMES_SECRETARIAS = {
+  SEAD: 'Secretaria de Estado de Administração',
+  SEFAZ: 'Secretaria de Estado da Fazenda',
+  CDSA: 'Companhia de Desenvolvimento e Serviços Ambientais',
+  IMC: 'Instituto de Mudanças Climáticas',
+  SEMA: 'Secretaria de Estado de Meio Ambiente',
+  SEAGRI: 'Secretaria de Estado de Agricultura',
+  EMATER: 'Empresa de Assistência Técnica e Extensão Rural do Acre',
+  SEICT: 'Secretaria de Estado de Indústria, Ciência e Tecnologia',
+  JUCEAC: 'Junta Comercial do Estado do Acre',
+  SETE: 'Secretaria de Estado de Turismo',
+  ANAC: 'Agência de Negócios do Acre',
+  SEOP: 'Secretaria de Estado de Obras Públicas',
+  SEPLAN: 'Secretaria de Estado de Planejamento',
+  DERACRE: 'Departamento de Estradas e Rodagens do Acre',
+  AGEAC: 'Agência Reguladora dos Serviços Públicos do Estado do Acre',
+  SANEACRE: 'Serviço de Água e Esgoto do Acre',
+  SEHURB: 'Secretaria de Estado de Habitação e Urbanismo',
+  SEASDH: 'Secretaria de Estado de Assistência Social e Direitos Humanos',
+  SEE: 'Secretaria de Estado de Educação',
+  SEPI: 'Secretaria de Estado Extraordinária dos Povos Indígenas',
+  ITERACRE: 'Instituto de Terras do Acre',
+  CGE: 'Controladoria-Geral do Estado',
+  CAGEACRE: 'Companhia de Armazéns e Entrepostos do Acre',
+  CBMAC: 'Corpo de Bombeiros Militar do Acre',
+  FEM: 'Fundação de Cultura e Comunicação Elias Mansour',
+  FAPAC: 'Fundação de Amparo à Pesquisa do Estado do Acre',
+  FUNTAC: 'Fundação de Tecnologia do Estado do Acre',
+  IAPEN: 'Instituto de Administração Penitenciária',
+  IDAF: 'Instituto de Defesa Agropecuária e Florestal',
+  IEPTEC: 'Instituto Estadual de Educação Profissional e Tecnológica',
+  IMAC: 'Instituto de Meio Ambiente do Acre',
+  ISE: 'Instituto Sócio-Educativo do Acre',
+  PCAC: 'Polícia Civil do Estado do Acre',
+  PMAC: 'Polícia Militar do Estado do Acre',
+  PGE: 'Procuradoria Geral do Estado',
+  SEEL: 'Secretaria Extraordinária de Esporte e Lazer',
+  SEGOV: 'Secretaria de Estado de Governo',
+  SEJUSP: 'Secretaria de Estado da Justiça e Segurança Pública',
+  SEMULHER: 'Secretaria de Estado da Mulher',
+  TCE: 'Tribunal de Contas do Estado',
+  TJAC: 'Tribunal de Justiça do Estado do Acre',
+  SESACRE: 'Secretaria de Estado de Saúde do Acre',
+  MPAC: 'Ministério Público do Estado do Acre',
+  DPE: 'Defensoria Pública do Estado do Acre',
+  'FUNDO DE DESENVOLVIMENTO SUSTENTÁVEL': 'Fundo de Desenvolvimento Sustentável',
+  'OUTROS': 'Outros Órgãos'
+};
+
+const EIXOS_DATA = [
+  { numero: '1', label: 'Eixo 1', eixo: 'Desenvolvimento Sustentável e Bioeconomia', orcamento: 128307925.19 },
+  { numero: '2', label: 'Eixo 2', eixo: 'Mitigação das Mudanças Climáticas', orcamento: 367100916.66 },
+  { numero: '3', label: 'Eixo 3', eixo: 'Adaptação Climática', orcamento: 521536955.99 },
+  { numero: '4', label: 'Eixo 4', eixo: 'Justiça Climática e Inclusão Social', orcamento: 27851335.52 },
+  { numero: '5', label: 'Eixo 5', eixo: 'Governança Ambiental e Transparência', orcamento: 674000.00 },
+  { numero: '6', label: 'Eixo 6', eixo: 'Educação Ambiental e Inovação', orcamento: 2878600.00 },
+  { numero: '7', label: 'Eixo 7', eixo: 'Gestão de Riscos e Proteção Civil', orcamento: 18596667.00 }
+];
+
+const SecretariasTooltip = React.memo(({ active, payload, fmt }) => {
+  if (!active || !payload || !payload.length) return null;
+  const d = payload[0].payload;
+  return (
+    <div style={tooltipStyle}>
+      <div style={{ fontWeight: 600, marginBottom: 4 }}>{d.nome}</div>
+      <div style={{ color: '#4ade80' }}>Exclusivo: {fmt(d.exclusivo || 0)}</div>
+      <div style={{ color: '#38bdf8' }}>Não Exclusivo: {fmt(d.naoExclusivo || 0)}</div>
+      <div style={{ marginTop: 4, borderTop: '1px solid #1a4530', paddingTop: 4, fontWeight: 600 }}>Total: {fmt(d.total || d.orcamento || 0)}</div>
+    </div>
+  );
+});
+
+const EixoTooltip = React.memo(({ active, payload, label }) => {
+  if (!active || !payload || !payload.length) return null;
+  const data = EIXOS_DATA.find(d => d.label === label);
+  return (
+    <div style={tooltipStyle}>
+      <div style={{ fontWeight: 600 }}>{data?.eixo || label}</div>
+    </div>
+  );
+});
+
+const ExecucaoTooltip = React.memo(({ active, payload }) => {
+  if (!active || !payload || !payload.length) return null;
+  return (
+    <div style={tooltipStyle}>
+      <div style={{ fontWeight: 600, marginBottom: 4 }}>{payload[0].payload.nome}</div>
+      <div>{payload[0].value.toFixed(1)}%</div>
+    </div>
+  );
+});
+
+/* ---------- GRÁFICO 1: Evolução Anual (Linha) ---------- */
+const EvolucaoChart = React.memo(function EvolucaoChart({ data, fmt }) {
+  const { ref, isVisible, animKey } = useAnimateOnScroll(0.05, true);
+  return (
+    <div ref={ref} style={{ width: '100%', height: 260 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart key={animKey} data={data} margin={{ top: 10, right: 60, left: 10, bottom: 10 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+          <XAxis dataKey="ano" stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 12 }} />
+          <YAxis stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 12 }} tickFormatter={fmt} width={80} />
+          <Tooltip formatter={fmt} contentStyle={tooltipStyle} />
+          <Legend wrapperStyle={{ color: 'var(--text-secondary)' }} />
+          <Line
+            type="monotone"
+            dataKey="gastoExclusivo"
+            name="Gasto Exclusivo"
+            stroke="#22c55e"
+            strokeWidth={3}
+            dot={{ fill: '#22c55e', strokeWidth: 2, r: 5 }}
+            activeDot={{ r: 7, fill: '#4ade80' }}
+            isAnimationActive={isVisible}
+            animationDuration={ANIM_DUR}
+            animationEasing="ease-out"
+          />
+          <Line
+            type="monotone"
+            dataKey="gastoNaoExclusivo"
+            name="Gasto Não Exclusivo"
+            stroke="#fbbf24"
+            strokeWidth={3}
+            dot={{ fill: '#fbbf24', strokeWidth: 2, r: 5 }}
+            activeDot={{ r: 7, fill: '#fcd34d' }}
+            isAnimationActive={isVisible}
+            animationDuration={ANIM_DUR}
+            animationEasing="ease-out"
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+});
+
+/* ---------- GRÁFICO 2: Composição (Pizza) ---------- */
+const ComposicaoChart = React.memo(function ComposicaoChart({ data }) {
+  const { ref, isVisible, animKey } = useAnimateOnScroll(0.05, true);
+  return (
+    <div ref={ref} style={{ width: '100%', height: 260 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart key={animKey}>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            innerRadius={60}
+            outerRadius={90}
+            paddingAngle={3}
+            dataKey="valor"
+            isAnimationActive={isVisible}
+            animationDuration={ANIM_DUR}
+            animationEasing="ease-out"
+            cornerRadius={4}
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.cor} stroke="none" />
+            ))}
+          </Pie>
+          <Tooltip content={<ExecucaoTooltip />} />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+});
+
+/* ---------- GRÁFICO 3: Secretarias (Barras verticais com scroll) ---------- */
+const SecretariasChart = React.memo(function SecretariasChart({ data }) {
+  const { ref, isVisible, animKey } = useAnimateOnScroll(0.05, true);
+  const barHeight = 32;
+  const gap = 8;
+  const svgHeight = data.length * barHeight + (data.length - 1) * gap + 80;
+
+  const fmtValor = (v) => {
+    if (v >= 1_000_000) {
+      return (v / 1_000_000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' MI';
+    }
+    if (v >= 1_000) {
+      return (v / 1_000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' mil';
+    }
+    return v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: 480,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        paddingRight: 10,
+        paddingBottom: 30
+      }}
+      className="secretarias-scroll-container"
+      ref={ref}
+    >
+      <style>{`
+        .secretarias-scroll-container::-webkit-scrollbar { width: 8px; }
+        .secretarias-scroll-container::-webkit-scrollbar-track { background: rgba(5, 46, 22, 0.3); border-radius: 4px; }
+        .secretarias-scroll-container::-webkit-scrollbar-thumb { background: #22c55e; border-radius: 4px; }
+        .secretarias-scroll-container::-webkit-scrollbar-thumb:hover { background: #4ade80; }
+      `}</style>
+      <ResponsiveContainer width="100%" height={svgHeight}>
+        <BarChart key={animKey}
+          data={data}
+          layout="vertical"
+          margin={{ top: 10, right: 50, left: -30, bottom: 40 }}
+          barCategoryGap={gap}
+          barGap={2}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" horizontal={false} />
+          <XAxis type="number" stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 11 }} tickFormatter={fmtValor} />
+          <YAxis
+            type="category"
+            dataKey="sigla"
+            stroke="var(--text-muted)"
+            tick={{ fill: 'var(--text-secondary)', fontSize: 10 }}
+            width={185}
+            tickLine={false}
+          />
+          <Tooltip
+            content={<SecretariasTooltip fmt={fmtValor} />}
+            cursor={{ fill: 'rgba(34, 197, 94, 0.08)' }}
+          />
+          <Bar
+            dataKey="exclusivo"
+            stackId="a"
+            fill={COR_EXCLUSIVO}
+            radius={[0, 0, 0, 0]}
+            isAnimationActive={isVisible}
+            animationDuration={ANIM_DUR}
+            animationEasing="ease-out"
+            maxBarSize={barHeight}
+            minPointSize={3}
+          />
+          <Bar
+            dataKey="naoExclusivo"
+            stackId="a"
+            fill={COR_NAO_EXCLUSIVO}
+            radius={[0, 6, 6, 0]}
+            isAnimationActive={isVisible}
+            animationDuration={ANIM_DUR}
+            animationEasing="ease-out"
+            maxBarSize={barHeight}
+            minPointSize={3}
+          >
+            <LabelList dataKey="total" position="right" formatter={fmtValor} fill="var(--text-secondary)" fontSize={10} />
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+});
+
+/* ---------- GRÁFICO 4: Eixos (Barras horizontais) ---------- */
+const EixosChart = React.memo(function EixosChart({ data, fmt }) {
+  const { ref, isVisible, animKey } = useAnimateOnScroll(0.05, true);
+  return (
+    <div ref={ref} style={{ width: '100%', height: 400 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart key={animKey} data={data} barCategoryGap={14} margin={{ top: 40, right: 20, left: 10, bottom: 10 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+          <XAxis dataKey="label" stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 12 }} />
+          <YAxis stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 11 }} tickFormatter={fmt} />
+          <Tooltip content={<EixoTooltip />} cursor={{ fill: 'rgba(34, 197, 94, 0.08)' }} />
+          <Bar
+            dataKey="orcamento"
+            fill="#22c55e"
+            radius={[6, 6, 0, 0]}
+            isAnimationActive={isVisible}
+            animationDuration={ANIM_DUR}
+            animationEasing="ease-out"
+            minPointSize={4}
+          >
+            <LabelList dataKey="orcamento" position="top" formatter={fmt} fill="var(--text-secondary)" fontSize={11} />
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+});
+
+/* ---------- SEÇÃO PRINCIPAL ---------- */
+function ChartsSection() {
+  const { projetosFiltrados, gastoExclusivo, gastoNaoExclusivo } = useData();
+
+  const fmt = useMemo(() => (v) => {
+    if (v >= 1_000_000_000) return (v / 1_000_000_000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' bi';
+    if (v >= 1_000_000) return (v / 1_000_000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' MI';
+    if (v >= 1_000) return (v / 1_000).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' mil';
+    return v.toLocaleString('pt-BR');
+  }, []);
+
+  const dadosSecretarias = useMemo(() => {
+    const todos = Object.entries(orcamentoReal.distribuicao_por_orgao || orcamentoReal.orcamento_por_orgao || {})
+      .map(([nome, valores]) => {
+        let sigla = nome;
+        if (nome.length > 20) {
+          sigla = nome.substring(0, 18) + '...';
+        }
+        const exclusivo = typeof valores === 'object' ? (valores.Exclusivo || 0) : 0;
+        const naoExclusivo = typeof valores === 'object' ? (valores['Não Exclusivo'] || 0) : 0;
+        const total = typeof valores === 'object' ? (valores.Total || exclusivo + naoExclusivo) : (valores || 0);
+        return {
+          sigla,
+          nome,
+          exclusivo,
+          naoExclusivo,
+          total
+        };
+      })
+      .filter(d => d.total > 0)
+      .sort((a, b) => b.total - a.total);
+
+    return todos;
+  }, []);
+
+  const evolucaoOrcamento = useMemo(() => {
+    return [
+      { ano: 2025, gastoExclusivo: 0, gastoNaoExclusivo: 0 },
+      { ano: 2026, gastoExclusivo: 695233901.41, gastoNaoExclusivo: 371712498.95 }
+    ];
+  }, []);
+
+  const dadosEixo = useMemo(() =>
+    [...EIXOS_DATA].sort((a, b) => b.orcamento - a.orcamento),
+  []);
+
+  const execucaoData = useMemo(() => {
+    const total = (gastoExclusivo || 0) + (gastoNaoExclusivo || 0);
+    if (total === 0) return [
+      { nome: 'Gasto Exclusivo', valor: 0, cor: COR_EXCLUSIVO },
+      { nome: 'Gasto Não Exclusivo', valor: 0, cor: COR_NAO_EXCLUSIVO }
+    ];
+    const pctEx = ((gastoExclusivo / total) * 100);
+    const pctNex = ((gastoNaoExclusivo / total) * 100);
+    return [
+      { nome: 'Gasto Exclusivo', valor: pctEx, cor: COR_EXCLUSIVO },
+      { nome: 'Gasto Não Exclusivo', valor: pctNex, cor: COR_NAO_EXCLUSIVO }
+    ];
+  }, [gastoExclusivo, gastoNaoExclusivo]);
+
+  return (
+    <div className="charts-grid">
+      {/* Gráfico 1: Evolução Anual */}
+      <AnimatedSection className="chart-box chart-full" delay={0} duration={1400} once>
+        <div className="section-title">Evolução Anual de Orçamento Climático</div>
+        <EvolucaoChart data={evolucaoOrcamento} fmt={fmt} />
+      </AnimatedSection>
+
+      {/* Gráfico 2: Composição (Pizza) */}
+      <AnimatedSection className="chart-box" delay={150} duration={1400} once>
+        <div className="section-title">Composição do Orçamento Climático</div>
+        <ComposicaoChart data={execucaoData} />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 24, marginTop: 12 }}>
+          {execucaoData.map(item => (
+            <div key={item.nome} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ display: 'inline-block', width: 14, height: 14, backgroundColor: item.cor, borderRadius: 3 }}></span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: 14, fontWeight: 500 }}>{item.nome} ({item.valor.toFixed(1)}%)</span>
+            </div>
+          ))}
+        </div>
+      </AnimatedSection>
+
+      {/* Gráfico 3: Secretarias */}
+      <AnimatedSection className="chart-box" delay={300} duration={1400} once>
+        <div className="section-title">Orçamento por Secretaria</div>
+        <SecretariasChart data={dadosSecretarias} />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 24, marginTop: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ display: 'inline-block', width: 14, height: 14, backgroundColor: COR_EXCLUSIVO, borderRadius: 3 }}></span>
+            <span style={{ color: 'var(--text-secondary)', fontSize: 14, fontWeight: 500 }}>Exclusivo</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ display: 'inline-block', width: 14, height: 14, backgroundColor: COR_NAO_EXCLUSIVO, borderRadius: 3 }}></span>
+            <span style={{ color: 'var(--text-secondary)', fontSize: 14, fontWeight: 500 }}>Não Exclusivo</span>
+          </div>
+        </div>
+      </AnimatedSection>
+
+      {/* Gráfico 4: Eixos */}
+      <AnimatedSection className="chart-box chart-full" delay={450} duration={1400} once>
+        <div className="section-title">Orçamento por Eixo</div>
+        <EixosChart data={dadosEixo} fmt={fmt} />
+      </AnimatedSection>
+    </div>
+  );
+}
+
+export default React.memo(ChartsSection);

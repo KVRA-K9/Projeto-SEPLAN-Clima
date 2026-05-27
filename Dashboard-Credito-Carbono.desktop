@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Dashboard Crédito de Carbono
+Comment=Abre o Dashboard no Brave
+Exec=/opt/brave.com/brave/brave --no-sandbox http://localhost:5173/
+Type=Application
+Terminal=false
+Icon=brave-browser
+Categories=Application;
