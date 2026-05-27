@@ -61,36 +61,26 @@ function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo }) {
       <button
         ref={infoBtnRef}
         onClick={abrirPopup}
+        className="info-btn"
         style={{
           position: 'absolute',
           bottom: 6,
           right: 6,
-          width: 16,
-          height: 16,
+          width: 22,
+          height: 22,
           borderRadius: '50%',
-          border: '1px solid var(--text-muted)',
+          border: '2px solid currentColor',
           background: 'transparent',
-          color: 'var(--text-muted)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
           padding: 0,
-          fontSize: 10,
-          fontWeight: 700,
+          fontSize: 13,
+          fontWeight: 800,
           fontFamily: 'serif',
           transition: 'all 0.2s ease',
-          opacity: 0.7
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'var(--accent)';
-          e.currentTarget.style.color = 'var(--accent)';
-          e.currentTarget.style.opacity = '1';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'var(--text-muted)';
-          e.currentTarget.style.color = 'var(--text-muted)';
-          e.currentTarget.style.opacity = '0.7';
+          opacity: 1
         }}
         title="Informação"
       >

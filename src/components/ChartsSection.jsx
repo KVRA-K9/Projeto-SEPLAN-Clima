@@ -69,13 +69,13 @@ const NOMES_SECRETARIAS = {
 };
 
 const EIXOS_DATA = [
-  { numero: '1', label: 'Eixo 1', eixo: 'Desenvolvimento Sustentável e Bioeconomia', orcamento: 128307925.19 },
-  { numero: '2', label: 'Eixo 2', eixo: 'Mitigação das Mudanças Climáticas', orcamento: 367100916.66 },
-  { numero: '3', label: 'Eixo 3', eixo: 'Adaptação Climática', orcamento: 521536955.99 },
-  { numero: '4', label: 'Eixo 4', eixo: 'Justiça Climática e Inclusão Social', orcamento: 27851335.52 },
-  { numero: '5', label: 'Eixo 5', eixo: 'Governança Ambiental e Transparência', orcamento: 674000.00 },
-  { numero: '6', label: 'Eixo 6', eixo: 'Educação Ambiental e Inovação', orcamento: 2878600.00 },
-  { numero: '7', label: 'Eixo 7', eixo: 'Gestão de Riscos e Proteção Civil', orcamento: 18596667.00 }
+  { numero: '1', label: 'Eixo I - Desenvolvimento Sustentável e Bioeconomia', eixo: 'Desenvolvimento Sustentável e Bioeconomia', orcamento: 128307925.19 },
+  { numero: '2', label: 'Eixo II - Mitigação das Mudanças Climáticas', eixo: 'Mitigação das Mudanças Climáticas', orcamento: 367100916.66 },
+  { numero: '3', label: 'Eixo III - Adaptação Climática', eixo: 'Adaptação Climática', orcamento: 521536955.99 },
+  { numero: '4', label: 'Eixo IV - Justiça Climática e Inclusão Social', eixo: 'Justiça Climática e Inclusão Social', orcamento: 27851335.52 },
+  { numero: '5', label: 'Eixo V - Governança Ambiental e Transparência', eixo: 'Governança Ambiental e Transparência', orcamento: 674000.00 },
+  { numero: '6', label: 'Eixo VI - Educação Ambiental e Inovação', eixo: 'Educação Ambiental e Inovação', orcamento: 2878600.00 },
+  { numero: '7', label: 'Eixo VII - Gestão de Riscos e Proteção Civil', eixo: 'Gestão de Riscos e Proteção Civil', orcamento: 18596667.00 }
 ];
 
 const SecretariasTooltip = React.memo(({ active, payload, fmt }) => {
@@ -94,9 +94,11 @@ const SecretariasTooltip = React.memo(({ active, payload, fmt }) => {
 const EixoTooltip = React.memo(({ active, payload, label }) => {
   if (!active || !payload || !payload.length) return null;
   const data = EIXOS_DATA.find(d => d.label === label);
+  const valor = data?.orcamento || payload[0]?.value || 0;
+  const valorFmt = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   return (
     <div style={tooltipStyle}>
-      <div style={{ fontWeight: 600 }}>{data?.eixo || label}</div>
+      <div style={{ fontWeight: 600 }}>{valorFmt}</div>
     </div>
   );
 });
@@ -273,15 +275,46 @@ const SecretariasChart = React.memo(function SecretariasChart({ data }) {
 });
 
 /* ---------- GRÁFICO 4: Eixos (Barras horizontais) ---------- */
+const CustomXAxisTick = React.memo(function CustomXAxisTick({ x, y, payload }) {
+  const text = payload.value;
+  const words = text.split(' ');
+  const lines = [];
+  let current = '';
+  words.forEach((w) => {
+    if ((current + w).length > 14) {
+      lines.push(current.trim());
+      current = w + ' ';
+    } else {
+      current += w + ' ';
+    }
+  });
+  lines.push(current.trim());
+  return (
+    <g transform={`translate(${x},${y})`}>
+      {lines.map((line, i) => (
+        <text key={i} x={0} y={i * 11} dy={10} textAnchor="middle" fill="var(--text-secondary)" fontSize={9}>
+          {line}
+        </text>
+      ))}
+    </g>
+  );
+});
+
 const EixosChart = React.memo(function EixosChart({ data, fmt }) {
   const { ref, isVisible, animKey } = useAnimateOnScroll(0.05, true);
   return (
-    <div ref={ref} style={{ width: '100%', height: 400 }}>
+    <div ref={ref} style={{ width: '100%', height: 460 }}>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart key={animKey} data={data} barCategoryGap={14} margin={{ top: 40, right: 20, left: 10, bottom: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-          <XAxis dataKey="label" stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 12 }} />
-          <YAxis stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 11 }} tickFormatter={fmt} />
+        <BarChart key={animKey} data={data} barCategoryGap={22} margin={{ top: 40, right: 20, left: 10, bottom: 80 }}>
+          <XAxis
+            dataKey="label"
+            stroke="var(--text-secondary)"
+            tick={<CustomXAxisTick />}
+            interval={0}
+            height={70}
+            axisLine={false}
+            tickLine={false}
+          />
           <Tooltip content={<EixoTooltip />} cursor={{ fill: 'rgba(34, 197, 94, 0.08)' }} />
           <Bar
             dataKey="orcamento"

@@ -36,6 +36,26 @@
   --overlay-bg: #052e16;
 }
 
+/* Botão de informação do KPI */
+.info-btn {
+  color: #b45309;
+  border-color: #b45309;
+}
+.info-btn:hover {
+  color: #78350f;
+  border-color: #78350f;
+  box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.35);
+}
+[data-theme="escuro"] .info-btn {
+  color: #fbbf24;
+  border-color: #fbbf24;
+}
+[data-theme="escuro"] .info-btn:hover {
+  color: #f59e0b;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.45);
+}
+
 /* Animações de entrada */
 @keyframes fadeInUp {
   from {

@@ -30,9 +30,11 @@ const eixosLista = [
 
 function MultiSelectDropdown({ value = [], onChange, options, placeholder }) {
   const [aberto, setAberto] = useState(false);
+  const [search, setSearch] = useState('');
   const [posicao, setPosicao] = useState({ top: 0, left: 0, width: 0, maxHeight: 300, abrirParaCima: false });
   const triggerRef = useRef(null);
   const dropdownRef = useRef(null);
+  const searchRef = useRef(null);
 
   const calcularPosicao = useCallback(() => {
     if (!triggerRef.current) return;
@@ -72,13 +74,23 @@ function MultiSelectDropdown({ value = [], onChange, options, placeholder }) {
         triggerRef.current && !triggerRef.current.contains(event.target)
       ) {
         setAberto(false);
+        setSearch('');
       }
     }
     if (aberto) {
       document.addEventListener('mousedown', handleClickOutside);
+      setTimeout(() => searchRef.current?.focus(), 50);
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [aberto]);
+
+  const filteredOptions = search.trim()
+    ? options.filter((opt) =>
+        opt.label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(
+          search.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        )
+      )
+    : options;
 
   const toggle = (val) => {
     const next = value.includes(val)
@@ -145,8 +157,29 @@ function MultiSelectDropdown({ value = [], onChange, options, placeholder }) {
               boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
             }}
           >
+            {/* Campo de pesquisa */}
+            <div style={{ padding: '8px 10px', borderBottom: '1px solid var(--border-color)' }}>
+              <input
+                ref={searchRef}
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Pesquisar..."
+                style={{
+                  width: '100%',
+                  padding: '6px 10px',
+                  borderRadius: 6,
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: 'var(--bg-solid)',
+                  color: 'var(--text-primary)',
+                  fontSize: 13,
+                  outline: 'none'
+                }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
             <div
-              onClick={limpar}
+              onClick={() => { limpar(); setSearch(''); }}
               style={{
                 padding: '10px 14px',
                 cursor: 'pointer',
@@ -159,7 +192,7 @@ function MultiSelectDropdown({ value = [], onChange, options, placeholder }) {
             >
               {placeholder}
             </div>
-            {options.map((opt) => {
+            {filteredOptions.map((opt) => {
               const checked = value.includes(opt.value);
               return (
                 <div
@@ -206,6 +239,11 @@ function MultiSelectDropdown({ value = [], onChange, options, placeholder }) {
                 </div>
               );
             })}
+            {filteredOptions.length === 0 && (
+              <div style={{ padding: '12px 14px', fontSize: 13, color: 'var(--text-muted)', textAlign: 'center' }}>
+                Nenhum resultado encontrado
+              </div>
+            )}
           </div>,
           document.body
         )}
