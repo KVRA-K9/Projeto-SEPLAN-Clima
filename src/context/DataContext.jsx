@@ -117,7 +117,7 @@ const dadosExemplo = {
   projetos: projetosFixos,
   evolucaoAnual: [
     { ano: 2025, gastoExclusivo: 0, gastoNaoExclusivo: 0, creditosGerados: 0, creditosVendidos: 0, emissaoEvitada: 0 },
-    { ano: 2026, gastoExclusivo: 695233901.41, gastoNaoExclusivo: 371712498.95, creditosGerados: 12800000, creditosVendidos: 8900000, emissaoEvitada: 12000000 }
+    { ano: 2026, gastoExclusivo: orcamentoReal.gasto_exclusivo || 0, gastoNaoExclusivo: orcamentoReal.gasto_nao_exclusivo || 0, creditosGerados: 12800000, creditosVendidos: 8900000, emissaoEvitada: 12000000 }
   ],
   orgaos: Object.entries(orcamentoReal.distribuicao_por_orgao || {}).map(([nome, valores]) => {
     const detalhesEixo = orcamentoPorOrgaoEixo[nome]?.eixos || {};
