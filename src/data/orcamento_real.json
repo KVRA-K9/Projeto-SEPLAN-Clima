@@ -1,65 +1,72 @@
 {
   "orcamento_por_secretaria": {
+    "AGEAC": 550000.0,
+    "ANAC": 1385928.7,
+    "CAGEACRE": 1220809.49,
+    "CBMAC": 3292667.0,
+    "CDSA": 6609821.6,
+    "CGE": 660000.0,
+    "COHAB": 100000.0,
+    "COORD. EST. PROTEÇÃO E DEFESA CIVIL": 17754000.0,
     "DERACRE": 249375901.89,
-    "SEPLAN": 239610939.23,
-    "SEAGRI": 108296200.0,
-    "SEOP": 94692500.0,
-    "SEHURB": 69487470.31,
-    "SESACRE": 57507000.0,
-    "SEFAZ": 52855852.3,
-    "SEE": 35381251.73,
-    "SEMA": 22089354.37,
-    "CBMAC": 21046667.0,
-    "SEASDH": 18202000.0,
-    "TJAC": 15100000.0,
-    "MPAC": 13650093.73,
-    "SEJUSP": 10810176.43,
-    "SEICT": 7315393.95,
-    "SANEACRE": 6829000.0,
-    "IMAC": 6655714.85,
-    "SEAD": 5121000.0,
-    "PMAC": 4300000.0,
-    "PCAC": 3300000.0,
-    "IAPEN": 3252184.93,
+    "DPE": 1557200.0,
     "EMATER": 2442771.45,
-    "ISE": 2251384.93,
+    "FAPAC": 1156490.0,
+    "FEM": 1338472.27,
+    "FUNTAC": 700120.0,
+    "IAPEN": 3252184.93,
     "IDAF": 2000000.0,
     "IEPTEC": 1602000.0,
-    "DPE": 1557200.0,
-    "ANAC": 1385928.7,
+    "IMAC": 6655714.85,
+    "IMC": 273000.0,
+    "ISE": 2251384.93,
+    "ITERACRE": 12187135.52,
     "JUCEAC": 1361000.0,
-    "FEM": 1338472.27,
-    "CAGEACRE": 1220809.49,
-    "FAPAC": 1156490.0,
+    "MPAC": 13650093.73,
+    "PCAC": 3300000.0,
+    "PGE": 1000.0,
+    "PMAC": 4300000.0,
+    "PROCON": 4839000.0,
+    "SANEACRE": 77043404.0,
+    "SEAD": 4101000.0,
+    "SEADH": 1020000.0,
+    "SEAGRI": 108296200.0,
+    "SEASDH": 13363000.0,
+    "SEE": 30915200.0,
+    "SEEL": 4466051.73,
+    "SEFAZ": 46950941.5,
+    "SEGOV": 101050.0,
+    "SEHURB": 57300334.79,
+    "SEICT": 7315393.95,
+    "SEJUSP": 10810176.43,
+    "SEMA": 22089354.37,
     "SEMULHER": 1067560.0,
+    "SEOP": 94042500.0,
+    "SEPI": 114000.0,
+    "SEPLAN": 239610939.23,
+    "SESACRE": 57507000.0,
     "SETE": 1030002.0,
     "TCE": 1000000.0,
-    "CDSA": 804910.8,
-    "FUNTAC": 700120.0,
-    "CGE": 660000.0,
-    "IMC": 273000.0,
-    "SEPI": 114000.0,
-    "SEGOV": 101050.0,
-    "PGE": 1000.0
+    "TJAC": 15100000.0
   },
-  "gasto_exclusivo": 695233901.41,
-  "gasto_nao_exclusivo": 371712498.95,
-  "total_orcamento_climatico": 1066946400.36,
+  "gasto_exclusivo": 179659955.42,
+  "gasto_nao_exclusivo": 957400848.94,
+  "total_orcamento_climatico": 1137060804.36,
   "detalhes_por_secretaria": [
     {
       "sigla": "DERACRE",
       "valor_bruto": 249375901.89,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 249375901.89
     },
     {
       "sigla": "SEPLAN",
       "valor_bruto": 239610939.23,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Exclusivo (0%) / Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 239610939.23
     },
     {
@@ -72,43 +79,51 @@
     },
     {
       "sigla": "SEOP",
-      "valor_bruto": 94692500.0,
+      "valor_bruto": 94042500.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
-      "valor_climatico": 94692500.0
+      "intensidade": "Exclusivo (0%) / Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 94042500.0
     },
     {
-      "sigla": "SEHURB",
-      "valor_bruto": 69487470.31,
+      "sigla": "SANEACRE",
+      "valor_bruto": 77043404.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
-      "valor_climatico": 69487470.31
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 77043404.0
     },
     {
       "sigla": "SESACRE",
       "valor_bruto": 57507000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 57507000.0
     },
     {
-      "sigla": "SEFAZ",
-      "valor_bruto": 52855852.3,
+      "sigla": "SEHURB",
+      "valor_bruto": 57300334.79,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
-      "valor_climatico": 52855852.3
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 57300334.79
+    },
+    {
+      "sigla": "SEFAZ",
+      "valor_bruto": 46950941.5,
+      "percentual": 1.0,
+      "intensidade": "Exclusivo (0%) / Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 46950941.5
     },
     {
       "sigla": "SEE",
-      "valor_bruto": 35381251.73,
+      "valor_bruto": 30915200.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
-      "valor_climatico": 35381251.73
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 30915200.0
     },
     {
       "sigla": "SEMA",
@@ -119,60 +134,60 @@
       "valor_climatico": 22089354.37
     },
     {
-      "sigla": "CBMAC",
-      "valor_bruto": 21046667.0,
+      "sigla": "COORD. EST. PROTEÇÃO E DEFESA CIVIL",
+      "valor_bruto": 17754000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
+      "intensidade": "Exclusivo (100%) / Não Exclusivo (0%)",
       "tipo": "Exclusivo",
-      "valor_climatico": 21046667.0
-    },
-    {
-      "sigla": "SEASDH",
-      "valor_bruto": 18202000.0,
-      "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
-      "valor_climatico": 18202000.0
+      "valor_climatico": 17754000.0
     },
     {
       "sigla": "TJAC",
       "valor_bruto": 15100000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 15100000.0
     },
     {
       "sigla": "MPAC",
       "valor_bruto": 13650093.73,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 13650093.73
+    },
+    {
+      "sigla": "SEASDH",
+      "valor_bruto": 13363000.0,
+      "percentual": 0.96,
+      "intensidade": "Exclusivo (4%) / Não Exclusivo (96%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 13363000.0
+    },
+    {
+      "sigla": "ITERACRE",
+      "valor_bruto": 12187135.52,
+      "percentual": 1.0,
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 12187135.52
     },
     {
       "sigla": "SEJUSP",
       "valor_bruto": 10810176.43,
-      "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "percentual": 0.89,
+      "intensidade": "Exclusivo (11%) / Não Exclusivo (89%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 10810176.43
     },
     {
       "sigla": "SEICT",
       "valor_bruto": 7315393.95,
-      "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
+      "percentual": 0.85,
+      "intensidade": "Exclusivo (85%) / Não Exclusivo (15%)",
       "tipo": "Exclusivo",
       "valor_climatico": 7315393.95
-    },
-    {
-      "sigla": "SANEACRE",
-      "valor_bruto": 6829000.0,
-      "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
-      "valor_climatico": 6829000.0
     },
     {
       "sigla": "IMAC",
@@ -183,35 +198,67 @@
       "valor_climatico": 6655714.85
     },
     {
-      "sigla": "SEAD",
-      "valor_bruto": 5121000.0,
+      "sigla": "CDSA",
+      "valor_bruto": 6609821.6,
       "percentual": 1.0,
       "intensidade": "Exclusivo (100%)",
       "tipo": "Exclusivo",
-      "valor_climatico": 5121000.0
+      "valor_climatico": 6609821.6
+    },
+    {
+      "sigla": "PROCON",
+      "valor_bruto": 4839000.0,
+      "percentual": 1.0,
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 4839000.0
+    },
+    {
+      "sigla": "SEEL",
+      "valor_bruto": 4466051.73,
+      "percentual": 1.0,
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 4466051.73
     },
     {
       "sigla": "PMAC",
       "valor_bruto": 4300000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 4300000.0
+    },
+    {
+      "sigla": "SEAD",
+      "valor_bruto": 4101000.0,
+      "percentual": 1.0,
+      "intensidade": "Exclusivo (0%) / Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 4101000.0
     },
     {
       "sigla": "PCAC",
       "valor_bruto": 3300000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 3300000.0
+    },
+    {
+      "sigla": "CBMAC",
+      "valor_bruto": 3292667.0,
+      "percentual": 0.82,
+      "intensidade": "Exclusivo (18%) / Não Exclusivo (82%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 3292667.0
     },
     {
       "sigla": "IAPEN",
       "valor_bruto": 3252184.93,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 3252184.93
     },
     {
@@ -226,8 +273,8 @@
       "sigla": "ISE",
       "valor_bruto": 2251384.93,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 2251384.93
     },
     {
@@ -242,16 +289,16 @@
       "sigla": "IEPTEC",
       "valor_bruto": 1602000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 1602000.0
     },
     {
       "sigla": "DPE",
       "valor_bruto": 1557200.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 1557200.0
     },
     {
@@ -266,16 +313,16 @@
       "sigla": "JUCEAC",
       "valor_bruto": 1361000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 1361000.0
     },
     {
       "sigla": "FEM",
       "valor_bruto": 1338472.27,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 1338472.27
     },
     {
@@ -298,33 +345,33 @@
       "sigla": "SEMULHER",
       "valor_bruto": 1067560.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 1067560.0
     },
     {
       "sigla": "SETE",
       "valor_bruto": 1030002.0,
-      "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "percentual": 0.68,
+      "intensidade": "Exclusivo (32%) / Não Exclusivo (68%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 1030002.0
+    },
+    {
+      "sigla": "SEADH",
+      "valor_bruto": 1020000.0,
+      "percentual": 1.0,
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 1020000.0
     },
     {
       "sigla": "TCE",
       "valor_bruto": 1000000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 1000000.0
-    },
-    {
-      "sigla": "CDSA",
-      "valor_bruto": 804910.8,
-      "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
-      "valor_climatico": 804910.8
     },
     {
       "sigla": "FUNTAC",
@@ -338,9 +385,17 @@
       "sigla": "CGE",
       "valor_bruto": 660000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 660000.0
+    },
+    {
+      "sigla": "AGEAC",
+      "valor_bruto": 550000.0,
+      "percentual": 1.0,
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 550000.0
     },
     {
       "sigla": "IMC",
@@ -362,159 +417,102 @@
       "sigla": "SEGOV",
       "valor_bruto": 101050.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 101050.0
+    },
+    {
+      "sigla": "COHAB",
+      "valor_bruto": 100000.0,
+      "percentual": 1.0,
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
+      "valor_climatico": 100000.0
     },
     {
       "sigla": "PGE",
       "valor_bruto": 1000.0,
       "percentual": 1.0,
-      "intensidade": "Exclusivo (100%)",
-      "tipo": "Exclusivo",
+      "intensidade": "Não Exclusivo (100%)",
+      "tipo": "Não Exclusivo",
       "valor_climatico": 1000.0
     }
   ],
   "distribuicao_por_orgao": {
-    "DERACRE": {
-      "Exclusivo": 148202677.69,
-      "Não Exclusivo": 101173224.2,
-      "Total": 249375901.89000002
-    },
-    "SEPLAN": {
-      "Exclusivo": 1000.0,
-      "Não Exclusivo": 239609939.23,
-      "Total": 239610939.23
-    },
-    "SEAGRI": {
-      "Exclusivo": 108296200.0,
-      "Não Exclusivo": 0,
-      "Total": 108296200.0
-    },
-    "SEOP": {
-      "Exclusivo": 94042500.0,
-      "Não Exclusivo": 0,
-      "Total": 94042500.0
-    },
-    "SESACRE": {
-      "Exclusivo": 57507000.0,
-      "Não Exclusivo": 0,
-      "Total": 57507000.0
-    },
-    "SEHURB": {
-      "Exclusivo": 56149334.79000001,
-      "Não Exclusivo": 1151000.0,
-      "Total": 57300334.79000001
-    },
-    "SEFAZ": {
-      "Exclusivo": 46950941.5,
-      "Não Exclusivo": 0,
-      "Total": 46950941.5
-    },
-    "SEE": {
-      "Exclusivo": 30850000.0,
-      "Não Exclusivo": 65200.0,
-      "Total": 30915200.0
-    },
-    "SEMA": {
-      "Exclusivo": 22089354.37,
-      "Não Exclusivo": 0,
-      "Total": 22089354.37
-    },
-    "COORD. EST. PROTEÇÃO E DEFESA CIVIL": {
-      "Exclusivo": 17754000.0,
-      "Não Exclusivo": 0,
-      "Total": 17754000.0
-    },
-    "TJAC": {
-      "Exclusivo": 15100000.0,
-      "Não Exclusivo": 0,
-      "Total": 15100000.0
-    },
-    "MPAC": {
-      "Exclusivo": 13650093.73,
-      "Não Exclusivo": 0,
-      "Total": 13650093.73
-    },
-    "SEASDH": {
-      "Exclusivo": 5835000.0,
-      "Não Exclusivo": 7528000.0,
-      "Total": 13363000.0
-    },
-    "ITERACRE": {
+    "AGEAC": {
       "Exclusivo": 0,
-      "Não Exclusivo": 12187135.52,
-      "Total": 12187135.52
+      "Não Exclusivo": 550000.0,
+      "Total": 550000.0
     },
-    "SEJUSP": {
-      "Exclusivo": 10810176.430000002,
+    "ANAC": {
+      "Exclusivo": 1385928.7,
       "Não Exclusivo": 0,
-      "Total": 10810176.430000002
+      "Total": 1385928.7
     },
-    "SEICT": {
-      "Exclusivo": 6225393.95,
-      "Não Exclusivo": 1090000.0,
-      "Total": 7315393.95
-    },
-    "SANEACRE": {
-      "Exclusivo": 6929000.0,
+    "CAGEACRE": {
+      "Exclusivo": 1220809.49,
       "Não Exclusivo": 0,
-      "Total": 6929000.0
+      "Total": 1220809.49
     },
-    "IMAC": {
-      "Exclusivo": 6655714.85,
-      "Não Exclusivo": 0,
-      "Total": 6655714.85
+    "CBMAC": {
+      "Exclusivo": 593667.0,
+      "Não Exclusivo": 2699000.0,
+      "Total": 3292667.0
     },
     "CDSA": {
       "Exclusivo": 6609821.6,
       "Não Exclusivo": 0,
       "Total": 6609821.6
     },
-    "PROCON": {
+    "CGE": {
       "Exclusivo": 0,
-      "Não Exclusivo": 4839000.0,
-      "Total": 4839000.0
+      "Não Exclusivo": 660000.0,
+      "Total": 660000.0
     },
-    "SEEL": {
-      "Exclusivo": 4466051.73,
-      "Não Exclusivo": 0,
-      "Total": 4466051.73
+    "COHAB": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 100000.0,
+      "Total": 100000.0
     },
-    "PMAC": {
-      "Exclusivo": 4300000.0,
-      "Não Exclusivo": 0,
-      "Total": 4300000.0
+    "COORD. EST. PROTEÇÃO E DEFESA CIVIL": {
+      "Exclusivo": 17753000.0,
+      "Não Exclusivo": 1000.0,
+      "Total": 17754000.0
     },
-    "SEAD": {
-      "Exclusivo": 4101000.0,
-      "Não Exclusivo": 0,
-      "Total": 4101000.0
+    "DERACRE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 249375901.89,
+      "Total": 249375901.89
     },
-    "PCAC": {
-      "Exclusivo": 3300000.0,
-      "Não Exclusivo": 0,
-      "Total": 3300000.0
-    },
-    "CBMAC": {
-      "Exclusivo": 3292667.0,
-      "Não Exclusivo": 0,
-      "Total": 3292667.0
-    },
-    "IAPEN": {
-      "Exclusivo": 3252184.93,
-      "Não Exclusivo": 0,
-      "Total": 3252184.93
+    "DPE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 1557200.0,
+      "Total": 1557200.0
     },
     "EMATER": {
       "Exclusivo": 2442771.45,
       "Não Exclusivo": 0,
       "Total": 2442771.45
     },
-    "ISE": {
-      "Exclusivo": 2251384.93,
+    "FAPAC": {
+      "Exclusivo": 1156490.0,
       "Não Exclusivo": 0,
-      "Total": 2251384.93
+      "Total": 1156490.0
+    },
+    "FEM": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 1338472.27,
+      "Total": 1338472.27
+    },
+    "FUNTAC": {
+      "Exclusivo": 700120.0,
+      "Não Exclusivo": 0,
+      "Total": 700120.0
+    },
+    "IAPEN": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 3252184.93,
+      "Total": 3252184.93
     },
     "IDAF": {
       "Exclusivo": 2000000.0,
@@ -522,99 +520,164 @@
       "Total": 2000000.0
     },
     "IEPTEC": {
-      "Exclusivo": 1602000.0,
-      "Não Exclusivo": 0,
+      "Exclusivo": 0,
+      "Não Exclusivo": 1602000.0,
       "Total": 1602000.0
     },
-    "DPE": {
-      "Exclusivo": 1557200.0,
+    "IMAC": {
+      "Exclusivo": 6655714.85,
       "Não Exclusivo": 0,
-      "Total": 1557200.0
-    },
-    "ANAC": {
-      "Exclusivo": 1385928.7,
-      "Não Exclusivo": 0,
-      "Total": 1385928.7
-    },
-    "JUCEAC": {
-      "Exclusivo": 0,
-      "Não Exclusivo": 1361000.0,
-      "Total": 1361000.0
-    },
-    "FEM": {
-      "Exclusivo": 1338472.27,
-      "Não Exclusivo": 0,
-      "Total": 1338472.27
-    },
-    "CAGEACRE": {
-      "Exclusivo": 1220809.49,
-      "Não Exclusivo": 0,
-      "Total": 1220809.49
-    },
-    "FAPAC": {
-      "Exclusivo": 1156490.0,
-      "Não Exclusivo": 0,
-      "Total": 1156490.0
-    },
-    "SEMULHER": {
-      "Exclusivo": 589560.0,
-      "Não Exclusivo": 478000.0,
-      "Total": 1067560.0
-    },
-    "SETE": {
-      "Exclusivo": 1030002.0,
-      "Não Exclusivo": 0,
-      "Total": 1030002.0
-    },
-    "SEADH": {
-      "Exclusivo": 0,
-      "Não Exclusivo": 1020000.0,
-      "Total": 1020000.0
-    },
-    "TCE": {
-      "Exclusivo": 1000000.0,
-      "Não Exclusivo": 0,
-      "Total": 1000000.0
-    },
-    "FUNTAC": {
-      "Exclusivo": 700120.0,
-      "Não Exclusivo": 0,
-      "Total": 700120.0
-    },
-    "CGE": {
-      "Exclusivo": 0,
-      "Não Exclusivo": 660000.0,
-      "Total": 660000.0
-    },
-    "AGEAC": {
-      "Exclusivo": 0.0,
-      "Não Exclusivo": 550000.0,
-      "Total": 550000.0
+      "Total": 6655714.85
     },
     "IMC": {
       "Exclusivo": 273000.0,
       "Não Exclusivo": 0,
       "Total": 273000.0
     },
+    "ISE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 2251384.93,
+      "Total": 2251384.93
+    },
+    "ITERACRE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 12187135.52,
+      "Total": 12187135.52
+    },
+    "JUCEAC": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 1361000.0,
+      "Total": 1361000.0
+    },
+    "MPAC": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 13650093.73,
+      "Total": 13650093.73
+    },
+    "PCAC": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 3300000.0,
+      "Total": 3300000.0
+    },
+    "PGE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 1000.0,
+      "Total": 1000.0
+    },
+    "PMAC": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 4300000.0,
+      "Total": 4300000.0
+    },
+    "PROCON": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 4839000.0,
+      "Total": 4839000.0
+    },
+    "SANEACRE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 77043404.0,
+      "Total": 77043404.0
+    },
+    "SEAD": {
+      "Exclusivo": 1000.0,
+      "Não Exclusivo": 4100000.0,
+      "Total": 4101000.0
+    },
+    "SEADH": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 1020000.0,
+      "Total": 1020000.0
+    },
+    "SEAGRI": {
+      "Exclusivo": 108296200.0,
+      "Não Exclusivo": 0,
+      "Total": 108296200.0
+    },
+    "SEASDH": {
+      "Exclusivo": 579000.0,
+      "Não Exclusivo": 12784000.0,
+      "Total": 13363000.0
+    },
+    "SEE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 30915200.0,
+      "Total": 30915200.0
+    },
+    "SEEL": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 4466051.73,
+      "Total": 4466051.73
+    },
+    "SEFAZ": {
+      "Exclusivo": 1000.0,
+      "Não Exclusivo": 46949941.5,
+      "Total": 46950941.5
+    },
+    "SEGOV": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 101050.0,
+      "Total": 101050.0
+    },
+    "SEHURB": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 57300334.79,
+      "Total": 57300334.79
+    },
+    "SEICT": {
+      "Exclusivo": 6225393.95,
+      "Não Exclusivo": 1090000.0,
+      "Total": 7315393.95
+    },
+    "SEJUSP": {
+      "Exclusivo": 1199684.01,
+      "Não Exclusivo": 9610492.42,
+      "Total": 10810176.43
+    },
+    "SEMA": {
+      "Exclusivo": 22089354.37,
+      "Não Exclusivo": 0,
+      "Total": 22089354.37
+    },
+    "SEMULHER": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 1067560.0,
+      "Total": 1067560.0
+    },
+    "SEOP": {
+      "Exclusivo": 32000.0,
+      "Não Exclusivo": 94010500.0,
+      "Total": 94042500.0
+    },
     "SEPI": {
       "Exclusivo": 114000.0,
       "Não Exclusivo": 0,
       "Total": 114000.0
     },
-    "SEGOV": {
-      "Exclusivo": 101050.0,
-      "Não Exclusivo": 0,
-      "Total": 101050.0
-    },
-    "COHAB": {
-      "Exclusivo": 100000.0,
-      "Não Exclusivo": 0,
-      "Total": 100000.0
-    },
-    "PGE": {
+    "SEPLAN": {
       "Exclusivo": 1000.0,
-      "Não Exclusivo": 0,
-      "Total": 1000.0
+      "Não Exclusivo": 239609939.23,
+      "Total": 239610939.23
+    },
+    "SESACRE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 57507000.0,
+      "Total": 57507000.0
+    },
+    "SETE": {
+      "Exclusivo": 330000.0,
+      "Não Exclusivo": 700002.0,
+      "Total": 1030002.0
+    },
+    "TCE": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 1000000.0,
+      "Total": 1000000.0
+    },
+    "TJAC": {
+      "Exclusivo": 0,
+      "Não Exclusivo": 15100000.0,
+      "Total": 15100000.0
     }
   },
   "orcamento_por_orgao": {
@@ -633,7 +696,7 @@
     "MPAC": 13650093.73,
     "SEASDH": 12529000.0,
     "ITERACRE (SEHURB)": 12187135.52,
-    "SANEACRE": 6829000.0,
+    "SANEACRE": 76943404.0,
     "IMAC": 6655714.85,
     "SEJUSP": 6151463.14,
     "SEFAZ/CDSA": 5804910.8,
