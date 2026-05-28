@@ -123,7 +123,7 @@ const EvolucaoChart = React.memo(function EvolucaoChart({ data, fmt }) {
           <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
           <XAxis dataKey="ano" stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 12 }} />
           <YAxis stroke="var(--text-secondary)" tick={{ fill: 'var(--text-primary)', fontSize: 12 }} tickFormatter={fmt} width={80} />
-          <Tooltip formatter={fmt} contentStyle={tooltipStyle} />
+          <Tooltip formatter={(v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} contentStyle={tooltipStyle} />
           <Legend wrapperStyle={{ color: 'var(--text-secondary)' }} />
           <Line
             type="monotone"
@@ -371,9 +371,9 @@ function ChartsSection() {
   const evolucaoOrcamento = useMemo(() => {
     return [
       { ano: 2025, gastoExclusivo: 0, gastoNaoExclusivo: 0 },
-      { ano: 2026, gastoExclusivo: 695233901.41, gastoNaoExclusivo: 371712498.95 }
+      { ano: 2026, gastoExclusivo: gastoExclusivo || 0, gastoNaoExclusivo: gastoNaoExclusivo || 0 }
     ];
-  }, []);
+  }, [gastoExclusivo, gastoNaoExclusivo]);
 
   const dadosEixo = useMemo(() =>
     [...EIXOS_DATA].sort((a, b) => b.orcamento - a.orcamento),
