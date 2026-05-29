@@ -96,74 +96,81 @@ function calcPopupPos(ref, popupWidth = 280, popupHeight = 120) {
 }
 
 function InfoPopup({ title, text, onClose, popupPos }) {
+  const popupRef = React.useRef(null);
+
+  React.useEffect(() => {
+    function handleClickOutside(event) {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        onClose();
+      }
+    }
+    function handleEsc(event) {
+      if (event.key === 'Escape') onClose();
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEsc);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [onClose]);
+
   return createPortal(
-    <>
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 9998,
-        }}
+    <div
+      ref={popupRef}
+      className="info-popup-fixed"
+      style={{
+        top: popupPos.top,
+        left: popupPos.left,
+        width: 280,
+        backgroundColor: 'var(--card-bg)',
+        border: '1px solid var(--border-color)',
+        borderRadius: 10,
+        padding: '14px 18px',
+        zIndex: 9999,
+        boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+        textAlign: 'justify',
+        animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+      }}
+    >
+      <button
         onClick={onClose}
-      />
-      <div
         style={{
-          position: 'fixed',
-          top: popupPos.top,
-          left: popupPos.left,
-          width: 280,
-          backgroundColor: 'var(--card-bg)',
-          border: '1px solid var(--border-color)',
-          borderRadius: 10,
-          padding: '14px 18px',
-          zIndex: 9999,
-          boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
-          textAlign: 'justify',
-          animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+          position: 'absolute',
+          top: 6,
+          right: 6,
+          background: 'none',
+          border: 'none',
+          color: 'var(--text-muted)',
+          cursor: 'pointer',
+          padding: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2
         }}
       >
-        <button
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: 6,
-            right: 6,
-            background: 'none',
-            border: 'none',
-            color: 'var(--text-muted)',
-            cursor: 'pointer',
-            padding: 2,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 2
-          }}
-        >
-          <X size={14} />
-        </button>
-        <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Info size={20} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
-          <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>{title}</span>
-        </div>
-        <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-          {text}
-        </div>
-        <div style={{
-          position: 'absolute',
-          top: -6,
-          left: '50%',
-          width: 12,
-          height: 12,
-          backgroundColor: 'var(--card-bg)',
-          borderTop: '1px solid var(--border-color)',
-          borderLeft: '1px solid var(--border-color)',
-          transform: 'translateX(-50%) rotate(45deg)'
-        }} />
+        <X size={14} />
+      </button>
+      <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <Info size={20} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
+        <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>{title}</span>
       </div>
-    </>,
+      <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+        {text}
+      </div>
+      <div style={{
+        position: 'absolute',
+        top: -6,
+        left: '50%',
+        width: 12,
+        height: 12,
+        backgroundColor: 'var(--card-bg)',
+        borderTop: '1px solid var(--border-color)',
+        borderLeft: '1px solid var(--border-color)',
+        transform: 'translateX(-50%) rotate(45deg)'
+      }} />
+    </div>,
     document.body
   );
 }
@@ -394,52 +401,7 @@ export default function HomePage() {
           <p className="section-header-sub">
             Aplicado de forma transversal e integrada a todas as áreas do governo — como saúde,
             educação, infraestrutura, agricultura, meio ambiente e assistência social — o Orçamento
-            Climático estrutura-se em{' '}
-            <span
-              style={{ position: 'relative', cursor: 'help', textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: 3 }}
-              onMouseEnter={(e) => { const card = e.currentTarget.querySelector('.eixo-tooltip'); if (card) card.style.opacity = '1'; card.style.visibility = 'visible'; }}
-              onMouseLeave={(e) => { const card = e.currentTarget.querySelector('.eixo-tooltip'); if (card) card.style.opacity = '0'; card.style.visibility = 'hidden'; }}
-            >
-              sete eixos temáticos
-              <Info size={14} style={{ verticalAlign: 'middle', marginLeft: 4, opacity: 0.7 }} />
-              <span className="eixo-tooltip" style={{
-                position: 'absolute',
-                bottom: 'calc(100% + 10px)',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: 320,
-                backgroundColor: 'var(--card-bg)',
-                border: '1px solid var(--border-color)',
-                borderRadius: 12,
-                padding: '16px 18px',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
-                zIndex: 100,
-                opacity: 0,
-                visibility: 'hidden',
-                transition: 'opacity 0.25s ease, visibility 0.25s ease',
-                pointerEvents: 'none',
-                color: 'var(--text-primary)',
-                fontSize: 13,
-                lineHeight: 1.5,
-                fontWeight: 400,
-                textDecoration: 'none',
-                textAlign: 'left'
-              }}>
-                <span style={{
-                  position: 'absolute',
-                  bottom: -6,
-                  left: '50%',
-                  transform: 'translateX(-50%) rotate(45deg)',
-                  width: 12,
-                  height: 12,
-                  backgroundColor: 'var(--card-bg)',
-                  borderRight: '1px solid var(--border-color)',
-                  borderBottom: '1px solid var(--border-color)'
-                }} />
-                Eixos temáticos são áreas principais que organizam assuntos, objetivos e indicadores de um projeto ou planejamento, agrupando temas relacionados e facilitando a análise das informações.
-              </span>
-            </span>
-            :
+            Climático estrutura-se em sete eixos temáticos:
           </p>
         </AnimatedSection>
         <div className="eixos-grid">
