@@ -89,6 +89,8 @@ export default function HomePage() {
   const eixoInfoRef = React.useRef(null);
   const [showExercicioInfo, setShowExercicioInfo] = useState(false);
   const exercicioInfoRef = React.useRef(null);
+  const [showDotacaoInfo, setShowDotacaoInfo] = useState(false);
+  const dotacaoInfoRef = React.useRef(null);
 
   return (
     <>
@@ -282,9 +284,91 @@ export default function HomePage() {
                 </div>
               )}
             </div>
-            <div className="stat-card">
+            <div className="stat-card" style={{ position: 'relative' }}>
               <div className="stat-value">{fmtHome(orcamentoReal.total_orcamento_climatico || 0)}</div>
               <div className="stat-label">Dotação Planejada</div>
+              <button
+                ref={dotacaoInfoRef}
+                onClick={() => setShowDotacaoInfo(!showDotacaoInfo)}
+                className="eixo-info-btn"
+                style={{
+                  position: 'absolute',
+                  bottom: 4,
+                  right: 12,
+                  width: 16,
+                  height: 16,
+                  borderRadius: '50%',
+                  background: 'transparent',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  padding: 0,
+                  fontSize: 10,
+                  fontWeight: 700,
+                  fontFamily: 'serif',
+                  transition: 'all 0.2s ease'
+                }}
+                title="Informação"
+              >
+                i
+              </button>
+              {showDotacaoInfo && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 10px)',
+                    right: -10,
+                    width: 280,
+                    backgroundColor: 'var(--card-bg)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: 10,
+                    padding: '14px 18px',
+                    zIndex: 999,
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+                    textAlign: 'justify',
+                    animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+                  }}
+                >
+                  <button
+                    onClick={() => setShowDotacaoInfo(false)}
+                    style={{
+                      position: 'absolute',
+                      top: 6,
+                      right: 6,
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--text-muted)',
+                      cursor: 'pointer',
+                      padding: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 2
+                    }}
+                  >
+                    <X size={14} />
+                  </button>
+                  <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Info size={20} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
+                    <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>Dotação Planejada</span>
+                  </div>
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                    Valor previsto no orçamento público para financiar ações, programas e projetos definidos previamente.
+                  </div>
+                  <div style={{
+                    position: 'absolute',
+                    top: -6,
+                    right: 18,
+                    width: 12,
+                    height: 12,
+                    backgroundColor: 'var(--card-bg)',
+                    borderTop: '1px solid var(--border-color)',
+                    borderLeft: '1px solid var(--border-color)',
+                    transform: 'rotate(45deg)'
+                  }} />
+                </div>
+              )}
             </div>
           </div>
         </div>
