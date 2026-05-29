@@ -118,8 +118,8 @@ function InfoPopup({ title, text, onClose, popupPos }) {
   return createPortal(
     <div
       ref={popupRef}
-      className="info-popup-fixed"
       style={{
+        position: 'fixed',
         top: popupPos.top,
         left: popupPos.left,
         width: 280,
@@ -129,8 +129,7 @@ function InfoPopup({ title, text, onClose, popupPos }) {
         padding: '14px 18px',
         zIndex: 9999,
         boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
-        textAlign: 'justify',
-        animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+        textAlign: 'justify'
       }}
     >
       <button

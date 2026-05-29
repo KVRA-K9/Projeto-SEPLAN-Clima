@@ -76,10 +76,6 @@
   opacity: 0.7;
 }
 
-.info-popup-fixed {
-  position: fixed !important;
-}
-
 /* Animações de entrada */
 @keyframes fadeInUp {
   from {
