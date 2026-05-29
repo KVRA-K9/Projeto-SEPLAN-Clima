@@ -661,49 +661,40 @@ export default function ProjectsTable() {
                         
                         {/* Divider */}
                         <div style={{ height: 1, backgroundColor: 'var(--border-color)', margin: '4px 0' }}></div>
-
-                        {/* Seção de Totais — recalculados conforme filtro de eixo */}
-                        {(() => {
-                          const entradasFiltradas = filtros.eixo?.length
-                            ? Object.entries(o.valoresPorEixo || {}).filter(([eixo]) => filtros.eixo.includes(eixo))
-                            : Object.entries(o.valoresPorEixo || {});
-                          const totalFiltrado = entradasFiltradas.reduce((s, [, v]) => s + (v || 0), 0);
-                          const baseCalc = totalFiltrado > 0 ? totalFiltrado : o.total;
-                          return (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px 24px' }}>
-                              <div>
-                                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Orçamento Exclusivo: </span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
-                                  R$ {o.exclusivo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span>
-                              </div>
-                              <div>
-                                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Orçamento Não Exclusivo: </span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#60a5fa' }}>
-                                  R$ {o.naoExclusivo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span>
-                              </div>
-                              <div>
-                                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Proporção Exclusivo: </span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
-                                  {baseCalc > 0 ? ((o.exclusivo / baseCalc) * 100).toFixed(1) : 0}%
-                                </span>
-                              </div>
-                              <div>
-                                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Proporção Não Exclusivo: </span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#60a5fa' }}>
-                                  {baseCalc > 0 ? ((o.naoExclusivo / baseCalc) * 100).toFixed(1) : 0}%
-                                </span>
-                              </div>
-                              <div style={{ gridColumn: 'span 2' }}>
-                                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Total Orçamentário: </span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
-                                  R$ {baseCalc.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span>
-                              </div>
-                            </div>
-                          );
-                        })()}
+                        
+                        {/* Seção de Totais */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px 24px' }}>
+                          <div>
+                            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Orçamento Exclusivo: </span>
+                            <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
+                              R$ {o.exclusivo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                          </div>
+                          <div>
+                            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Orçamento Não Exclusivo: </span>
+                            <span style={{ fontSize: 13, fontWeight: 600, color: '#60a5fa' }}>
+                              R$ {o.naoExclusivo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                          </div>
+                          <div>
+                            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Proporção Exclusivo: </span>
+                            <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
+                              {o.total > 0 ? ((o.exclusivo / o.total) * 100).toFixed(1) : 0}%
+                            </span>
+                          </div>
+                          <div>
+                            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Proporção Não Exclusivo: </span>
+                            <span style={{ fontSize: 13, fontWeight: 600, color: '#60a5fa' }}>
+                              {o.total > 0 ? ((o.naoExclusivo / o.total) * 100).toFixed(1) : 0}%
+                            </span>
+                          </div>
+                          <div style={{ gridColumn: 'span 2' }}>
+                            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Total Orçamentário: </span>
+                            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+                              R$ {o.total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
