@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useData } from '../context/DataContext';
 import { TrendingUp, DollarSign, Coins, Hourglass, Info, X } from 'lucide-react';
@@ -97,6 +97,14 @@ function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo }) {
 }
 
 function InfoPopup({ onClose, popupPos }) {
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   return (
     <>
       {/* Overlay escuro sutil */}
