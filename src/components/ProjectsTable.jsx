@@ -612,7 +612,7 @@ export default function ProjectsTable() {
                 >
                   <div style={{ flex: 2, fontWeight: 600, color: 'var(--text-primary)', fontSize: 14 }}>{o.nome}</div>
                   <div style={{ flex: 1.5, fontSize: 13, color: 'var(--text-secondary)' }}>
-                    {o.eixos.map(e => (e.match(/^(Eixo\s+[IVX]+)/)?.[0] || e)).join(', ')}
+                    {(filtros.eixo?.length ? o.eixos.filter(e => filtros.eixo.includes(e)) : o.eixos).map(e => (e.match(/^(Eixo\s+[IVX]+)/)?.[0] || e)).join(', ')}
                   </div>
                   <div style={{ flex: 0.6, fontSize: 13, color: 'var(--text-secondary)' }}>{o.anoInicio}</div>
                   <div style={{ width: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -645,7 +645,10 @@ export default function ProjectsTable() {
                             Eixos Abrangidos
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                            {Object.entries(o.valoresPorEixo || {}).map(([eixo, valor]) => (
+                            {(filtros.eixo?.length
+                              ? Object.entries(o.valoresPorEixo || {}).filter(([eixo]) => filtros.eixo.includes(eixo))
+                              : Object.entries(o.valoresPorEixo || {})
+                            ).map(([eixo, valor]) => (
                               <div key={eixo} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 10px', backgroundColor: 'rgba(74, 222, 128, 0.05)', borderRadius: 6, border: '1px solid var(--border-color)' }}>
                                 <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>{eixo}</span>
                                 <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
