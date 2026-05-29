@@ -8,7 +8,8 @@ import {
   FileText,
   Lightbulb,
   AlertTriangle,
-  ArrowRight
+  ArrowRight,
+  Info
 } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import AnimatedSection from './AnimatedSection';
@@ -183,7 +184,52 @@ export default function HomePage() {
           <p className="section-header-sub">
             Aplicado de forma transversal e integrada a todas as áreas do governo — como saúde,
             educação, infraestrutura, agricultura, meio ambiente e assistência social — o Orçamento
-            Climático estrutura-se em sete eixos temáticos:
+            Climático estrutura-se em{' '}
+            <span
+              style={{ position: 'relative', cursor: 'help', textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: 3 }}
+              onMouseEnter={(e) => { const card = e.currentTarget.querySelector('.eixo-tooltip'); if (card) card.style.opacity = '1'; card.style.visibility = 'visible'; }}
+              onMouseLeave={(e) => { const card = e.currentTarget.querySelector('.eixo-tooltip'); if (card) card.style.opacity = '0'; card.style.visibility = 'hidden'; }}
+            >
+              sete eixos temáticos
+              <Info size={14} style={{ verticalAlign: 'middle', marginLeft: 4, opacity: 0.7 }} />
+              <span className="eixo-tooltip" style={{
+                position: 'absolute',
+                bottom: 'calc(100% + 10px)',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 320,
+                backgroundColor: 'var(--card-bg)',
+                border: '1px solid var(--border-color)',
+                borderRadius: 12,
+                padding: '16px 18px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+                zIndex: 100,
+                opacity: 0,
+                visibility: 'hidden',
+                transition: 'opacity 0.25s ease, visibility 0.25s ease',
+                pointerEvents: 'none',
+                color: 'var(--text-primary)',
+                fontSize: 13,
+                lineHeight: 1.5,
+                fontWeight: 400,
+                textDecoration: 'none',
+                textAlign: 'left'
+              }}>
+                <span style={{
+                  position: 'absolute',
+                  bottom: -6,
+                  left: '50%',
+                  transform: 'translateX(-50%) rotate(45deg)',
+                  width: 12,
+                  height: 12,
+                  backgroundColor: 'var(--card-bg)',
+                  borderRight: '1px solid var(--border-color)',
+                  borderBottom: '1px solid var(--border-color)'
+                }} />
+                Eixos temáticos são áreas principais que organizam assuntos, objetivos e indicadores de um projeto ou planejamento, agrupando temas relacionados e facilitando a análise das informações.
+              </span>
+            </span>
+            :
           </p>
         </AnimatedSection>
         <div className="eixos-grid">
