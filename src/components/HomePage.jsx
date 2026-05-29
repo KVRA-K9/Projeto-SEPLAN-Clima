@@ -146,7 +146,8 @@ export default function HomePage() {
                   style={{
                     position: 'absolute',
                     top: 'calc(100% + 10px)',
-                    right: -10,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
                     width: 280,
                     backgroundColor: 'var(--card-bg)',
                     border: '1px solid var(--border-color)',
@@ -187,13 +188,13 @@ export default function HomePage() {
                   <div style={{
                     position: 'absolute',
                     top: -6,
-                    right: 18,
+                    left: '50%',
                     width: 12,
                     height: 12,
                     backgroundColor: 'var(--card-bg)',
                     borderTop: '1px solid var(--border-color)',
                     borderLeft: '1px solid var(--border-color)',
-                    transform: 'rotate(45deg)'
+                    transform: 'translateX(-50%) rotate(45deg)'
                   }} />
                 </div>
               )}
@@ -232,7 +233,8 @@ export default function HomePage() {
                   style={{
                     position: 'absolute',
                     top: 'calc(100% + 10px)',
-                    right: -10,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
                     width: 280,
                     backgroundColor: 'var(--card-bg)',
                     border: '1px solid var(--border-color)',
@@ -273,13 +275,13 @@ export default function HomePage() {
                   <div style={{
                     position: 'absolute',
                     top: -6,
-                    right: 18,
+                    left: '50%',
                     width: 12,
                     height: 12,
                     backgroundColor: 'var(--card-bg)',
                     borderTop: '1px solid var(--border-color)',
                     borderLeft: '1px solid var(--border-color)',
-                    transform: 'rotate(45deg)'
+                    transform: 'translateX(-50%) rotate(45deg)'
                   }} />
                 </div>
               )}
@@ -318,7 +320,8 @@ export default function HomePage() {
                   style={{
                     position: 'absolute',
                     top: 'calc(100% + 10px)',
-                    right: -10,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
                     width: 280,
                     backgroundColor: 'var(--card-bg)',
                     border: '1px solid var(--border-color)',
@@ -359,13 +362,13 @@ export default function HomePage() {
                   <div style={{
                     position: 'absolute',
                     top: -6,
-                    right: 18,
+                    left: '50%',
                     width: 12,
                     height: 12,
                     backgroundColor: 'var(--card-bg)',
                     borderTop: '1px solid var(--border-color)',
                     borderLeft: '1px solid var(--border-color)',
-                    transform: 'rotate(45deg)'
+                    transform: 'translateX(-50%) rotate(45deg)'
                   }} />
                 </div>
               )}
