@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useData } from '../context/DataContext';
 import { TrendingUp, DollarSign, Coins, Hourglass, Info, X } from 'lucide-react';
 
@@ -21,6 +22,27 @@ function KPICard({ titulo, valor, icone: Icone, subtitulo }) {
 
 function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo }) {
   const [showPopup, setShowPopup] = useState(false);
+  const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
+  const infoBtnRef = useRef(null);
+
+  const abrirPopup = useCallback(() => {
+    if (!infoBtnRef.current) return;
+    const rect = infoBtnRef.current.getBoundingClientRect();
+    const popupWidth = 200;
+    const popupHeight = 120;
+
+    // Position: above and slightly to the left of the "i" button
+    let left = rect.left - popupWidth + 30;
+    let top = rect.top - popupHeight - 10;
+
+    // Boundary checks
+    if (left < 10) left = 10;
+    if (left + popupWidth > window.innerWidth - 10) left = window.innerWidth - popupWidth - 10;
+    if (top < 10) top = rect.bottom + 10;
+
+    setPopupPos({ top, left });
+    setShowPopup(true);
+  }, []);
 
   return (
     <div className="kpi-card" style={{ position: 'relative' }}>
@@ -37,7 +59,8 @@ function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo }) {
 
       {/* Botão de informação */}
       <button
-        onClick={() => setShowPopup(!showPopup)}
+        ref={infoBtnRef}
+        onClick={abrirPopup}
         className="info-btn"
         style={{
           position: 'absolute',
@@ -64,91 +87,130 @@ function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo }) {
         i
       </button>
 
-      {/* Pop-up inline */}
-      {showPopup && (
+      {/* Pop-up renderizado via portal */}
+      {showPopup && createPortal(
+        <InfoPopup onClose={() => setShowPopup(false)} popupPos={popupPos} />,
+        document.body
+      )}
+    </div>
+  );
+}
+
+function InfoPopup({ onClose, popupPos }) {
+  return (
+    <>
+      {/* Overlay escuro sutil */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.25)',
+          zIndex: 9998,
+          backdropFilter: 'blur(1px)'
+        }}
+        onClick={onClose}
+      />
+
+      {/* Modal discreto próximo ao botão */}
+      <div
+        style={{
+          position: 'fixed',
+          top: popupPos.top,
+          left: popupPos.left,
+          backgroundColor: 'var(--card-bg)',
+          border: '1px solid var(--border-color)',
+          borderRadius: 10,
+          padding: '14px 18px',
+          zIndex: 9999,
+          boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+          width: 200,
+          textAlign: 'center',
+          animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+        }}
+      >
+        {/* Seta apontando para o botão */}
         <div
           style={{
             position: 'absolute',
-            top: 'calc(100% + 10px)',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: 200,
+            bottom: -6,
+            right: 18,
+            width: 12,
+            height: 12,
             backgroundColor: 'var(--card-bg)',
-            border: '1px solid var(--border-color)',
-            borderRadius: 10,
-            padding: '14px 18px',
-            zIndex: 10,
-            boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
-            textAlign: 'center'
+            borderRight: '1px solid var(--border-color)',
+            borderBottom: '1px solid var(--border-color)',
+            transform: 'rotate(45deg)',
+            zIndex: 1
+          }}
+        />
+
+        {/* Botão fechar */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: 6,
+            right: 6,
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-muted)',
+            cursor: 'pointer',
+            padding: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2
           }}
         >
-          {/* Seta apontando para o botão */}
-          <div
-            style={{
-              position: 'absolute',
-              top: -6,
-              left: '50%',
-              transform: 'translateX(-50%) rotate(45deg)',
-              width: 12,
-              height: 12,
-              backgroundColor: 'var(--card-bg)',
-              borderTop: '1px solid var(--border-color)',
-              borderLeft: '1px solid var(--border-color)',
-              zIndex: 1
-            }}
-          />
+          <X size={14} />
+        </button>
 
-          {/* Botão fechar */}
-          <button
-            onClick={() => setShowPopup(false)}
-            style={{
-              position: 'absolute',
-              top: 6,
-              right: 6,
-              background: 'none',
-              border: 'none',
-              color: 'var(--text-muted)',
-              cursor: 'pointer',
-              padding: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 2
-            }}
-          >
-            <X size={14} />
-          </button>
-
-          {/* Ícone de informação */}
-          <div style={{ marginBottom: 8 }}>
-            <Info size={24} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
-          </div>
-
-          {/* Título */}
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-              marginBottom: 4
-            }}
-          >
-            Gasto Não Exclusivo
-          </div>
-
-          {/* Mensagem */}
-          <div
-            style={{
-              fontSize: 12,
-              color: 'var(--text-secondary)',
-              lineHeight: 1.4
-            }}
-          >
-            Em fase de validação
-          </div>
+        {/* Ícone de informação */}
+        <div style={{ marginBottom: 8 }}>
+          <Info size={24} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
         </div>
-      )}
-    </div>
+
+        {/* Título */}
+        <div
+          style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+            marginBottom: 4
+          }}
+        >
+          Gasto Não Exclusivo
+        </div>
+
+        {/* Mensagem */}
+        <div
+          style={{
+            fontSize: 12,
+            color: 'var(--text-secondary)',
+            lineHeight: 1.4
+          }}
+        >
+          Em fase de validação
+        </div>
+      </div>
+
+      {/* Keyframes */}
+      <style>{`
+        @keyframes popDiscreet {
+          0% {
+            transform: scale(0.5);
+            opacity: 0;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      `}</style>
+    </>
   );
 }
 
