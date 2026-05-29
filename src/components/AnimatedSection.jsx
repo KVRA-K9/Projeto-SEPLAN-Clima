@@ -49,7 +49,6 @@ export default function AnimatedSection({ children, style, className = '', thres
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1) translateY(0)' : 'scale(0.98) translateY(12px)',
         transition: `opacity ${duration}ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms, transform ${duration}ms cubic-bezier(0.4, 0, 0.2, 1) ${delay}ms`,
-        overflow: 'hidden',
         ...style
       }}
     >

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import {
   Leaf,
@@ -84,50 +83,20 @@ const destaques = [
   'Valorizar os recursos naturais e culturais da Amazônia.'
 ];
 
-function calcPopupPos(ref, popupWidth = 280, popupHeight = 120) {
-  if (!ref.current) return { top: 0, left: 0 };
-  const rect = ref.current.getBoundingClientRect();
-  let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.bottom + 10;
-  if (left < 10) left = 10;
-  if (left + popupWidth > window.innerWidth - 10) left = window.innerWidth - popupWidth - 10;
-  if (top + popupHeight > window.innerHeight - 10) top = rect.top - popupHeight - 10;
-  return { top, left };
-}
-
-function InfoPopup({ title, text, onClose, popupPos }) {
-  const popupRef = React.useRef(null);
-
-  React.useEffect(() => {
-    function handleClickOutside(event) {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        onClose();
-      }
-    }
-    function handleEsc(event) {
-      if (event.key === 'Escape') onClose();
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEsc);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEsc);
-    };
-  }, [onClose]);
-
-  return createPortal(
+function InfoCard({ title, text, onClose }) {
+  return (
     <div
-      ref={popupRef}
       style={{
-        position: 'fixed',
-        top: popupPos.top,
-        left: popupPos.left,
+        position: 'absolute',
+        top: 'calc(100% + 10px)',
+        left: '50%',
+        transform: 'translateX(-50%)',
         width: 280,
         backgroundColor: 'var(--card-bg)',
         border: '1px solid var(--border-color)',
         borderRadius: 10,
         padding: '14px 18px',
-        zIndex: 9999,
+        zIndex: 10,
         boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
         textAlign: 'justify'
       }}
@@ -169,35 +138,15 @@ function InfoPopup({ title, text, onClose, popupPos }) {
         borderLeft: '1px solid var(--border-color)',
         transform: 'translateX(-50%) rotate(45deg)'
       }} />
-    </div>,
-    document.body
+    </div>
   );
 }
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [showEixoInfo, setShowEixoInfo] = useState(false);
-  const [eixoPos, setEixoPos] = useState({ top: 0, left: 0 });
-  const eixoInfoRef = React.useRef(null);
   const [showExercicioInfo, setShowExercicioInfo] = useState(false);
-  const [exercicioPos, setExercicioPos] = useState({ top: 0, left: 0 });
-  const exercicioInfoRef = React.useRef(null);
   const [showDotacaoInfo, setShowDotacaoInfo] = useState(false);
-  const [dotacaoPos, setDotacaoPos] = useState({ top: 0, left: 0 });
-  const dotacaoInfoRef = React.useRef(null);
-
-  const toggleEixo = () => {
-    if (!showEixoInfo) setEixoPos(calcPopupPos(eixoInfoRef));
-    setShowEixoInfo(!showEixoInfo);
-  };
-  const toggleExercicio = () => {
-    if (!showExercicioInfo) setExercicioPos(calcPopupPos(exercicioInfoRef));
-    setShowExercicioInfo(!showExercicioInfo);
-  };
-  const toggleDotacao = () => {
-    if (!showDotacaoInfo) setDotacaoPos(calcPopupPos(dotacaoInfoRef));
-    setShowDotacaoInfo(!showDotacaoInfo);
-  };
 
   return (
     <>
@@ -223,8 +172,7 @@ export default function HomePage() {
               <div className="stat-value">7</div>
               <div className="stat-label">Eixos Temáticos</div>
               <button
-                ref={eixoInfoRef}
-                onClick={toggleEixo}
+                onClick={() => setShowEixoInfo(!showEixoInfo)}
                 className="eixo-info-btn"
                 style={{
                   position: 'absolute',
@@ -249,11 +197,10 @@ export default function HomePage() {
                 i
               </button>
               {showEixoInfo && (
-                <InfoPopup
+                <InfoCard
                   title="Eixos Temáticos"
                   text="Eixos temáticos são áreas principais que organizam assuntos, objetivos e indicadores de um projeto ou planejamento, agrupando temas relacionados e facilitando a análise das informações."
                   onClose={() => setShowEixoInfo(false)}
-                  popupPos={eixoPos}
                 />
               )}
             </div>
@@ -261,8 +208,7 @@ export default function HomePage() {
               <div className="stat-value">2026</div>
               <div className="stat-label">Exercício Anual</div>
               <button
-                ref={exercicioInfoRef}
-                onClick={toggleExercicio}
+                onClick={() => setShowExercicioInfo(!showExercicioInfo)}
                 className="eixo-info-btn"
                 style={{
                   position: 'absolute',
@@ -287,11 +233,10 @@ export default function HomePage() {
                 i
               </button>
               {showExercicioInfo && (
-                <InfoPopup
+                <InfoCard
                   title="Exercício Anual"
                   text="Período correspondente ao ano de 2026 utilizado para o planejamento, execução e acompanhamento das atividades, receitas, despesas e resultados."
                   onClose={() => setShowExercicioInfo(false)}
-                  popupPos={exercicioPos}
                 />
               )}
             </div>
@@ -299,8 +244,7 @@ export default function HomePage() {
               <div className="stat-value">{fmtHome(orcamentoReal.total_orcamento_climatico || 0)}</div>
               <div className="stat-label">Dotação Planejada</div>
               <button
-                ref={dotacaoInfoRef}
-                onClick={toggleDotacao}
+                onClick={() => setShowDotacaoInfo(!showDotacaoInfo)}
                 className="eixo-info-btn"
                 style={{
                   position: 'absolute',
@@ -325,11 +269,10 @@ export default function HomePage() {
                 i
               </button>
               {showDotacaoInfo && (
-                <InfoPopup
+                <InfoCard
                   title="Dotação Planejada"
                   text="Valor previsto no orçamento público para financiar ações, programas e projetos definidos previamente."
                   onClose={() => setShowDotacaoInfo(false)}
-                  popupPos={dotacaoPos}
                 />
               )}
             </div>
