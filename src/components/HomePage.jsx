@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import {
   Leaf,
@@ -83,14 +84,114 @@ const destaques = [
   'Valorizar os recursos naturais e culturais da Amazônia.'
 ];
 
+function calcPopupPos(ref, popupWidth = 280, popupHeight = 120) {
+  if (!ref.current) return { top: 0, left: 0 };
+  const rect = ref.current.getBoundingClientRect();
+  let left = rect.left + rect.width / 2 - popupWidth / 2;
+  let top = rect.bottom + 10;
+  if (left < 10) left = 10;
+  if (left + popupWidth > window.innerWidth - 10) left = window.innerWidth - popupWidth - 10;
+  if (top + popupHeight > window.innerHeight - 10) top = rect.top - popupHeight - 10;
+  return { top, left };
+}
+
+function InfoPopup({ title, text, onClose, popupPos }) {
+  return createPortal(
+    <>
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 9998,
+        }}
+        onClick={onClose}
+      />
+      <div
+        style={{
+          position: 'fixed',
+          top: popupPos.top,
+          left: popupPos.left,
+          width: 280,
+          backgroundColor: 'var(--card-bg)',
+          border: '1px solid var(--border-color)',
+          borderRadius: 10,
+          padding: '14px 18px',
+          zIndex: 9999,
+          boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+          textAlign: 'justify',
+          animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+        }}
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: 6,
+            right: 6,
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-muted)',
+            cursor: 'pointer',
+            padding: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2
+          }}
+        >
+          <X size={14} />
+        </button>
+        <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Info size={20} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
+          <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>{title}</span>
+        </div>
+        <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+          {text}
+        </div>
+        <div style={{
+          position: 'absolute',
+          top: -6,
+          left: '50%',
+          width: 12,
+          height: 12,
+          backgroundColor: 'var(--card-bg)',
+          borderTop: '1px solid var(--border-color)',
+          borderLeft: '1px solid var(--border-color)',
+          transform: 'translateX(-50%) rotate(45deg)'
+        }} />
+      </div>
+    </>,
+    document.body
+  );
+}
+
 export default function HomePage() {
   const navigate = useNavigate();
   const [showEixoInfo, setShowEixoInfo] = useState(false);
+  const [eixoPos, setEixoPos] = useState({ top: 0, left: 0 });
   const eixoInfoRef = React.useRef(null);
   const [showExercicioInfo, setShowExercicioInfo] = useState(false);
+  const [exercicioPos, setExercicioPos] = useState({ top: 0, left: 0 });
   const exercicioInfoRef = React.useRef(null);
   const [showDotacaoInfo, setShowDotacaoInfo] = useState(false);
+  const [dotacaoPos, setDotacaoPos] = useState({ top: 0, left: 0 });
   const dotacaoInfoRef = React.useRef(null);
+
+  const toggleEixo = () => {
+    if (!showEixoInfo) setEixoPos(calcPopupPos(eixoInfoRef));
+    setShowEixoInfo(!showEixoInfo);
+  };
+  const toggleExercicio = () => {
+    if (!showExercicioInfo) setExercicioPos(calcPopupPos(exercicioInfoRef));
+    setShowExercicioInfo(!showExercicioInfo);
+  };
+  const toggleDotacao = () => {
+    if (!showDotacaoInfo) setDotacaoPos(calcPopupPos(dotacaoInfoRef));
+    setShowDotacaoInfo(!showDotacaoInfo);
+  };
 
   return (
     <>
@@ -117,7 +218,7 @@ export default function HomePage() {
               <div className="stat-label">Eixos Temáticos</div>
               <button
                 ref={eixoInfoRef}
-                onClick={() => setShowEixoInfo(!showEixoInfo)}
+                onClick={toggleEixo}
                 className="eixo-info-btn"
                 style={{
                   position: 'absolute',
@@ -142,61 +243,12 @@ export default function HomePage() {
                 i
               </button>
               {showEixoInfo && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 'calc(100% + 10px)',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: 280,
-                    backgroundColor: 'var(--card-bg)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: 10,
-                    padding: '14px 18px',
-                    zIndex: 999,
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
-                    textAlign: 'justify',
-                    animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
-                  }}
-                >
-                  <button
-                    onClick={() => setShowEixoInfo(false)}
-                    style={{
-                      position: 'absolute',
-                      top: 6,
-                      right: 6,
-                      background: 'none',
-                      border: 'none',
-                      color: 'var(--text-muted)',
-                      cursor: 'pointer',
-                      padding: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      zIndex: 2
-                    }}
-                  >
-                    <X size={14} />
-                  </button>
-                  <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Info size={20} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
-                    <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>Eixos Temáticos</span>
-                  </div>
-                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-                    Eixos temáticos são áreas principais que organizam assuntos, objetivos e indicadores de um projeto ou planejamento, agrupando temas relacionados e facilitando a análise das informações.
-                  </div>
-                  <div style={{
-                    position: 'absolute',
-                    top: -6,
-                    left: '50%',
-                    width: 12,
-                    height: 12,
-                    backgroundColor: 'var(--card-bg)',
-                    borderTop: '1px solid var(--border-color)',
-                    borderLeft: '1px solid var(--border-color)',
-                    transform: 'translateX(-50%) rotate(45deg)'
-                  }} />
-                </div>
+                <InfoPopup
+                  title="Eixos Temáticos"
+                  text="Eixos temáticos são áreas principais que organizam assuntos, objetivos e indicadores de um projeto ou planejamento, agrupando temas relacionados e facilitando a análise das informações."
+                  onClose={() => setShowEixoInfo(false)}
+                  popupPos={eixoPos}
+                />
               )}
             </div>
             <div className="stat-card" style={{ position: 'relative' }}>
@@ -204,7 +256,7 @@ export default function HomePage() {
               <div className="stat-label">Exercício Anual</div>
               <button
                 ref={exercicioInfoRef}
-                onClick={() => setShowExercicioInfo(!showExercicioInfo)}
+                onClick={toggleExercicio}
                 className="eixo-info-btn"
                 style={{
                   position: 'absolute',
@@ -229,61 +281,12 @@ export default function HomePage() {
                 i
               </button>
               {showExercicioInfo && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 'calc(100% + 10px)',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: 280,
-                    backgroundColor: 'var(--card-bg)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: 10,
-                    padding: '14px 18px',
-                    zIndex: 999,
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
-                    textAlign: 'justify',
-                    animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
-                  }}
-                >
-                  <button
-                    onClick={() => setShowExercicioInfo(false)}
-                    style={{
-                      position: 'absolute',
-                      top: 6,
-                      right: 6,
-                      background: 'none',
-                      border: 'none',
-                      color: 'var(--text-muted)',
-                      cursor: 'pointer',
-                      padding: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      zIndex: 2
-                    }}
-                  >
-                    <X size={14} />
-                  </button>
-                  <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Info size={20} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
-                    <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>Exercício Anual</span>
-                  </div>
-                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-                    Período correspondente ao ano de 2026 utilizado para o planejamento, execução e acompanhamento das atividades, receitas, despesas e resultados.
-                  </div>
-                  <div style={{
-                    position: 'absolute',
-                    top: -6,
-                    left: '50%',
-                    width: 12,
-                    height: 12,
-                    backgroundColor: 'var(--card-bg)',
-                    borderTop: '1px solid var(--border-color)',
-                    borderLeft: '1px solid var(--border-color)',
-                    transform: 'translateX(-50%) rotate(45deg)'
-                  }} />
-                </div>
+                <InfoPopup
+                  title="Exercício Anual"
+                  text="Período correspondente ao ano de 2026 utilizado para o planejamento, execução e acompanhamento das atividades, receitas, despesas e resultados."
+                  onClose={() => setShowExercicioInfo(false)}
+                  popupPos={exercicioPos}
+                />
               )}
             </div>
             <div className="stat-card" style={{ position: 'relative' }}>
@@ -291,7 +294,7 @@ export default function HomePage() {
               <div className="stat-label">Dotação Planejada</div>
               <button
                 ref={dotacaoInfoRef}
-                onClick={() => setShowDotacaoInfo(!showDotacaoInfo)}
+                onClick={toggleDotacao}
                 className="eixo-info-btn"
                 style={{
                   position: 'absolute',
@@ -316,61 +319,12 @@ export default function HomePage() {
                 i
               </button>
               {showDotacaoInfo && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 'calc(100% + 10px)',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: 280,
-                    backgroundColor: 'var(--card-bg)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: 10,
-                    padding: '14px 18px',
-                    zIndex: 999,
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
-                    textAlign: 'justify',
-                    animation: 'popDiscreet 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
-                  }}
-                >
-                  <button
-                    onClick={() => setShowDotacaoInfo(false)}
-                    style={{
-                      position: 'absolute',
-                      top: 6,
-                      right: 6,
-                      background: 'none',
-                      border: 'none',
-                      color: 'var(--text-muted)',
-                      cursor: 'pointer',
-                      padding: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      zIndex: 2
-                    }}
-                  >
-                    <X size={14} />
-                  </button>
-                  <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Info size={20} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
-                    <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text-primary)' }}>Dotação Planejada</span>
-                  </div>
-                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-                    Valor previsto no orçamento público para financiar ações, programas e projetos definidos previamente.
-                  </div>
-                  <div style={{
-                    position: 'absolute',
-                    top: -6,
-                    left: '50%',
-                    width: 12,
-                    height: 12,
-                    backgroundColor: 'var(--card-bg)',
-                    borderTop: '1px solid var(--border-color)',
-                    borderLeft: '1px solid var(--border-color)',
-                    transform: 'translateX(-50%) rotate(45deg)'
-                  }} />
-                </div>
+                <InfoPopup
+                  title="Dotação Planejada"
+                  text="Valor previsto no orçamento público para financiar ações, programas e projetos definidos previamente."
+                  onClose={() => setShowDotacaoInfo(false)}
+                  popupPos={dotacaoPos}
+                />
               )}
             </div>
           </div>
