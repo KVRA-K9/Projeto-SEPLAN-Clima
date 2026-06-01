@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Leaf,
@@ -147,6 +147,10 @@ export default function HomePage() {
   const [showEixoInfo, setShowEixoInfo] = useState(false);
   const [showExercicioInfo, setShowExercicioInfo] = useState(false);
   const [showDotacaoInfo, setShowDotacaoInfo] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
 
   return (
     <>

@@ -106,7 +106,7 @@ function Dashboard() {
       <Header />
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 16px 0' }}>
-        <button className="btn-voltar" onClick={() => navigate('/')}>
+        <button className="btn-voltar" onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'instant' }); }}>
           ← Voltar à página inicial
         </button>
 

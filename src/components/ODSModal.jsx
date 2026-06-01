@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const nomesEixos = {
   1: 'Desenvolvimento Sustentável e Bioeconomia',
@@ -254,11 +254,33 @@ function EixoTooltip({ num }) {
 
 export default function ODSModal({ ods, posicao, onClose }) {
   const [visivel, setVisivel] = useState(false);
+  const [adjustedPos, setAdjustedPos] = useState(posicao || { top: 0, left: 0 });
+  const cardRef = useRef(null);
 
   useEffect(() => {
+    if (!posicao) return;
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const margin = 16;
+    const cardWidth = 340;
+    const estimatedHeight = 420;
+
+    let left = posicao.left;
+    const minLeft = cardWidth / 2 + margin;
+    const maxLeft = vw - cardWidth / 2 - margin;
+    if (left < minLeft) left = minLeft;
+    if (left > maxLeft) left = maxLeft;
+
+    let top = posicao.top;
+    if (top + estimatedHeight > vh - margin) {
+      top = Math.max(margin, vh - estimatedHeight - margin);
+    }
+
+    setAdjustedPos({ top, left });
     const timer = setTimeout(() => setVisivel(true), 10);
     return () => clearTimeout(timer);
-  }, []);
+  }, [posicao]);
 
   if (!ods || !posicao) return null;
 
@@ -281,8 +303,8 @@ export default function ODSModal({ ods, posicao, onClose }) {
       <div
         style={{
           position: 'fixed',
-          top: posicao.top,
-          left: posicao.left,
+          top: adjustedPos.top,
+          left: adjustedPos.left,
           transform: `translateX(-50%) translateY(${visivel ? 0 : -28}px) scale(${visivel ? 1 : 0.75})`,
           opacity: visivel ? 1 : 0,
           transition: 'opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1)',
@@ -303,13 +325,18 @@ export default function ODSModal({ ods, posicao, onClose }) {
           }}
         />
         <div
+          ref={cardRef}
+          className="hide-scrollbar"
           style={{
             background: 'var(--card-bg, #0f2416)',
             border: '1px solid var(--border-color, #1a4530)',
             borderRadius: 12,
             padding: 20,
             boxShadow: '0 10px 40px #0a1f12',
-            position: 'relative'
+            position: 'relative',
+            maxHeight: '60vh',
+            overflowY: 'auto',
+            scrollbarWidth: 'none'
           }}
           onClick={(e) => e.stopPropagation()}
         >
