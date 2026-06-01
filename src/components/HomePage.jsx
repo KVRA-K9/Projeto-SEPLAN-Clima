@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Leaf,
@@ -148,9 +148,30 @@ export default function HomePage() {
   const [showExercicioInfo, setShowExercicioInfo] = useState(false);
   const [showDotacaoInfo, setShowDotacaoInfo] = useState(false);
 
+  const eixoRef = useRef(null);
+  const exercicioRef = useRef(null);
+  const dotacaoRef = useRef(null);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const refs = [eixoRef, exercicioRef, dotacaoRef];
+      const isInside = refs.some((ref) => ref.current && ref.current.contains(event.target));
+      if (!isInside) {
+        setShowEixoInfo(false);
+        setShowExercicioInfo(false);
+        setShowDotacaoInfo(false);
+      }
+    };
+
+    if (showEixoInfo || showExercicioInfo || showDotacaoInfo) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showEixoInfo, showExercicioInfo, showDotacaoInfo]);
 
   return (
     <>
@@ -172,7 +193,7 @@ export default function HomePage() {
             <span style={{ color: '#4ade80' }}>Orçamento Climático<br/>do Estado do Acre</span>
           </h1>
           <div className="hero-stats">
-            <div className="stat-card" style={{ position: 'relative' }}>
+            <div ref={eixoRef} className="stat-card" style={{ position: 'relative' }}>
               <div className="stat-value">7</div>
               <div className="stat-label">Eixos Temáticos</div>
               <button
@@ -208,7 +229,7 @@ export default function HomePage() {
                 />
               )}
             </div>
-            <div className="stat-card" style={{ position: 'relative' }}>
+            <div ref={exercicioRef} className="stat-card" style={{ position: 'relative' }}>
               <div className="stat-value">2026</div>
               <div className="stat-label">Exercício Anual</div>
               <button
@@ -244,7 +265,7 @@ export default function HomePage() {
                 />
               )}
             </div>
-            <div className="stat-card" style={{ position: 'relative' }}>
+            <div ref={dotacaoRef} className="stat-card" style={{ position: 'relative' }}>
               <div className="stat-value">{fmtHome(orcamentoReal.total_orcamento_climatico || 0)}</div>
               <div className="stat-label">Dotação Planejada</div>
               <button
