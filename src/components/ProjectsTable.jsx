@@ -694,12 +694,23 @@ export default function ProjectsTable() {
                                   {o.total > 0 ? ((o.naoExclusivo / o.total) * 100).toFixed(1) : 0}%
                                 </span>
                               </div>
-                              <div style={{ gridColumn: 'span 2' }}>
-                                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Total Orçamentário: </span>
-                                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
-                                  R$ {totalFiltrado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span>
-                              </div>
+                              {filtros.eixo?.length > 0 && entradasFiltradas.length > 0 ? (
+                                entradasFiltradas.map(([eixo, valor]) => (
+                                  <div key={eixo} style={{ gridColumn: 'span 2' }}>
+                                    <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Total Orçamentário por Eixo temático ({eixo}): </span>
+                                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+                                      R$ {(valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    </span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div style={{ gridColumn: 'span 2' }}>
+                                  <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Total Orçamentário: </span>
+                                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+                                    R$ {totalFiltrado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           );
                         })()}
