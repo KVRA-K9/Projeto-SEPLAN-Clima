@@ -225,7 +225,7 @@ function InfoPopup({ onClose, popupPos }) {
 
 
 function KPICards() {
-  const { totalProjetos, totalOrcamentoClimatico, gastoExclusivo, gastoNaoExclusivo } = useData();
+  const { totalOrcamentoClimatico, gastoExclusivo, gastoNaoExclusivo, numeroOrgaosAtuantes, acoesExclusivas, acoesNaoExclusivas } = useData();
 
   const fmt = (n) => {
     if (n >= 1_000_000_000) return (n / 1_000_000_000).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' bi';
@@ -240,10 +240,10 @@ function KPICards() {
 
   return (
     <div className="kpi-grid">
-      <KPICard titulo="Órgãos Atuantes" valor={48} icone={TrendingUp} subtitulo="Identificados" />
-      <KPICard titulo="Orçamento Climático Planejado" valor={fmt(base)} icone={DollarSign} subtitulo="100% do total" />
-      <KPICard titulo="Gasto Exclusivo" valor={fmt(gastoExclusivo)} icone={Coins} subtitulo={`${pctExclusivo}% do total`} />
-      <KPICardNaoExclusivo titulo="Gasto Não Exclusivo" valor={fmt(gastoNaoExclusivo)} icone={Hourglass} subtitulo={`${pctNaoExclusivo}% do total`} />
+      <KPICard titulo="Órgãos Atuantes" valor={numeroOrgaosAtuantes} icone={TrendingUp} subtitulo="Identificados" />
+      <KPICard titulo="Orçamento Climático Exclusivo Planejado" valor={fmt(gastoExclusivo)} icone={DollarSign} subtitulo={`${pctExclusivo}% do total`} />
+      <KPICard titulo="Dotação Exclusiva" valor={acoesExclusivas} icone={Coins} subtitulo={fmt(gastoExclusivo)} />
+      <KPICardNaoExclusivo titulo="Dotação Não Exclusiva" valor={acoesNaoExclusivas} icone={Hourglass} subtitulo={fmt(gastoNaoExclusivo)} />
     </div>
   );
 }

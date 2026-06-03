@@ -29,7 +29,7 @@ const instrumentos = [
       },
       {
         titulo: 'Plano Emergencial de Enfrentamento às Enchentes',
-        descricao: 'Ferramenta de articulação de ações efetivas de curto, médio e longo prazo entre o poder público e a sociedade civil para combater as causas do problema, recuperar a infraestrutura urbana e rural atingidas, reduzir o impacto socioeconômico das enchentes e adaptar as cidades e comunidades rurais à nova realidade climática.',
+        descricao: 'Ferramenta de articulação de ações efetivas de curto, médio e longo prazo entre o poder público e a sociedade civil para combater as causas do problema, recuperar a infraestrutura urbana e rural atingida, reduzir o impacto socioeconômico das enchentes e adaptar as cidades e comunidades rurais à nova realidade climática.',
         url: 'https://seplan.ac.gov.br/wp-content/uploads/2024/05/Plano-Emergencial-Enchentes-Acre-2024.pdf'
       }
     ]
@@ -79,7 +79,7 @@ export default function InstrumentosLegais() {
         </div>
         <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.6 }}>
           Conjunto de normas jurídicas e publicações oficiais que fundamentam e regulamentam as ações de orçamento climático
-          no estado do Acre, incluindo leis estaduais, instrumentos federais e documentos técnicos aplicáveis.
+          no Estado do Acre, incluindo leis estaduais, instrumentos federais e documentos técnicos aplicáveis.
         </p>
       </AnimatedSection>
 

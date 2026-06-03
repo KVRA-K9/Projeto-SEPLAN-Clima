@@ -1,15 +1,16 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import orcamentoReal from '../data/orcamento_real.json';
 import orcamentoPorOrgaoEixo from '../data/orcamento_por_orgao_eixo.json';
+import aplicacoesPorOrgaoEixo from '../data/aplicacoes_por_orgao_eixo.json';
 
 const eixos = [
   'Desenvolvimento Sustentável e Bioeconomia',
   'Mitigação das Mudanças Climáticas',
-  'Adaptação Climática',
+  'Adaptação às Mudanças Climáticas',
   'Justiça Climática e Inclusão Social',
   'Governança Ambiental e Transparência',
-  'Educação Ambiental e Inovação',
-  'Gestão de Riscos e Proteção Civil'
+  'Educação Ambiental e Inovação Climática',
+  'Resposta Climática Emergencial e Proteção Civil'
 ];
 
 const eixosPorOrgao = {
@@ -172,6 +173,9 @@ export function DataProvider({ children }) {
   const totalOrcamentoClimatico = orcamentoReal.total_orcamento_climatico || 0;
   const gastoExclusivo = orcamentoReal.gasto_exclusivo || 0;
   const gastoNaoExclusivo = orcamentoReal.gasto_nao_exclusivo || 0;
+  const numeroOrgaosAtuantes = orcamentoReal.numero_orgaos_atuantes || 0;
+  const acoesExclusivas = orcamentoReal.acoes_exclusivas || 0;
+  const acoesNaoExclusivas = orcamentoReal.acoes_nao_exclusivas || 0;
   const orcamentoRealPorSecretaria = orcamentoReal.orcamento_por_secretaria || {};
   const detalhesPorSecretaria = orcamentoReal.detalhes_por_secretaria || [];
 
@@ -186,8 +190,12 @@ export function DataProvider({ children }) {
     totalOrcamentoClimatico,
     gastoExclusivo,
     gastoNaoExclusivo,
+    numeroOrgaosAtuantes,
+    acoesExclusivas,
+    acoesNaoExclusivas,
     orcamentoRealPorSecretaria,
-    detalhesPorSecretaria
+    detalhesPorSecretaria,
+    aplicacoesPorOrgaoEixo
   }), [dados, projetosFiltrados, orgaosFiltrados, filtros, atualizarDados, atualizarFiltros, totais]);
 
   return (

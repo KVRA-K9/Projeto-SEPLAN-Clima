@@ -69,13 +69,12 @@ const NOMES_SECRETARIAS = {
 };
 
 const EIXOS_DATA = [
-  { numero: '1', label: 'Eixo I - Desenvolvimento Sustentável e Bioeconomia', eixo: 'Desenvolvimento Sustentável e Bioeconomia', orcamento: 128307925.19 },
-  { numero: '2', label: 'Eixo II - Mitigação das Mudanças Climáticas', eixo: 'Mitigação das Mudanças Climáticas', orcamento: 367100916.66 },
-  { numero: '3', label: 'Eixo III - Adaptação Climática', eixo: 'Adaptação Climática', orcamento: 521536955.99 },
-  { numero: '4', label: 'Eixo IV - Justiça Climática e Inclusão Social', eixo: 'Justiça Climática e Inclusão Social', orcamento: 27851335.52 },
-  { numero: '5', label: 'Eixo V - Governança Ambiental e Transparência', eixo: 'Governança Ambiental e Transparência', orcamento: 674000.00 },
-  { numero: '6', label: 'Eixo VI - Educação Ambiental e Inovação', eixo: 'Educação Ambiental e Inovação', orcamento: 2878600.00 },
-  { numero: '7', label: 'Eixo VII - Gestão de Riscos e Proteção Civil', eixo: 'Gestão de Riscos e Proteção Civil', orcamento: 18596667.00 }
+  { numero: '1', label: 'Eixo I – Desenvolvimento Sustentável e Bioeconomia', eixo: 'Desenvolvimento Sustentável e Bioeconomia', orcamento: 126730014.39 },
+  { numero: '2', label: 'Eixo II – Mitigação das Mudanças Climáticas', eixo: 'Mitigação das Mudanças Climáticas', orcamento: 373173673.70 },
+  { numero: '4', label: 'Eixo IV – Justiça Climática e Inclusão Social', eixo: 'Justiça Climática e Inclusão Social', orcamento: 28111335.52 },
+  { numero: '5', label: 'Eixo V – Governança Ambiental e Transparência', eixo: 'Governança Ambiental e Transparência', orcamento: 674000.00 },
+  { numero: '6', label: 'Eixo VI – Educação Ambiental e Inovação', eixo: 'Educação Ambiental e Inovação', orcamento: 2878600.00 },
+  { numero: '7', label: 'Eixo VII – Gestão de Riscos e Proteção Civil', eixo: 'Gestão de Riscos e Proteção Civil', orcamento: 18346667.00 }
 ];
 
 const SecretariasTooltip = React.memo(({ active, payload, fmt }) => {
@@ -159,7 +158,7 @@ const EvolucaoChart = React.memo(function EvolucaoChart({ data, fmt }) {
 const ComposicaoChart = React.memo(function ComposicaoChart({ data }) {
   const { ref, isVisible, animKey } = useAnimateOnScroll(0.05, true);
   return (
-    <div ref={ref} style={{ width: '100%', height: 260 }}>
+    <div ref={ref} style={{ width: '100%', height: 240, display: 'flex', justifyContent: 'center', marginTop: 4 }}>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart key={animKey}>
           <Pie
@@ -181,6 +180,66 @@ const ComposicaoChart = React.memo(function ComposicaoChart({ data }) {
           </Pie>
           <Tooltip content={<ExecucaoTooltip />} />
         </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+});
+
+const ComposicaoTooltipBar = React.memo(({ active, payload }) => {
+  if (!active || !payload || !payload.length) return null;
+  const d = payload[0].payload;
+  return (
+    <div style={tooltipStyle}>
+      <div style={{ fontWeight: 600, marginBottom: 4 }}>{d.nome}</div>
+      <div>{d.valor.toFixed(1)}%</div>
+    </div>
+  );
+});
+
+/* ---------- GRÁFICO 2B: Composição (Barras horizontais) ---------- */
+const ComposicaoBarrasChart = React.memo(function ComposicaoBarrasChart({ data }) {
+  const { ref, isVisible, animKey } = useAnimateOnScroll(0.05, true);
+  return (
+    <div ref={ref} style={{ width: '100%', height: 260 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          key={animKey}
+          data={data}
+          layout="vertical"
+          margin={{ top: 10, right: 40, left: 0, bottom: 10 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" horizontal={false} />
+          <XAxis
+            type="number"
+            stroke="var(--text-secondary)"
+            tick={{ fill: 'var(--text-primary)', fontSize: 12 }}
+            tickFormatter={(v) => `${v.toFixed(0)}%`}
+            domain={[0, 100]}
+          />
+          <YAxis
+            type="category"
+            dataKey="nome"
+            stroke="var(--text-secondary)"
+            tick={{ fill: 'var(--text-primary)', fontSize: 12 }}
+            width={210}
+            tickLine={false}
+            axisLine={false}
+          />
+          <Tooltip content={<ComposicaoTooltipBar />} cursor={{ fill: 'rgba(34, 197, 94, 0.08)' }} />
+          <Bar
+            dataKey="valor"
+            radius={[0, 6, 6, 0]}
+            isAnimationActive={isVisible}
+            animationDuration={ANIM_DUR}
+            animationEasing="ease-out"
+            maxBarSize={40}
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.cor} stroke="none" />
+            ))}
+            <LabelList dataKey="valor" position="right" formatter={(v) => `${v.toFixed(1)}%`} fill="var(--text-secondary)" fontSize={12} />
+          </Bar>
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
@@ -344,12 +403,25 @@ function ChartsSection() {
     return v.toLocaleString('pt-BR');
   }, []);
 
+  const limparNomeOrgao = (nome) => {
+    const idxAbre = nome.indexOf('(');
+    const idxFecha = nome.lastIndexOf(')');
+    if (idxAbre !== -1 && idxFecha !== -1 && idxFecha > idxAbre) {
+      const dentro = nome.slice(idxAbre + 1, idxFecha).trim();
+      if (dentro.toLowerCase().startsWith('fundo')) {
+        return nome; // mantém nome completo
+      }
+      return nome.slice(0, idxAbre).trim();
+    }
+    return nome;
+  };
+
   const dadosSecretarias = useMemo(() => {
     const todos = Object.entries(orcamentoReal.distribuicao_por_orgao || orcamentoReal.orcamento_por_orgao || {})
       .map(([nome, valores]) => {
-        let sigla = nome;
-        if (nome.length > 20) {
-          sigla = nome.substring(0, 18) + '...';
+        let sigla = limparNomeOrgao(nome);
+        if (sigla.length > 20) {
+          sigla = sigla.substring(0, 18) + '...';
         }
         const exclusivo = typeof valores === 'object' ? (valores.Exclusivo || 0) : 0;
         const naoExclusivo = typeof valores === 'object' ? (valores['Não Exclusivo'] || 0) : 0;
@@ -382,40 +454,26 @@ function ChartsSection() {
   const execucaoData = useMemo(() => {
     const total = (gastoExclusivo || 0) + (gastoNaoExclusivo || 0);
     if (total === 0) return [
-      { nome: 'Gasto Exclusivo', valor: 0, cor: COR_EXCLUSIVO },
-      { nome: 'Gasto Não Exclusivo', valor: 0, cor: COR_NAO_EXCLUSIVO }
+      { nome: 'Gasto Exclusivo', valor: 0, valorAbsoluto: 0, cor: COR_EXCLUSIVO },
+      { nome: 'Gasto Não Exclusivo', valor: 0, valorAbsoluto: 0, cor: COR_NAO_EXCLUSIVO }
     ];
     const pctEx = ((gastoExclusivo / total) * 100);
     const pctNex = ((gastoNaoExclusivo / total) * 100);
     return [
-      { nome: 'Gasto Exclusivo', valor: pctEx, cor: COR_EXCLUSIVO },
-      { nome: 'Gasto Não Exclusivo', valor: pctNex, cor: COR_NAO_EXCLUSIVO }
+      { nome: 'Gasto Exclusivo', valor: pctEx, valorAbsoluto: gastoExclusivo || 0, cor: COR_EXCLUSIVO },
+      { nome: 'Gasto Não Exclusivo', valor: pctNex, valorAbsoluto: gastoNaoExclusivo || 0, cor: COR_NAO_EXCLUSIVO }
     ];
   }, [gastoExclusivo, gastoNaoExclusivo]);
 
   return (
     <div className="charts-grid">
-      {/* Gráfico 1: Evolução Anual */}
+      {/* Gráfico 1: Eixos */}
       <AnimatedSection className="chart-box chart-full" delay={0} duration={1400} once>
-        <div className="section-title">Evolução Anual de Orçamento Climático</div>
-        <EvolucaoChart data={evolucaoOrcamento} fmt={fmt} />
+        <div className="section-title">Orçamento por Eixo</div>
+        <EixosChart data={dadosEixo} fmt={fmt} />
       </AnimatedSection>
 
-      {/* Gráfico 2: Composição (Pizza) */}
-      <AnimatedSection className="chart-box" delay={150} duration={1400} once>
-        <div className="section-title">Composição do Orçamento Climático</div>
-        <ComposicaoChart data={execucaoData} />
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 24, marginTop: 12 }}>
-          {execucaoData.map(item => (
-            <div key={item.nome} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ display: 'inline-block', width: 14, height: 14, backgroundColor: item.cor, borderRadius: 3 }}></span>
-              <span style={{ color: 'var(--text-secondary)', fontSize: 14, fontWeight: 500 }}>{item.nome} ({item.valor.toFixed(1)}%)</span>
-            </div>
-          ))}
-        </div>
-      </AnimatedSection>
-
-      {/* Gráfico 3: Secretarias */}
+      {/* Gráfico 2: Secretarias */}
       <AnimatedSection className="chart-box" delay={300} duration={1400} once>
         <div className="section-title">Orçamento por Secretaria</div>
         <SecretariasChart data={dadosSecretarias} />
@@ -431,10 +489,18 @@ function ChartsSection() {
         </div>
       </AnimatedSection>
 
-      {/* Gráfico 4: Eixos */}
-      <AnimatedSection className="chart-box chart-full" delay={450} duration={1400} once>
-        <div className="section-title">Orçamento por Eixo</div>
-        <EixosChart data={dadosEixo} fmt={fmt} />
+      {/* Gráfico 3: Composição (Pizza) */}
+      <AnimatedSection className="chart-box" delay={450} duration={1400} once style={{ alignSelf: 'center' }}>
+        <div className="section-title">Composição do Orçamento Climático</div>
+        <ComposicaoChart data={execucaoData} />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 16, marginTop: 4, flexWrap: 'wrap' }}>
+          {execucaoData.map(item => (
+            <div key={item.nome} style={{ display: 'flex', alignItems: 'flex-start', gap: 5, maxWidth: 160 }}>
+              <span style={{ display: 'inline-block', width: 11, height: 11, backgroundColor: item.cor, borderRadius: 3, flexShrink: 0, marginTop: 3 }}></span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: 12, fontWeight: 500, lineHeight: 1.35, wordBreak: 'break-word' }}>{item.nome}: {item.valorAbsoluto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} ({item.valor.toFixed(1)}%)</span>
+            </div>
+          ))}
+        </div>
       </AnimatedSection>
     </div>
   );

@@ -41,7 +41,7 @@ const eixos = [
   },
   {
     numero: '03',
-    titulo: 'Adaptação Climática',
+    titulo: 'Adaptação às Mudanças Climáticas',
     descricao: 'Estratégias para preparar cidades e comunidades rurais aos impactos das mudanças climáticas na Amazônia.',
     icone: ShieldCheck,
     cor: '#fbbf24'
@@ -62,14 +62,14 @@ const eixos = [
   },
   {
     numero: '06',
-    titulo: 'Educação Ambiental e Inovação',
+    titulo: 'Educação Ambiental e Inovação Climática',
     descricao: 'Promoção do conhecimento, pesquisa e tecnologias limpas para a transição sustentável.',
     icone: Lightbulb,
     cor: '#fb923c'
   },
   {
     numero: '07',
-    titulo: 'Gestão de Riscos e Proteção Civil',
+    titulo: 'Resposta Climática Emergencial e Proteção Civil',
     descricao: 'Prevenção e resposta a desastres naturais, incêndios florestais e eventos climáticos extremos.',
     icone: AlertTriangle,
     cor: '#ef4444'

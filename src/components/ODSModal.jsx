@@ -42,7 +42,7 @@ const odsConteudo = {
   'ODS 5': {
     titulo: 'ODS 5 - Igualdade de gênero',
     indicadores: [
-      { texto: 'Indicador 5.a.2: Proporção de países onde as estruturas legais (incluindo o direito consuetudinário) garantem às mulheres direitos iguais à propriedade e / ou controle da terra', eixo: '4' },
+      { texto: 'Indicador 5.a.2: Proporção de países onde as estruturas legais (incluindo o direito consuetudinário) garantem às mulheres direitos iguais à propriedade e/ou controle da terra', eixo: '4' },
     ]
   },
   'ODS 6': {
@@ -89,7 +89,7 @@ const odsConteudo = {
     titulo: 'ODS 10 - Redução das desigualdades',
     indicadores: [
       { texto: 'Indicador 10.1.1: Taxa de crescimento das despesas domiciliares ou rendimento per capita entre os 40% com os menores rendimentos da população e a população total', eixo: '4' },
-      { texto: 'Indicador 10.2.1: Proporção da pessoas vivendo abaixo de 50% da mediana da renda, por sexo, idade e pessoas com deficiência', eixo: '4' },
+      { texto: 'Indicador 10.2.1: Proporção de pessoas vivendo abaixo de 50% da mediana da renda, por sexo, idade e pessoas com deficiência', eixo: '4' },
       { texto: 'Indicador 10.3.1: Proporção da população que reportou ter-se sentido pessoalmente discriminada ou assediada nos últimos 12 meses por motivos de discriminação proibidos no âmbito da legislação internacional dos direitos humanos (SEM DADOS)', eixo: '4' },
       { texto: 'Indicador 10.4.1: Proporção das remunerações no PIB, incluindo salários e as transferências de proteção social', eixo: '4' },
     ]

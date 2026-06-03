@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useData } from '../context/DataContext';
 import { ClipboardList, ChevronDown, ChevronUp, Download, FileSpreadsheet, FileText, Eraser } from 'lucide-react';
@@ -27,6 +27,19 @@ const eixosLista = [
   'Eixo VI – Educação Ambiental e Inovação Climática',
   'Eixo VII – Resposta Climática Emergencial e Proteção Civil'
 ];
+
+function limparNomeOrgao(nome) {
+  const idxAbre = nome.indexOf('(');
+  const idxFecha = nome.lastIndexOf(')');
+  if (idxAbre !== -1 && idxFecha !== -1 && idxFecha > idxAbre) {
+    const dentro = nome.slice(idxAbre + 1, idxFecha).trim();
+    if (dentro.toLowerCase().startsWith('fundo')) {
+      return nome; // mantém nome completo
+    }
+    return nome.slice(0, idxAbre).trim();
+  }
+  return nome;
+}
 
 function MultiSelectDropdown({ value = [], onChange, options, placeholder }) {
   const [aberto, setAberto] = useState(false);
@@ -300,11 +313,13 @@ function ExportarDados({ dados }) {
     const rows = [];
     dados.forEach((o) => {
       const eixosEntries = Object.entries(o.valoresPorEixo || {});
-      const propExc = o.total > 0 ? ((o.exclusivo / o.total) * 100).toFixed(1) + '%' : '0%';
-      const propNao = o.total > 0 ? ((o.naoExclusivo / o.total) * 100).toFixed(1) + '%' : '0%';
+      const pctExc = o.total > 0 ? ((o.exclusivo / o.total) * 100) : 0;
+      const pctNao = o.total > 0 ? ((o.naoExclusivo / o.total) * 100) : 0;
+      const propExc = pctExc > 0 && pctExc < 0.1 ? '< 0,1%' : pctExc.toFixed(1) + '%';
+      const propNao = pctNao > 0 && pctNao < 0.1 ? '< 0,1%' : pctNao.toFixed(1) + '%';
       if (eixosEntries.length === 0) {
         rows.push({
-          'Órgão': o.nome,
+          'Órgão': limparNomeOrgao(o.nome),
           'Eixos Temáticos': o.eixos.join(', '),
           'Ano': o.anoInicio,
           'Eixo (Detalhamento)': '-',
@@ -312,13 +327,13 @@ function ExportarDados({ dados }) {
           'Orçamento Exclusivo (R$)': o.exclusivo,
           'Orçamento Não Exclusivo (R$)': o.naoExclusivo,
           'Total Orçamentário (R$)': o.total,
-          'Proporção Exclusivo': propExc,
-          'Proporção Não Exclusivo': propNao,
+          'Proporção Exclusiva': propExc,
+          'Proporção Não Exclusiva': propNao,
         });
       } else {
         eixosEntries.forEach(([eixo, valor], idx) => {
           rows.push({
-            'Órgão': idx === 0 ? o.nome : '',
+            'Órgão': idx === 0 ? limparNomeOrgao(o.nome) : '',
             'Eixos Temáticos': idx === 0 ? o.eixos.join(', ') : '',
             'Ano': idx === 0 ? o.anoInicio : '',
             'Eixo (Detalhamento)': eixo,
@@ -326,8 +341,8 @@ function ExportarDados({ dados }) {
             'Orçamento Exclusivo (R$)': idx === 0 ? o.exclusivo : '',
             'Orçamento Não Exclusivo (R$)': idx === 0 ? o.naoExclusivo : '',
             'Total Orçamentário (R$)': idx === 0 ? o.total : '',
-            'Proporção Exclusivo': idx === 0 ? propExc : '',
-            'Proporção Não Exclusivo': idx === 0 ? propNao : '',
+            'Proporção Exclusiva': idx === 0 ? propExc : '',
+            'Proporção Não Exclusiva': idx === 0 ? propNao : '',
           });
         });
       }
@@ -357,7 +372,7 @@ function ExportarDados({ dados }) {
         const eixosEntries = Object.entries(o.valoresPorEixo || {});
         if (eixosEntries.length === 0) {
           tableRows.push([
-            o.nome,
+            limparNomeOrgao(o.nome),
             o.eixos.join(', '),
             String(o.anoInicio),
             '-',
@@ -369,7 +384,7 @@ function ExportarDados({ dados }) {
         } else {
           eixosEntries.forEach(([eixo, valor], idx) => {
             tableRows.push([
-              idx === 0 ? o.nome : '',
+              idx === 0 ? limparNomeOrgao(o.nome) : '',
               idx === 0 ? o.eixos.join(', ') : '',
               idx === 0 ? String(o.anoInicio) : '',
               eixo,
@@ -508,12 +523,49 @@ function ExportarDados({ dados }) {
 }
 
 export default function ProjectsTable() {
-  const { orgaosFiltrados, filtros, atualizarFiltros } = useData();
+  const { orgaosFiltrados, filtros, atualizarFiltros, aplicacoesPorOrgaoEixo } = useData();
   const [expandido, setExpandido] = useState(null);
+  const [eixoExpandido, setEixoExpandido] = useState(null);
 
   const toggleExpandir = (id) => {
     setExpandido(expandido === id ? null : id);
   };
+
+  const toggleEixo = (orgaoId, eixoNome) => {
+    const chave = `${orgaoId}|${eixoNome}`;
+    setEixoExpandido(eixoExpandido === chave ? null : chave);
+  };
+
+  const orgaosAgrupados = useMemo(() => {
+    const map = new Map();
+    orgaosFiltrados.forEach((o) => {
+      const nomeLimpo = limparNomeOrgao(o.nome);
+      if (!map.has(nomeLimpo)) {
+        map.set(nomeLimpo, {
+          id: nomeLimpo,
+          nome: nomeLimpo,
+          exclusivo: 0,
+          naoExclusivo: 0,
+          total: 0,
+          status: o.status,
+          eixos: [],
+          valoresPorEixo: {},
+          anoInicio: o.anoInicio,
+        });
+      }
+      const ag = map.get(nomeLimpo);
+      ag.exclusivo += o.exclusivo || 0;
+      ag.naoExclusivo += o.naoExclusivo || 0;
+      ag.total += o.total || 0;
+      // merge valoresPorEixo
+      Object.entries(o.valoresPorEixo || {}).forEach(([eixo, valor]) => {
+        ag.valoresPorEixo[eixo] = (ag.valoresPorEixo[eixo] || 0) + valor;
+      });
+      // derive eixos from valoresPorEixo keys
+      ag.eixos = Object.keys(ag.valoresPorEixo);
+    });
+    return Array.from(map.values()).sort((a, b) => a.nome.localeCompare(b.nome));
+  }, [orgaosFiltrados]);
 
   const orgaosOptions = orgaosLista.map((s) => ({ value: s, label: s }));
   const anosOptions = [2026].map((a) => ({ value: String(a), label: String(a) }));
@@ -552,7 +604,7 @@ export default function ProjectsTable() {
               <Eraser size={16} />
               <span>Limpar filtros</span>
             </button>
-            <ExportarDados dados={orgaosFiltrados} />
+            <ExportarDados dados={orgaosAgrupados} />
           </div>
         </div>
       </AnimatedSection>
@@ -591,8 +643,9 @@ export default function ProjectsTable() {
           </div>
 
           {/* Accordion */}
-          {orgaosFiltrados.map((o) => {
+          {orgaosAgrupados.map((o) => {
             const isExpandido = expandido === o.id;
+            const eixosDoOrgao = Object.keys(o.valoresPorEixo || {});
             return (
               <div key={o.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
                 {/* Linha principal clicável */}
@@ -612,7 +665,7 @@ export default function ProjectsTable() {
                 >
                   <div style={{ flex: 2, fontWeight: 600, color: 'var(--text-primary)', fontSize: 14 }}>{o.nome}</div>
                   <div style={{ flex: 1.5, fontSize: 13, color: 'var(--text-secondary)' }}>
-                    {(filtros.eixo?.length ? o.eixos.filter(e => filtros.eixo.includes(e)) : o.eixos).map(e => (e.match(/^(Eixo\s+[IVX]+)/)?.[0] || e)).join(', ')}
+                    {(filtros.eixo?.length ? eixosDoOrgao.filter(e => filtros.eixo.includes(e)) : eixosDoOrgao).map(e => (e.match(/^(Eixo\s+[IVX]+)/)?.[0] || e)).join(', ')}
                   </div>
                   <div style={{ flex: 0.6, fontSize: 13, color: 'var(--text-secondary)' }}>{o.anoInicio}</div>
                   <div style={{ width: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -627,7 +680,7 @@ export default function ProjectsTable() {
                 {/* Conteúdo expandido */}
                 <div
                   style={{
-                    maxHeight: isExpandido ? 500 : 0,
+                    maxHeight: isExpandido ? 1200 : 0,
                     overflow: 'hidden',
                     transition: 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease',
                     opacity: isExpandido ? 1 : 0
@@ -639,7 +692,7 @@ export default function ProjectsTable() {
                         Detalhamento do Órgão
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                        {/* Seção de Eixos */}
+                        {/* Seção de Eixos com Aplicações Programadas — Dropdown */}
                         <div>
                           <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                             Eixos Abrangidos
@@ -648,20 +701,92 @@ export default function ProjectsTable() {
                             {(filtros.eixo?.length
                               ? Object.entries(o.valoresPorEixo || {}).filter(([eixo]) => filtros.eixo.includes(eixo))
                               : Object.entries(o.valoresPorEixo || {})
-                            ).map(([eixo, valor]) => (
-                              <div key={eixo} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 10px', backgroundColor: 'rgba(74, 222, 128, 0.05)', borderRadius: 6, border: '1px solid var(--border-color)' }}>
-                                <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>{eixo}</span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
-                                  R$ {valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span>
-                              </div>
-                            ))}
+                            ).map(([eixo, valorTotal]) => {
+                              const apps = aplicacoesPorOrgaoEixo[o.nome]?.[eixo] || [];
+                              const chave = `${o.id}|${eixo}`;
+                              const eixoAberto = eixoExpandido === chave;
+                              return (
+                                <div key={eixo} style={{ borderRadius: 6, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
+                                  {/* Cabeçalho do Eixo — clicável */}
+                                  <div
+                                    onClick={() => toggleEixo(o.id, eixo)}
+                                    style={{
+                                      display: 'flex',
+                                      justifyContent: 'space-between',
+                                      alignItems: 'center',
+                                      padding: '8px 10px',
+                                      backgroundColor: eixoAberto ? 'rgba(74, 222, 128, 0.12)' : 'rgba(74, 222, 128, 0.05)',
+                                      cursor: 'pointer',
+                                      transition: 'background-color 0.2s ease'
+                                    }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(74, 222, 128, 0.12)'; }}
+                                    onMouseLeave={(e) => { if (!eixoAberto) e.currentTarget.style.backgroundColor = 'rgba(74, 222, 128, 0.05)'; }}
+                                  >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                      {eixoAberto ? (
+                                        <ChevronUp size={14} style={{ color: 'var(--accent)' }} />
+                                      ) : (
+                                        <ChevronDown size={14} style={{ color: 'var(--text-muted)' }} />
+                                      )}
+                                      <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{eixo}</span>
+                                    </div>
+                                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>
+                                      R$ {valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    </span>
+                                  </div>
+                                  {/* Lista de Aplicações Programadas — expandível */}
+                                  <div
+                                    style={{
+                                      maxHeight: eixoAberto ? 600 : 0,
+                                      overflow: 'hidden',
+                                      transition: 'max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease',
+                                      opacity: eixoAberto ? 1 : 0
+                                    }}
+                                  >
+                                    {apps.length > 0 && (
+                                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        {apps.map((app, idx) => (
+                                          <div
+                                            key={idx}
+                                            style={{
+                                              display: 'flex',
+                                              justifyContent: 'space-between',
+                                              alignItems: 'center',
+                                              padding: '6px 10px 6px 32px',
+                                              borderTop: '1px solid var(--border-color)',
+                                              backgroundColor: idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)'
+                                            }}
+                                          >
+                                            <span style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.4, flex: 1 }}>{app.aplicacao}</span>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap', marginLeft: 12 }}>
+                                              <span
+                                                style={{
+                                                  display: 'inline-block',
+                                                  width: 8,
+                                                  height: 8,
+                                                  borderRadius: '50%',
+                                                  backgroundColor: app.classificacao === 'Exclusivo' ? '#4ade80' : '#60a5fa',
+                                                  flexShrink: 0
+                                                }}
+                                              />
+                                              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
+                                                R$ {app.dotacao.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
-                        
+
                         {/* Divider */}
                         <div style={{ height: 1, backgroundColor: 'var(--border-color)', margin: '4px 0' }}></div>
-                        
+
                         {/* Seção de Totais */}
                         {(() => {
                           const entradasFiltradas = filtros.eixo?.length
@@ -670,34 +795,48 @@ export default function ProjectsTable() {
                           const totalFiltrado = entradasFiltradas.reduce((s, [, v]) => s + (v || 0), 0);
                           return (
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px 24px' }}>
-                              <div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                                 <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Orçamento Exclusivo: </span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
-                                  R$ {o.exclusivo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                                  <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
+                                    R$ {o.exclusivo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                  </span>
+                                  <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', backgroundColor: '#4ade80', flexShrink: 0, marginTop: -2 }} />
+                                </div>
                               </div>
-                              <div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                                 <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Orçamento Não Exclusivo: </span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#60a5fa' }}>
-                                  R$ {o.naoExclusivo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </span>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                                  <span style={{ fontSize: 13, fontWeight: 600, color: '#60a5fa' }}>
+                                    R$ {o.naoExclusivo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                  </span>
+                                  <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', backgroundColor: '#60a5fa', flexShrink: 0, marginTop: -2 }} />
+                                </div>
                               </div>
-                              <div>
-                                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Proporção Exclusivo: </span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
-                                  {o.total > 0 ? ((o.exclusivo / o.total) * 100).toFixed(1) : 0}%
-                                </span>
-                              </div>
-                              <div>
-                                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Proporção Não Exclusivo: </span>
-                                <span style={{ fontSize: 13, fontWeight: 600, color: '#60a5fa' }}>
-                                  {o.total > 0 ? ((o.naoExclusivo / o.total) * 100).toFixed(1) : 0}%
-                                </span>
-                              </div>
-                              {filtros.eixo?.length > 0 && entradasFiltradas.length > 0 ? (
-                                entradasFiltradas.map(([eixo, valor]) => (
-                                  <div key={eixo} style={{ gridColumn: 'span 2' }}>
-                                    <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Total Orçamentário por Eixo temático ({eixo}): </span>
+                              {(() => {
+                                const pctExclusivo = o.total > 0 ? ((o.exclusivo / o.total) * 100) : 0;
+                                const pctNaoExclusivo = o.total > 0 ? ((o.naoExclusivo / o.total) * 100) : 0;
+                                return (
+                                  <>
+                                    <div>
+                                       <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Proporção Exclusiva: </span>
+                                       <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80' }}>
+                                         {pctExclusivo > 0 && pctExclusivo < 0.1 ? '< 0,1%' : pctExclusivo.toFixed(1) + '%'}
+                                       </span>
+                                     </div>
+                                     <div>
+                                       <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Proporção Não Exclusiva: </span>
+                                       <span style={{ fontSize: 13, fontWeight: 600, color: '#60a5fa' }}>
+                                         {pctNaoExclusivo > 0 && pctNaoExclusivo < 0.1 ? '< 0,1%' : pctNaoExclusivo.toFixed(1) + '%'}
+                                       </span>
+                                     </div>
+                                   </>
+                                 );
+                               })()}
+                               {filtros.eixo?.length > 0 && entradasFiltradas.length > 0 ? (
+                                 entradasFiltradas.map(([eixo, valor]) => (
+                                   <div key={eixo} style={{ gridColumn: 'span 2' }}>
+                                     <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Total Orçamentário por Eixo Temático ({eixo}): </span>
                                     <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
                                       R$ {(valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </span>
@@ -730,7 +869,7 @@ export default function ProjectsTable() {
         </div>
       )}
 
-      <div style={{ marginTop: 12, fontSize: 12, color: 'var(--text-muted)' }}>
+      <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border-color)', fontSize: 12, color: 'var(--text-muted)', textAlign: 'left' }}>
         Mostrando {orgaosFiltrados.length} órgão(s)
       </div>
     </div>
