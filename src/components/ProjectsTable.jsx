@@ -264,7 +264,7 @@ function MultiSelectDropdown({ value = [], onChange, options, placeholder }) {
   );
 }
 
-function ExportarDados({ dados }) {
+function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
   const [aberto, setAberto] = useState(false);
   const [posicao, setPosicao] = useState({ top: 0, left: 0, width: 0 });
   const triggerRef = useRef(null);
@@ -317,6 +317,8 @@ function ExportarDados({ dados }) {
       const pctNao = o.total > 0 ? ((o.naoExclusivo / o.total) * 100) : 0;
       const propExc = pctExc > 0 && pctExc < 0.1 ? '< 0,1%' : pctExc.toFixed(1) + '%';
       const propNao = pctNao > 0 && pctNao < 0.1 ? '< 0,1%' : pctNao.toFixed(1) + '%';
+      const appsDoOrgao = aplicacoesPorOrgaoEixo?.[o.nomeOriginal] || {};
+
       if (eixosEntries.length === 0) {
         rows.push({
           'Órgão': limparNomeOrgao(o.nome),
@@ -324,6 +326,9 @@ function ExportarDados({ dados }) {
           'Ano': o.anoInicio,
           'Eixo (Detalhamento)': '-',
           'Valor por Eixo (R$)': '-',
+          'Aplicação Programada': '-',
+          'Dotação Aplicação (R$)': '-',
+          'Classificação': '-',
           'Orçamento Exclusivo (R$)': o.exclusivo,
           'Orçamento Não Exclusivo (R$)': o.naoExclusivo,
           'Total Orçamentário (R$)': o.total,
@@ -338,11 +343,34 @@ function ExportarDados({ dados }) {
             'Ano': idx === 0 ? o.anoInicio : '',
             'Eixo (Detalhamento)': eixo,
             'Valor por Eixo (R$)': valor,
+            'Aplicação Programada': '',
+            'Dotação Aplicação (R$)': '',
+            'Classificação': '',
             'Orçamento Exclusivo (R$)': idx === 0 ? o.exclusivo : '',
             'Orçamento Não Exclusivo (R$)': idx === 0 ? o.naoExclusivo : '',
             'Total Orçamentário (R$)': idx === 0 ? o.total : '',
             'Proporção Exclusiva': idx === 0 ? propExc : '',
             'Proporção Não Exclusiva': idx === 0 ? propNao : '',
+          });
+
+          // Linhas de aplicações programadas do eixo
+          const appsDoEixo = appsDoOrgao[eixo] || [];
+          appsDoEixo.forEach((app) => {
+            rows.push({
+              'Órgão': '',
+              'Eixos Temáticos': '',
+              'Ano': '',
+              'Eixo (Detalhamento)': eixo,
+              'Valor por Eixo (R$)': '',
+              'Aplicação Programada': app.aplicacao,
+              'Dotação Aplicação (R$)': app.dotacao,
+              'Classificação': app.classificacao,
+              'Orçamento Exclusivo (R$)': '',
+              'Orçamento Não Exclusivo (R$)': '',
+              'Total Orçamentário (R$)': '',
+              'Proporção Exclusiva': '',
+              'Proporção Não Exclusiva': '',
+            });
           });
         });
       }
@@ -365,16 +393,20 @@ function ExportarDados({ dados }) {
       doc.text(`Exportado em: ${new Date().toLocaleDateString('pt-BR')}`, 40, 58);
       doc.text(`Total: ${dados.length} órgão(s)`, 40, 72);
 
-      const tableColumn = ['Órgão', 'Eixos Temáticos', 'Ano', 'Eixo (Detalhamento)', 'Valor por Eixo (R$)', 'Exclusivo (R$)', 'Não Exclusivo (R$)', 'Total (R$)'];
+      const tableColumn = ['Órgão', 'Eixos Temáticos', 'Ano', 'Eixo (Detalhamento)', 'Valor por Eixo (R$)', 'Aplicação Programada', 'Dotação (R$)', 'Classificação', 'Exclusivo (R$)', 'Não Exclusivo (R$)', 'Total (R$)'];
       const tableRows = [];
 
       dados.forEach((o) => {
         const eixosEntries = Object.entries(o.valoresPorEixo || {});
+        const appsDoOrgao = aplicacoesPorOrgaoEixo?.[o.nomeOriginal] || {};
         if (eixosEntries.length === 0) {
           tableRows.push([
             limparNomeOrgao(o.nome),
             o.eixos.join(', '),
             String(o.anoInicio),
+            '-',
+            '-',
+            '-',
             '-',
             '-',
             String(o.exclusivo),
@@ -389,10 +421,31 @@ function ExportarDados({ dados }) {
               idx === 0 ? String(o.anoInicio) : '',
               eixo,
               String(valor),
+              '',
+              '',
+              '',
               idx === 0 ? String(o.exclusivo) : '',
               idx === 0 ? String(o.naoExclusivo) : '',
               idx === 0 ? String(o.total) : '',
             ]);
+
+            // Linhas de aplicações programadas do eixo
+            const appsDoEixo = appsDoOrgao[eixo] || [];
+            appsDoEixo.forEach((app) => {
+              tableRows.push([
+                '',
+                '',
+                '',
+                eixo,
+                '',
+                app.aplicacao,
+                String(app.dotacao),
+                app.classificacao,
+                '',
+                '',
+                '',
+              ]);
+            });
           });
         }
       });
@@ -401,19 +454,22 @@ function ExportarDados({ dados }) {
         head: [tableColumn],
         body: tableRows,
         startY: 85,
-        styles: { fontSize: 8, cellPadding: 3, overflow: 'linebreak' },
+        styles: { fontSize: 7, cellPadding: 2, overflow: 'linebreak' },
         headStyles: { fillColor: [21, 128, 61], textColor: 255, fontStyle: 'bold' },
         alternateRowStyles: { fillColor: [245, 255, 250] },
         margin: { left: 40, right: 40 },
         columnStyles: {
-          0: { cellWidth: 80 },
-          1: { cellWidth: 130 },
-          2: { cellWidth: 30 },
-          3: { cellWidth: 140 },
-          4: { cellWidth: 60 },
-          5: { cellWidth: 60 },
-          6: { cellWidth: 60 },
-          7: { cellWidth: 60 },
+          0: { cellWidth: 70 },
+          1: { cellWidth: 100 },
+          2: { cellWidth: 25 },
+          3: { cellWidth: 110 },
+          4: { cellWidth: 50 },
+          5: { cellWidth: 130 },
+          6: { cellWidth: 50 },
+          7: { cellWidth: 50 },
+          8: { cellWidth: 45 },
+          9: { cellWidth: 45 },
+          10: { cellWidth: 45 },
         },
         didDrawPage: (data) => {
           doc.setFontSize(8);
@@ -544,6 +600,7 @@ export default function ProjectsTable() {
         map.set(nomeLimpo, {
           id: nomeLimpo,
           nome: nomeLimpo,
+          nomeOriginal: o.nome,
           exclusivo: 0,
           naoExclusivo: 0,
           total: 0,
@@ -604,7 +661,7 @@ export default function ProjectsTable() {
               <Eraser size={16} />
               <span>Limpar filtros</span>
             </button>
-            <ExportarDados dados={orgaosAgrupados} />
+            <ExportarDados dados={orgaosAgrupados} aplicacoesPorOrgaoEixo={aplicacoesPorOrgaoEixo} />
           </div>
         </div>
       </AnimatedSection>
