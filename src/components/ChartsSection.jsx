@@ -70,8 +70,9 @@ const NOMES_SECRETARIAS = {
 
 const EIXOS_DATA = [
   { numero: '1', label: 'Eixo I – Desenvolvimento Sustentável e Bioeconomia', eixo: 'Desenvolvimento Sustentável e Bioeconomia', orcamento: 126730014.39 },
-  { numero: '2', label: 'Eixo II – Mitigação das Mudanças Climáticas', eixo: 'Mitigação das Mudanças Climáticas', orcamento: 373173673.70 },
-  { numero: '4', label: 'Eixo IV – Justiça Climática e Inclusão Social', eixo: 'Justiça Climática e Inclusão Social', orcamento: 28111335.52 },
+  { numero: '2', label: 'Eixo II – Mitigação das Mudanças Climáticas', eixo: 'Mitigação das Mudanças Climáticas', orcamento: 373172673.70 },
+  { numero: '3', label: 'Eixo III – Adaptação às Mudanças Climáticas', eixo: 'Adaptação às Mudanças Climáticas', orcamento: 436984738.89 },
+  { numero: '4', label: 'Eixo IV – Justiça Climática e Inclusão Social', eixo: 'Justiça Climática e Inclusão Social', orcamento: 23111335.52 },
   { numero: '5', label: 'Eixo V – Governança Ambiental e Transparência', eixo: 'Governança Ambiental e Transparência', orcamento: 674000.00 },
   { numero: '6', label: 'Eixo VI – Educação Ambiental e Inovação', eixo: 'Educação Ambiental e Inovação', orcamento: 2878600.00 },
   { numero: '7', label: 'Eixo VII – Gestão de Riscos e Proteção Civil', eixo: 'Gestão de Riscos e Proteção Civil', orcamento: 18346667.00 }

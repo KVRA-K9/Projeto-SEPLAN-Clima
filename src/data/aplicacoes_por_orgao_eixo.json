@@ -13,12 +13,44 @@
         "dotacao": 1000.0,
         "classificacao": "Exclusivo"
       }
+    ],
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "PROGRAMA ESTADUAL DE ENFRENTAMENTO ÀS DEMANDAS CONTINGENTES.",
+        "dotacao": 20000000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DA SEFAZ.",
+        "dotacao": 5456616.5,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MODERNIZAÇÃO DA GESTÃO TRIBUTÁRIA.",
+        "dotacao": 6468075.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MODERNIZAÇÃO, APARELHAMENTO E MANUTENÇÃO DA ESTRUTURA DO FISCO.",
+        "dotacao": 5020000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "PROGRAMA DE REESTRUTURAÇÃO E DESENVOLVIMENTO DO FISCO ESTADUAL(PROFISCO).",
+        "dotacao": 5000000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "ADMINISTRAÇÃO E GESTÃO DAS AGÊNCIAS E POSTOS FISCAIS.",
+        "dotacao": 5250.0,
+        "classificacao": "Não Exclusivo"
+      }
     ]
   },
   "CDSA": {
     "Eixo I – Desenvolvimento Sustentável e Bioeconomia": [
       {
-        "aplicacao": "PROSPECÇÃO DE MERCADOS DA ECONOMIA\nVERDE NACIONAL E INTERNACIONAL.",
+        "aplicacao": "PROSPECÇÃO DE MERCADOS DA ECONOMIA\n VERDE NACIONAL E INTERNACIONAL.",
         "dotacao": 784910.8,
         "classificacao": "Exclusivo"
       },
@@ -42,7 +74,7 @@
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "FOMENTO DAS CADEIAS DE VALOR DA SOCIOBIODIVERSIDADE.",
+        "aplicacao": "FOMENTOS DAS CADEIAS DE VALOR DA SOCIOBIODIVERSIDADE.",
         "dotacao": 99000.0,
         "classificacao": "Exclusivo"
       },
@@ -69,22 +101,22 @@
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS - SEMA.",
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-SEMA.",
         "dotacao": 1832764.37,
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "APOIO À REGULARIZAÇÃO AMBIENTAL.",
+        "aplicacao": "APOIO A REGULARIZAÇÃO AMBIENTAL.",
         "dotacao": 3560000.0,
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "IMPLEMENTAÇÃO DO ZONEAMENTO ECOLÓGICO ECONÔMICO - ZEE.",
+        "aplicacao": "IMPLEMENTAÇÃO DO ZONEAMENTO ECOLÓGICO ECONÔMICO-ZEE.",
         "dotacao": 546680.0,
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "MONITORAMENTO DAS AÇÕES DE IMPLEMENTAÇÃO DO PLANO ESTADUAL DE PREVENÇÃO E CONTROLE DO DESMATAMENTO E QUEIMADAS - PPCDQ-AC NOS MUNICÍPIOS.",
+        "aplicacao": "MONITORAMENTO DAS AÇÕES DE IMPLEMENTAÇÃO DO PLANO ESTADUAL DE PREVENÇÃO E CONTROLE DO DESMATAMENTO E QUEIMADAS-PPCDQ-AC NOS MUNICÍPIOS.",
         "dotacao": 73000.0,
         "classificacao": "Exclusivo"
       },
@@ -92,6 +124,13 @@
         "aplicacao": "MONITORAMENTO AMBIENTAL.",
         "dotacao": 6320710.0,
         "classificacao": "Exclusivo"
+      }
+    ],
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-SEMA.",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
       }
     ],
     "Eixo V – Governança Ambiental e Transparência": [
@@ -112,12 +151,12 @@
     ],
     "Eixo II – Mitigação das Mudanças Climáticas": [
       {
-        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS - FUNDO ESTADUAL DE MEIO AMBIENTE E FLORESTAS.",
+        "aplicacao": "MANUTENÇÃO DA ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-FUNDO ESTADUAL DE MEIO AMBIENTE E FLORESTAS.",
         "dotacao": 1000.0,
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "APOIO À REGULARIZAÇÃO AMBIENTAL.",
+        "aplicacao": "APOIO A REGULARIZAÇÃO AMBIENTAL.",
         "dotacao": 1000.0,
         "classificacao": "Exclusivo"
       }
@@ -165,6 +204,23 @@
         "dotacao": 30008000.0,
         "classificacao": "Exclusivo"
       }
+    ],
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA SEAGRI.",
+        "dotacao": 1000000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "FORTALECIMENTO, CONSOLIDAÇÃO E AMPLIAÇÃO DAS CADEIAS DE VALOR AGROFLORESTAL E AGROPECUÁRIA.",
+        "dotacao": 3100000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "PROMOÇÃO DA LOGÍSTICA DE BENEFICIAMENTO, ARMAZENAGEM E ESCOAMENTO DA PRODUÇÃO.",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
+      }
     ]
   },
   "CAGEACRE": {
@@ -202,16 +258,16 @@
   "SEICT (Fundo de Desenvolvimento Sustentável (FDS))": {
     "Eixo I – Desenvolvimento Sustentável e Bioeconomia": [
       {
-        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS - FDS.",
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-FDS.",
         "dotacao": 3890000.0,
         "classificacao": "Exclusivo"
       }
     ]
   },
-  "JUCEAC": {
+  "JUCEAC (SEFAZ)": {
     "Eixo I – Desenvolvimento Sustentável e Bioeconomia": [
       {
-        "aplicacao": "PROMOVER O PROCESSO DE LEGALIZAÇÃO DE EMPRESAS, SIMPLIFICANDO, INTEGRANDO E DESBUROCRATIZANDO (SIMPLIFICA MAIS).",
+        "aplicacao": "PROMOVER O PROCESSO DE LEGALIZAÇAO DE EMPRESAS, SIMPLIFICANDO, INTEGRANDO E DESBUROCRATIZANDO(SIMPLIFICA MAIS).",
         "dotacao": 1361000.0,
         "classificacao": "Não Exclusivo"
       }
@@ -239,7 +295,7 @@
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS - ANAC.",
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-ANAC.",
         "dotacao": 1285928.7,
         "classificacao": "Exclusivo"
       }
@@ -262,7 +318,7 @@
   "SEPLAN": {
     "Eixo II – Mitigação das Mudanças Climáticas": [
       {
-        "aplicacao": "APRIMORAMENTO DA GESTÃO ORÇAMENTÁRIA.",
+        "aplicacao": "APRIMORAMENTO DA GESTÃO ORÇAMENTARIA.",
         "dotacao": 1058356.0,
         "classificacao": "Não Exclusivo"
       },
@@ -277,7 +333,7 @@
         "classificacao": "Não Exclusivo"
       },
       {
-        "aplicacao": "PROGRAMA DE OPERAÇÕES ESPECIAIS - TRANSFERÊNCIAS CONSTITUCIONAIS E AS DECORRENTES DE LEGISLAÇÃO ESPECÍFICA.",
+        "aplicacao": "PROGRAMA DE OPERAÇÕES ESPECIAIS-TRANSFERÊNCIAS CONSTITUCIONAIS E AS DECORRENTES DE LEGISLAÇÃO ESPECÍFICA.",
         "dotacao": 50000000.0,
         "classificacao": "Não Exclusivo"
       },
@@ -305,8 +361,30 @@
   "SEJUSP": {
     "Eixo II – Mitigação das Mudanças Climáticas": [
       {
-        "aplicacao": "MONITORAMENTO AMBIENTAL - COMANDO E CONTROLE.",
+        "aplicacao": "MONITORAMENTO AMBIENTAL-COMANDO E CONTROLE.",
         "dotacao": 1198684.01,
+        "classificacao": "Exclusivo"
+      }
+    ],
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA SEJUSP.",
+        "dotacao": 4300000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS INTEGRADOS DE SEGURANÇA PÚBLICA",
+        "dotacao": 250000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "POLICIAMENTO COMUNITÁRIO INTEGRADO EM ÁREAS E PARQUES URBANOS.",
+        "dotacao": 400000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MONITORAMENTO AMBIENTAL-COMANDO E CONTROLE.",
+        "dotacao": 2779.13,
         "classificacao": "Exclusivo"
       }
     ]
@@ -314,9 +392,26 @@
   "SEJUSP (Fundo Est. de Segurança (FUNDESEG))": {
     "Eixo II – Mitigação das Mudanças Climáticas": [
       {
-        "aplicacao": "MONITORAMENTO AMBIENTAL - COMANDO E CONTROLE.",
+        "aplicacao": "MONITORAMENTO AMBIENTAL-COMANDO E CONTROLE.",
         "dotacao": 1000.0,
         "classificacao": "Exclusivo"
+      }
+    ],
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "FORTALECIMENTO DAS AÇÕES DE ENFRENTAMENTO À VIOLÊNCIA CONTRA MULHER.",
+        "dotacao": 36000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA SEJUSP.",
+        "dotacao": 2800000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "POLICIAMENTO COMUNITÁRIO INTEGRADO EM ÁREAS E PARQUES URBANOS.",
+        "dotacao": 50000.0,
+        "classificacao": "Não Exclusivo"
       }
     ]
   },
@@ -335,28 +430,18 @@
         "aplicacao": "PROMOÇÃO DA TRANSIÇÃO E EFICIÊNCIA ENERGÉTICA NA ADMINISTRAÇÃO PÚBLICA.",
         "dotacao": 1000.0,
         "classificacao": "Exclusivo"
-      },
-      {
-        "aplicacao": "PROMOÇÃO DA REGULAÇÃO DE ENERGIA ELÉTRICA.",
-        "dotacao": 70000.0,
-        "classificacao": "Não Exclusivo"
-      },
-      {
-        "aplicacao": "PROMOÇÃO DA REGULAÇÃO E FISCALIZAÇÃO DO TRANSPORTE INTERMUNICIPAL (REGULAR E FLUVIAL).",
-        "dotacao": 480000.0,
-        "classificacao": "Exclusivo"
       }
     ]
   },
   "SEMA (Fundo Est. de Comando e Controle Ambiental)": {
     "Eixo II – Mitigação das Mudanças Climáticas": [
       {
-        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS - IMAC.",
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-IMAC.",
         "dotacao": 1200.0,
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS - FUNDO ESTADUAL DE COMANDO E CONTROLE AMBIENTAL (FECCA).",
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-FUNDO ESTADUAL DE COMANDO E CONTROLE AMBIENTAL(FECCA).",
         "dotacao": 5000000.0,
         "classificacao": "Exclusivo"
       },
@@ -366,7 +451,7 @@
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "FORTALECIMENTO DA FISCALIZAÇÃO, DO LICENCIAMENTO, DO MONITORAMENTO E DO CONTROLE AMBIENTAL NO ESTADO DO ACRE.",
+        "aplicacao": "FORTALECIMENTO DA FISCALIZAÇÃO, LICENCIAMENTO, MONITORAMENTO E O CONTROLE AMBIENTAL NO ESTADO DO ACRE.",
         "dotacao": 1000.0,
         "classificacao": "Exclusivo"
       },
@@ -380,13 +465,8 @@
   "IMAC": {
     "Eixo II – Mitigação das Mudanças Climáticas": [
       {
-        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS - IMAC.",
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-IMAC.",
         "dotacao": 1698810.85,
-        "classificacao": "Exclusivo"
-      },
-      {
-        "aplicacao": "FORTALECIMENTO DA EDUCAÇÃO AMBIENTAL.",
-        "dotacao": 1000.0,
         "classificacao": "Exclusivo"
       },
       {
@@ -395,7 +475,7 @@
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "FORTALECIMENTO DA FISCALIZAÇÃO, DO LICENCIAMENTO, DO MONITORAMENTO E DO CONTROLE AMBIENTAL NO ESTADO DO ACRE.",
+        "aplicacao": "FORTALECIMENTO DA FISCALIZAÇÃO, LICENCIAMENTO, MONITORAMENTO E O CONTROLE AMBIENTAL NO ESTADO DO ACRE.",
         "dotacao": 4951904.0,
         "classificacao": "Exclusivo"
       },
@@ -403,6 +483,13 @@
         "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DO IMAC.",
         "dotacao": 1000.0,
         "classificacao": "Exclusivo"
+      }
+    ],
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DO IMAC.",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
       }
     ],
     "Eixo VI – Educação Ambiental e Inovação Climática": [
@@ -416,7 +503,7 @@
   "IMC": {
     "Eixo II – Mitigação das Mudanças Climáticas": [
       {
-        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS - IMC.",
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-IMC.",
         "dotacao": 262000.0,
         "classificacao": "Exclusivo"
       },
@@ -439,7 +526,21 @@
       }
     ]
   },
-  "DERACRE": {
+  "AGEAC (SEOP)": {
+    "Eixo II – Mitigação das Mudanças Climáticas": [
+      {
+        "aplicacao": "PROMOÇÃO DA REGULAÇÃO DE ENERGIA ELÉTRICA.",
+        "dotacao": 70000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "PROMOÇÃO DA REGULAÇÃO E FISCALIZAÇÃO DO TRANSPORTE INTERMUNICIPAL(REGULAR E FLUVIAL).",
+        "dotacao": 480000.0,
+        "classificacao": "Exclusivo"
+      }
+    ]
+  },
+  "DERACRE (SEHURB)": {
     "Eixo II – Mitigação das Mudanças Climáticas": [
       {
         "aplicacao": "FORTALECIMENTO DAS AÇÕES DE APOIO AOS MUNICÍPIOS.",
@@ -447,26 +548,184 @@
         "classificacao": "Não Exclusivo"
       },
       {
-        "aplicacao": "RAMAIS DO ACRE - CONSTRUÇÃO, RECUPERAÇÃO E MANUTENÇÃO DE RAMAIS, GALERIAS E SISTEMAS DE DRENAGENS.",
+        "aplicacao": "RAMAIS DO ACRE-CONSTRUÇÃO, RECUPERAÇÃO E MANUTENÇÃO DE RAMAIS, GALERIAS E SISTEMAS DE DRENAGENS.",
         "dotacao": 97285647.31,
         "classificacao": "Não Exclusivo"
       }
     ]
   },
-  "SEASDH": {
+  "PGE": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA PGE.",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEGOV": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACONAIS-SEGOV.",
+        "dotacao": 100000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEPI": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E FINANCEIRAS-SEPI.",
+        "dotacao": 110000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ],
     "Eixo IV – Justiça Climática e Inclusão Social": [
+      {
+        "aplicacao": "FORTALECIMENTO DAS POLÍTICAS PÚBLICAS PARA OS POVOS INDÍGENAS DO ESTADO DO ACRE.",
+        "dotacao": 2000.0,
+        "classificacao": "Exclusivo"
+      },
+      {
+        "aplicacao": "VALORIZAÇÃO DA CULTURA E DOS CONHECIMENTOS TRADICIONAIS INDÍGENAS.",
+        "dotacao": 2000.0,
+        "classificacao": "Exclusivo"
+      }
+    ]
+  },
+  "SEFAZ (Depto. Tesouro Estadual)": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DA SEFAZ.",
+        "dotacao": 1000000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MODERNIZAÇÃO, APARELHAMENTO E MANUTENÇÃO DA ESTRUTURA DO FISCO.",
+        "dotacao": 4000000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "COORD. EST. PROTEÇÃO E DEFESA CIVIL": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DA DEFESA CIVIL-CEPDEC",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ],
+    "Eixo VII – Resposta Climática Emergencial e Proteção Civil": [
+      {
+        "aplicacao": "PROMOÇÃO DAS AÇÕES DE PREVENÇÃO E DE RESPOSTAS AOS DESASTRES NATURAIS E TECNOLÓGICOS.",
+        "dotacao": 17753000.0,
+        "classificacao": "Exclusivo"
+      }
+    ]
+  },
+  "CBMAC": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DO CBMAC.",
+        "dotacao": 500000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DO CBMAC.",
+        "dotacao": 1999000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-FUNESBOM.",
+        "dotacao": 200000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ],
+    "Eixo VII – Resposta Climática Emergencial e Proteção Civil": [
+      {
+        "aplicacao": "PROMOÇÃO DE AÇÕES SOCIAIS E COMUNITÁRIAS DO CORPO DE BOMBEIROS.",
+        "dotacao": 4000.0,
+        "classificacao": "Exclusivo"
+      },
+      {
+        "aplicacao": "FORTALECIMENTO DAS AÇÕES PARA PROTEÇÃO DA VIDA, DO MEIO AMBIENTE E DO PATRIMÔNIO.",
+        "dotacao": 589667.0,
+        "classificacao": "Exclusivo"
+      }
+    ]
+  },
+  "PCAC": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DAS UNIDADES DA PCAC.",
+        "dotacao": 3300000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "IAPEN": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DE PRÉDIOS DO SISTEMA PRISIONAL.",
+        "dotacao": 800.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DE PRÉDIOS DO SISTEMA PRISIONAL.",
+        "dotacao": 800.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "RESSOCIALIZAÇÃO DAS PESSOAS PRIVADAS DE LIBERDADE, SOB CUSTÓDIA DO SISTEMA PRISIONAL.",
+        "dotacao": 1000000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEJUSP (Fundo Penitenciário)": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DE PRÉDIOS DO SISTEMA PRISIONAL.",
+        "dotacao": 1771713.29,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "PMAC": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "FORTALECIMENTO DA POLÍCIA MILITAR.",
+        "dotacao": 3300000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS DA PMAC.",
+        "dotacao": 1000000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEASDH": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-SEASDH.",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
+      },
       {
         "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA SEASDH.",
         "dotacao": 5000000.0,
         "classificacao": "Não Exclusivo"
-      },
+      }
+    ],
+    "Eixo IV – Justiça Climática e Inclusão Social": [
       {
-        "aplicacao": "APOIO ÀS ORGANIZAÇÕES DA SOCIEDADE CIVIL(OSCS).",
+        "aplicacao": "APOIO AS ORGANIZAÇÕES DA SOCIEDADE CIVIL(OSCS).",
         "dotacao": 79000.0,
         "classificacao": "Não Exclusivo"
       },
       {
-        "aplicacao": "JUNTOS PELO ACRE: CUIDANDO DE PESSOAS.",
+        "aplicacao": "JUNTOS PELO ACRE:CUIDANDO DE PESSOAS.",
         "dotacao": 1000000.0,
         "classificacao": "Não Exclusivo"
       },
@@ -478,7 +737,7 @@
       {
         "aplicacao": "FORTALECIMENTO DAS AÇÕES DE PROTEÇÃO SOCIAL AOS POVOS INDÍGENAS.",
         "dotacao": 800000.0,
-        "classificacao": "Não Exclusivo"
+        "classificacao": "Exclusivo"
       },
       {
         "aplicacao": "PROMOÇÃO DA POLÍTICA ESTADUAL DE CIDADANIA E DIREITOS HUMANOS.",
@@ -487,10 +746,417 @@
       }
     ]
   },
+  "ACREPREVIDÊNCIA": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MANUTENÇÃO DA ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS DO ACREPREVIDÊNCIA.",
+        "dotacao": 100000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DO ACREPREVIDÊNCIA.",
+        "dotacao": 4000000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SESACRE (Fundo Estadual de Saúde (FUNDES))": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA SESACRE.",
+        "dotacao": 44510000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DA REDE PÚBLICA DE SAÚDE.",
+        "dotacao": 12997000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SETE": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "PROMOÇÃO E DESENVOLVIMENTO DO TURISMO SUSTENTÁVEL EM SEUS DIVERSOS SEGMENTOS.",
+        "dotacao": 700001.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "PROMOÇÃO DO ETNOTURISMO.",
+        "dotacao": 1.0,
+        "classificacao": "Exclusivo"
+      }
+    ]
+  },
+  "SEE": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-SEE.",
+        "dotacao": 1900000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA EDUCAÇÃO-SEE.",
+        "dotacao": 24950000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DA REDE ESTADUAL DE ENSINO.",
+        "dotacao": 4000000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ],
+    "Eixo IV – Justiça Climática e Inclusão Social": [
+      {
+        "aplicacao": "PROMOÇÃO DOS DIREITOS HUMANOS E DIVERSIDADE.",
+        "dotacao": 65200.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "IEPTEC": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-IEPTEC.",
+        "dotacao": 500.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "AMPLIAÇÃO DA REDE DE QUALIFICAÇÃO PROFISSIONAL E TECNOLÓGICA DO ESTADO DO ACRE.",
+        "dotacao": 500.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DO IEPTEC.",
+        "dotacao": 1601000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "FEM": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA FEM.",
+        "dotacao": 147472.27,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "FOMENTO A CULTURA: LEI ALDIR BLANC.",
+        "dotacao": 750000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "PROMOÇÃO DE ATIVIDADES CULTURAIS TRADICIONAIS.",
+        "dotacao": 290000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "FEM (Funcultura)": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DA FEM.",
+        "dotacao": 151000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "ISE": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DO ISE.",
+        "dotacao": 2251384.93,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEASDH (Fundo Est. Def. Consumidor (DEFC)": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS PÚBLICOS ESTADUAIS-FEDC.",
+        "dotacao": 5000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEMULHER": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "FORTALECIMENTO DO ENFRENTAMENTO À VIOLÊNCIA CONTRA MULHERES.",
+        "dotacao": 589560.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ],
+    "Eixo IV – Justiça Climática e Inclusão Social": [
+      {
+        "aplicacao": "CONSOLIDAÇÃO DAS POLÍTICAS PARA MULHERES.",
+        "dotacao": 478000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEHURB": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "IMPLANTAÇÃO E URBANIZAÇÃO DE PARQUES.",
+        "dotacao": 1000.0,
+        "classificacao": "Exclusivo"
+      },
+      {
+        "aplicacao": "PRESERVAÇÃO DAS ENCOSTAS DE RIOS E IGARAPÉS.",
+        "dotacao": 9362139.29,
+        "classificacao": "Exclusivo"
+      },
+      {
+        "aplicacao": "IMPLANTAÇÃO E MELHORIA DE VIAS DE ACESSO PARA O TRANSPORTE.",
+        "dotacao": 34914353.3,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DE PRÉDIOS DO PODER EXECUTIVO.",
+        "dotacao": 1001000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MANUTENÇÃO DE PRÉDIOS E ESPAÇOS PÚBLICOS.",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "ESTUDOS, AVALIAÇÕES E ELABORAÇÕES DE PROJETOS.",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "IMPLANTAÇÃO DO SISTEMA DE COLETA E TR ATAMENTO DE ESGOTOS SANITÁRIOS.",
+        "dotacao": 3000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "AMPLIAÇÃO DO ACESSO À MORADIA DIGNA.",
+        "dotacao": 7541842.2,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "IMPLANTAÇÃO DE SISTEMAS DE ABASTECIMENTO DE ÁGUA.",
+        "dotacao": 3000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "REGULARIZAÇÃO FUNDIÁRIA ESTADUAL URBANA.",
+        "dotacao": 1000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ],
+    "Eixo IV – Justiça Climática e Inclusão Social": [
+      {
+        "aplicacao": "REGULARIZAÇÃO FUNDIÁRIA ESTADUAL URBANA.",
+        "dotacao": 1151000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "DERACRE": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "URBANIZAÇÃO DE ORLAS DO ACRE.",
+        "dotacao": 3295000.0,
+        "classificacao": "Exclusivo"
+      },
+      {
+        "aplicacao": "ESTUDOS, AVALIAÇÕES E ELABORAÇÕES DE PROJETOS.",
+        "dotacao": 33.52,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-DERACRE.",
+        "dotacao": 335.17,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DAS UNIDADES DO DERACRE.",
+        "dotacao": 368.69,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, RECUPERAÇÃO, AMPLIAÇÃO E MELHORIAS DOS AERODROMOS E AEROPORTOS.",
+        "dotacao": 750308.03,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DO DERACRE.",
+        "dotacao": 33.52,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "OBRAS DE ARTE ESPECIAIS-CONSTRUÇÃO, RECUPERAÇÃO DE PONTES, PASSARELAS.",
+        "dotacao": 57531318.18,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "IMPLANTAÇÃO, AMPLIAÇÃO, MANUTENÇÃO E RESTAURAÇÃO DE VIAS URBANAS E EXECUÇÃO DE OBRAS DE ARTES CORRENTES.",
+        "dotacao": 9541877.72,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO, AMPLIAÇÃO, PAVIMENTAÇÃO E MANUTENÇÃO DAS RODOVIAS ESTADUAIS-AC'S E EXECUÇÃO DE OBRAS DE ARTES CORRENTES.",
+        "dotacao": 33300262.46,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "RESTAURAÇÃO DE VIAS, ESPAÇOS E PARQUES PÚBLICOS DENTRO DO ESTADO DO ACRE.",
+        "dotacao": 33516.79,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO E MANUTENÇÃO DE PORTOS E HIDROVIAS (RAMPAS E ESCADARIAS).",
+        "dotacao": 335.17,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEHURB (Fundo Est. Esp. Recup. Bacia Igarapé S. Francisco)": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "PRESERVAÇÃO DAS ENCOSTAS DE RIOS E IGARAPÉS.",
+        "dotacao": 1000.0,
+        "classificacao": "Exclusivo"
+      }
+    ]
+  },
+  "SEOP": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MELHORIA E AMPLIAÇÃO DOS ESPAÇOS/EQUIPAMENTOS PÚBLICOS DE USO COLETIVO PARA A POPULAÇÃO ACREANA.",
+        "dotacao": 17862500.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "IMPLANTAÇÃO DE INFRAESTRUTURA DE MOBILIDADE URBANA.",
+        "dotacao": 9938000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "URBANIZAÇÃO DE ORLAS DO ACRE.",
+        "dotacao": 17400000.0,
+        "classificacao": "Exclusivo"
+      },
+      {
+        "aplicacao": "CONSTRUÇÃO E REFORMA DE PRÉDIOS PÚBLICOS DO PODER EXECUTIVO",
+        "dotacao": 5705000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "PLANO DE ESTÍMULO A CONSTRUÇÃO CIVIL PARA GERAÇÃO DE EMPREGO E RENDA.",
+        "dotacao": 10000000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "IMPLANTAÇÃO, MANUTENÇÃO E RESTAURAÇÃO DE VIAS RURAIS E URBANAS.",
+        "dotacao": 16034000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "AMPLIAÇÃO DO SISTEMA DE COLETA E TRATAMENTO DE ESGOTOS SANITÁRIOS.",
+        "dotacao": 3221000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "IMPLANTAÇÃO DE SISTEMAS DE ABASTECIMENTO DE ÁGUA.",
+        "dotacao": 1000000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "SANEAMENTO INTEGRADO.",
+        "dotacao": 8550000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEHURB (Fundo Est. Habitação (FEH))": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MANUTENÇÃO DAS ATIVIDADES ADMINISTRATIVAS E OPERACIONAIS-FEH.",
+        "dotacao": 150000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "COHAB (SEFAZ)": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "AMPLIAÇÃO DO ACESSO À MORADIA DIGNA.",
+        "dotacao": 100000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SANEACRE (SEOP)": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "AMPLIAÇÃO E MELHORIA DOS SISTEMAS DE ABASTECIMENTO DE ÁGUA NOS MUNICÍPIOS DO ACRE.",
+        "dotacao": 6030000.0,
+        "classificacao": "Não Exclusivo"
+      },
+      {
+        "aplicacao": "AMPLIAÇÃO E MELHORIA DOS SISTEMAS DE COLETA E TRATAMENTO DE ESGOTAMENTO SANITÁRIO NOS MUNICÍPIOS DO ACRE.",
+        "dotacao": 799000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "AGEACRE (SEOP)": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "PROMOÇÃO DA REGULAÇÃO DO SANEAMENTO BÁSICO.",
+        "dotacao": 325000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "FUNTAC": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DA FUNTAC.",
+        "dotacao": 10.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ],
+    "Eixo VI – Educação Ambiental e Inovação Climática": [
+      {
+        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DA FUNTAC.",
+        "dotacao": 60.0,
+        "classificacao": "Exclusivo"
+      },
+      {
+        "aplicacao": "DIFUSÃO E TRANSFERÊNCIA TECNOLÓGICA.",
+        "dotacao": 700050.0,
+        "classificacao": "Exclusivo"
+      }
+    ]
+  },
+  "IDAF": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO DOS PRÉDIOS DO IDAF.",
+        "dotacao": 2000000.0,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
+  "SEEL": {
+    "Eixo III – Adaptação às Mudanças Climáticas": [
+      {
+        "aplicacao": "CONSTRUÇÃO, REFORMA E AMPLIAÇÃO/SEEL.",
+        "dotacao": 4466051.73,
+        "classificacao": "Não Exclusivo"
+      }
+    ]
+  },
   "SEASDH (Fundo de Assistência Social (FEAS))": {
     "Eixo IV – Justiça Climática e Inclusão Social": [
       {
-        "aplicacao": "CONCESSÃO DA BOLSA MORADIA TRANSITÓRIA.",
+        "aplicacao": "CONCESSÃO DO BOLSA MORADIA TRANSITÓRIA.",
         "dotacao": 529000.0,
         "classificacao": "Exclusivo"
       },
@@ -506,29 +1172,20 @@
       }
     ]
   },
-  "SEE": {
+  "PROCON (SEASDH)": {
     "Eixo IV – Justiça Climática e Inclusão Social": [
       {
-        "aplicacao": "PROMOÇÃO DOS DIREITOS HUMANOS E DA DIVERSIDADE.",
-        "dotacao": 65200.0,
-        "classificacao": "Não Exclusivo"
-      }
-    ]
-  },
-  "PROCON": {
-    "Eixo IV – Justiça Climática e Inclusão Social": [
-      {
-        "aplicacao": "PROMOÇÃO DE AÇÕES DE FISCALIZAÇÃO - ROTA DA QUALIDADE.",
+        "aplicacao": "PROMOÇÃO DE AÇÕES DE FISCALIZAÇÃO-ROTA DA QUALIDADE.",
         "dotacao": 178000.0,
         "classificacao": "Não Exclusivo"
       },
       {
-        "aplicacao": "AMPLIAÇÃO DAS AÇÕES EDUCATIVAS - PROCON EDUCA.",
+        "aplicacao": "AMPLIAÇÃO DAS AÇÕES EDUCATIVAS-PROCON EDUCA.",
         "dotacao": 71000.0,
         "classificacao": "Não Exclusivo"
       },
       {
-        "aplicacao": "AMPLIAÇÃO DO ATENDIMENTO AOS CONSUMIDORES E FORNECEDORES - PROCON ATENDE.",
+        "aplicacao": "AMPLIAÇÃO DO ATENDIMENTO AOS CONSUMIDORES E FORNECEDORES-PROCON ATENDE.",
         "dotacao": 321000.0,
         "classificacao": "Não Exclusivo"
       },
@@ -547,45 +1204,13 @@
   "SEADH (Fundo Estadual de Defesa do Consumidor (FEDC))": {
     "Eixo IV – Justiça Climática e Inclusão Social": [
       {
-        "aplicacao": "AMPLIAÇÃO DAS AÇÕES EDUCATIVAS - PROCON EDUCA.",
+        "aplicacao": "AMPLIAÇÃO DAS AÇÕES EDUCATIVAS-PROCON EDUCA.",
         "dotacao": 1030000.0,
         "classificacao": "Não Exclusivo"
       }
     ]
   },
-  "SEMULHER": {
-    "Eixo IV – Justiça Climática e Inclusão Social": [
-      {
-        "aplicacao": "CONSOLIDAÇÃO DAS POLÍTICAS PARA MULHERES.",
-        "dotacao": 478000.0,
-        "classificacao": "Não Exclusivo"
-      }
-    ]
-  },
-  "SEPI": {
-    "Eixo IV – Justiça Climática e Inclusão Social": [
-      {
-        "aplicacao": "FORTALECIMENTO DAS POLÍTICAS PÚBLICAS PARA OS POVOS INDÍGENAS DO ESTADO DO ACRE.",
-        "dotacao": 2000.0,
-        "classificacao": "Exclusivo"
-      },
-      {
-        "aplicacao": "VALORIZAÇÃO DA CULTURA E DOS CONHECIMENTOS TRADICIONAIS INDÍGENAS.",
-        "dotacao": 2000.0,
-        "classificacao": "Exclusivo"
-      }
-    ]
-  },
-  "SEHURB": {
-    "Eixo IV – Justiça Climática e Inclusão Social": [
-      {
-        "aplicacao": "REGULARIZAÇÃO FUNDIÁRIA ESTADUAL URBANA.",
-        "dotacao": 1151000.0,
-        "classificacao": "Não Exclusivo"
-      }
-    ]
-  },
-  "ITERACRE": {
+  "ITERACRE (SEHURB)": {
     "Eixo IV – Justiça Climática e Inclusão Social": [
       {
         "aplicacao": "REGULARIZAÇÃO FUNDIÁRIA ESTADUAL URBANA.",
@@ -598,7 +1223,7 @@
         "classificacao": "Não Exclusivo"
       },
       {
-        "aplicacao": "REGULARIZAÇÃO FUNDIÁRIA ESTADUAL NAS INSTITUIÇÕES RELIGIOSAS DO ESTADO DO ACRE - IGREJA LEGAL.",
+        "aplicacao": "REGULARIZAÇÃO FUNDIÁRIA ESTADUAL NAS INSTITUIÇÕES RELIGIOSAS DO ESTADO DO ACRE-IGREJA LEGAL.",
         "dotacao": 102000.0,
         "classificacao": "Não Exclusivo"
       },
@@ -632,24 +1257,10 @@
       }
     ]
   },
-  "FUNTAC": {
-    "Eixo VI – Educação Ambiental e Inovação Climática": [
-      {
-        "aplicacao": "MELHORIA, MODERNIZAÇÃO E INOVAÇÃO DOS SERVIÇOS DA FUNTAC.",
-        "dotacao": 60.0,
-        "classificacao": "Exclusivo"
-      },
-      {
-        "aplicacao": "DIFUSÃO E TRANSFERÊNCIA TECNOLÓGICA.",
-        "dotacao": 700050.0,
-        "classificacao": "Exclusivo"
-      }
-    ]
-  },
   "FAPAC": {
     "Eixo VI – Educação Ambiental e Inovação Climática": [
       {
-        "aplicacao": "APOIO À GERAÇÃO E DIFUSÃO DE CONHECIMENTO POR MEIO DA PESQUISA CIENTÍFICA E TECNOLÓGICA.",
+        "aplicacao": "APOIO A GERAÇÃO E DIFUSÃO DE CONHECIMENTO POR MEIO DA PESQUISA CIENTÍFICA E TECNOLÓGICA.",
         "dotacao": 1156486.0,
         "classificacao": "Exclusivo"
       },
@@ -659,7 +1270,7 @@
         "classificacao": "Exclusivo"
       },
       {
-        "aplicacao": "CNPQ-RECURSOS PRÓPRIOS AMAZÔNIA +10.",
+        "aplicacao": "CNPQ-RECURSOS PRÓPRIOS AMAZONIA +10.",
         "dotacao": 1.0,
         "classificacao": "Exclusivo"
       },
@@ -685,29 +1296,6 @@
       {
         "aplicacao": "FOMENTO A CIÊNCIA E INOVAÇÃO NO ESTADO DO ACRE.",
         "dotacao": 680000.0,
-        "classificacao": "Exclusivo"
-      }
-    ]
-  },
-  "CBMAC": {
-    "Eixo VII – Resposta Climática Emergencial e Proteção Civil": [
-      {
-        "aplicacao": "PROMOÇÃO DE AÇÕES SOCIAIS E COMUNITÁRIAS DO CORPO DE BOMBEIROS.",
-        "dotacao": 4000.0,
-        "classificacao": "Exclusivo"
-      },
-      {
-        "aplicacao": "FORTALECIMENTO DAS AÇÕES PARA PROTEÇÃO DA VIDA, DO MEIO AMBIENTE E DO PATRIMÔNIO.",
-        "dotacao": 589667.0,
-        "classificacao": "Exclusivo"
-      }
-    ]
-  },
-  "COORD. EST. PROTEÇÃO E DEFESA CIVIL": {
-    "Eixo VII – Resposta Climática Emergencial e Proteção Civil": [
-      {
-        "aplicacao": "PROMOÇÃO DAS AÇÕES DE PREVENÇÃO E DE RESPOSTAS AOS DESASTRES NATURAIS E TECNOLÓGICOS.",
-        "dotacao": 17753000.0,
         "classificacao": "Exclusivo"
       }
     ]

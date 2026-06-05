@@ -1,4 +1,10 @@
 {
+  "ACREPREVIDÊNCIA": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 4100000.0
+    },
+    "total": 4100000.0
+  },
   "AGEAC": {
     "eixos": {
       "Eixo II – Mitigação das Mudanças Climáticas": 1000.0
@@ -10,6 +16,12 @@
       "Eixo II – Mitigação das Mudanças Climáticas": 550000.0
     },
     "total": 550000.0
+  },
+  "AGEACRE (SEOP)": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 325000.0
+    },
+    "total": 325000.0
   },
   "ANAC": {
     "eixos": {
@@ -25,9 +37,10 @@
   },
   "CBMAC": {
     "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 2699000.0,
       "Eixo VII – Resposta Climática Emergencial e Proteção Civil": 593667.0
     },
-    "total": 593667.0
+    "total": 3292667.0
   },
   "CDSA": {
     "eixos": {
@@ -41,11 +54,24 @@
     },
     "total": 660000.0
   },
+  "COHAB (SEFAZ)": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 100000.0
+    },
+    "total": 100000.0
+  },
   "COORD. EST. PROTEÇÃO E DEFESA CIVIL": {
     "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 1000.0,
       "Eixo VII – Resposta Climática Emergencial e Proteção Civil": 17753000.0
     },
-    "total": 17753000.0
+    "total": 17754000.0
+  },
+  "DERACRE": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 104453389.25
+    },
+    "total": 104453389.25
   },
   "DERACRE (SEHURB)": {
     "eixos": {
@@ -65,15 +91,47 @@
     },
     "total": 1156490.0
   },
+  "FEM": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 1187472.27
+    },
+    "total": 1187472.27
+  },
+  "FEM (Funcultura)": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 151000.0
+    },
+    "total": 151000.0
+  },
   "FUNTAC": {
     "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 10.0,
       "Eixo VI – Educação Ambiental e Inovação Climática": 700110.0
     },
-    "total": 700110.0
+    "total": 700120.0
+  },
+  "IAPEN": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 1001600.0
+    },
+    "total": 1001600.0
+  },
+  "IDAF": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 2000000.0
+    },
+    "total": 2000000.0
+  },
+  "IEPTEC": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 1602000.0
+    },
+    "total": 1602000.0
   },
   "IMAC": {
     "eixos": {
-      "Eixo II – Mitigação das Mudanças Climáticas": 6653714.85,
+      "Eixo II – Mitigação das Mudanças Climáticas": 6652714.85,
+      "Eixo III – Adaptação às Mudanças Climáticas": 1000.0,
       "Eixo VI – Educação Ambiental e Inovação Climática": 1000.0
     },
     "total": 6654714.85
@@ -84,6 +142,12 @@
       "Eixo V – Governança Ambiental e Transparência": 3000.0
     },
     "total": 274000.0
+  },
+  "ISE": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 2251384.93
+    },
+    "total": 2251384.93
   },
   "ITERACRE (SEHURB)": {
     "eixos": {
@@ -97,6 +161,24 @@
     },
     "total": 1361000.0
   },
+  "PCAC": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 3300000.0
+    },
+    "total": 3300000.0
+  },
+  "PGE": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 1000.0
+    },
+    "total": 1000.0
+  },
+  "PMAC": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 4300000.0
+    },
+    "total": 4300000.0
+  },
   "PROCON (SEASDH)": {
     "eixos": {
       "Eixo IV – Justiça Climática e Inclusão Social": 4839000.0
@@ -108,6 +190,12 @@
       "Eixo II – Mitigação das Mudanças Climáticas": 31000.0
     },
     "total": 31000.0
+  },
+  "SANEACRE (SEOP)": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 6829000.0
+    },
+    "total": 6829000.0
   },
   "SEAD": {
     "eixos": {
@@ -123,9 +211,10 @@
   },
   "SEAGRI": {
     "eixos": {
-      "Eixo I – Desenvolvimento Sustentável e Bioeconomia": 102195200.0
+      "Eixo I – Desenvolvimento Sustentável e Bioeconomia": 102195200.0,
+      "Eixo III – Adaptação às Mudanças Climáticas": 4101000.0
     },
-    "total": 102195200.0
+    "total": 106296200.0
   },
   "SEAGRI (Fundo Agropecuário (FUNAGRO))": {
     "eixos": {
@@ -135,9 +224,16 @@
   },
   "SEASDH": {
     "eixos": {
-      "Eixo IV – Justiça Climática e Inclusão Social": 7528000.0
+      "Eixo III – Adaptação às Mudanças Climáticas": 5001000.0,
+      "Eixo IV – Justiça Climática e Inclusão Social": 2528000.0
     },
-    "total": 7528000.0
+    "total": 7529000.0
+  },
+  "SEASDH (Fundo Est. Def. Consumidor (DEFC)": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 5000.0
+    },
+    "total": 5000.0
   },
   "SEASDH (Fundo de Assistência Social (FEAS))": {
     "eixos": {
@@ -147,22 +243,55 @@
   },
   "SEE": {
     "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 30850000.0,
       "Eixo IV – Justiça Climática e Inclusão Social": 65200.0
     },
-    "total": 65200.0
+    "total": 30915200.0
+  },
+  "SEEL": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 4466051.73
+    },
+    "total": 4466051.73
   },
   "SEFAZ": {
     "eixos": {
       "Eixo I – Desenvolvimento Sustentável e Bioeconomia": 5000000.0,
-      "Eixo II – Mitigação das Mudanças Climáticas": 1000.0
+      "Eixo II – Mitigação das Mudanças Climáticas": 1000.0,
+      "Eixo III – Adaptação às Mudanças Climáticas": 41949941.5
     },
-    "total": 5001000.0
+    "total": 46950941.5
+  },
+  "SEFAZ (Depto. Tesouro Estadual)": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 5000000.0
+    },
+    "total": 5000000.0
+  },
+  "SEGOV": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 100000.0
+    },
+    "total": 100000.0
   },
   "SEHURB": {
     "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 52829334.79,
       "Eixo IV – Justiça Climática e Inclusão Social": 1151000.0
     },
-    "total": 1151000.0
+    "total": 53980334.79
+  },
+  "SEHURB (Fundo Est. Esp. Recup. Bacia Igarapé S. Francisco)": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 1000.0
+    },
+    "total": 1000.0
+  },
+  "SEHURB (Fundo Est. Habitação (FEH))": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 150000.0
+    },
+    "total": 150000.0
   },
   "SEICT": {
     "eixos": {
@@ -190,23 +319,32 @@
   },
   "SEJUSP": {
     "eixos": {
-      "Eixo II – Mitigação das Mudanças Climáticas": 1198684.01
+      "Eixo II – Mitigação das Mudanças Climáticas": 1198684.01,
+      "Eixo III – Adaptação às Mudanças Climáticas": 4952779.13
     },
-    "total": 1198684.01
+    "total": 6151463.14
   },
   "SEJUSP (Fundo Est. de Segurança (FUNDESEG))": {
     "eixos": {
-      "Eixo II – Mitigação das Mudanças Climáticas": 1000.0
+      "Eixo II – Mitigação das Mudanças Climáticas": 1000.0,
+      "Eixo III – Adaptação às Mudanças Climáticas": 2886000.0
     },
-    "total": 1000.0
+    "total": 2887000.0
+  },
+  "SEJUSP (Fundo Penitenciário)": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 1771713.29
+    },
+    "total": 1771713.29
   },
   "SEMA": {
     "eixos": {
       "Eixo I – Desenvolvimento Sustentável e Bioeconomia": 4023000.0,
       "Eixo II – Mitigação das Mudanças Climáticas": 12633154.370000001,
+      "Eixo III – Adaptação às Mudanças Climáticas": 1000.0,
       "Eixo V – Governança Ambiental e Transparência": 11000.0
     },
-    "total": 16667154.370000001
+    "total": 16668154.370000001
   },
   "SEMA (Fundo Est. de Comando e Controle Ambiental)": {
     "eixos": {
@@ -229,20 +367,40 @@
   },
   "SEMULHER": {
     "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 589560.0,
       "Eixo IV – Justiça Climática e Inclusão Social": 478000.0
     },
-    "total": 478000.0
+    "total": 1067560.0
+  },
+  "SEOP": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 89710500.0
+    },
+    "total": 89710500.0
   },
   "SEPI": {
     "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 110000.0,
       "Eixo IV – Justiça Climática e Inclusão Social": 4000.0
     },
-    "total": 4000.0
+    "total": 114000.0
   },
   "SEPLAN": {
     "eixos": {
       "Eixo II – Mitigação das Mudanças Climáticas": 244802888.98
     },
     "total": 244802888.98
+  },
+  "SESACRE (Fundo Estadual de Saúde (FUNDES))": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 57507000.0
+    },
+    "total": 57507000.0
+  },
+  "SETE": {
+    "eixos": {
+      "Eixo III – Adaptação às Mudanças Climáticas": 700002.0
+    },
+    "total": 700002.0
   }
 }
