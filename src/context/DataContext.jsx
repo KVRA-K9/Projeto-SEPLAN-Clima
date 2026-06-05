@@ -43,7 +43,7 @@ const eixosPorOrgao = {
   'PROCON': ['Eixo IV – Justiça Climática e Inclusão Social'],
   'SANEACRE': ['Eixo III – Adaptação às Mudanças Climáticas'],
   'SEAD': ['Eixo II – Mitigação das Mudanças Climáticas', 'Eixo III – Adaptação às Mudanças Climáticas'],
-  'SEADH': ['Eixo IV – Justiça Climática e Inclusão Social'],
+  'SEASDH': ['Eixo IV – Justiça Climática e Inclusão Social'],
   'SEAGRI': ['Eixo I – Desenvolvimento Sustentável e Bioeconomia', 'Eixo III – Adaptação às Mudanças Climáticas'],
   'SEASDH': ['Eixo III – Adaptação às Mudanças Climáticas', 'Eixo IV – Justiça Climática e Inclusão Social'],
   'SEE': ['Eixo III – Adaptação às Mudanças Climáticas', 'Eixo IV – Justiça Climática e Inclusão Social', 'Eixo VI – Educação Ambiental e Inovação Climática'],

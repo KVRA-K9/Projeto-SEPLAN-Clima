@@ -43,7 +43,7 @@
     "FAPAC": 1156490.0,
     "SEICT (Fundo de Desenv. Sustentável (FDS))": 1090000.0,
     "SEMULHER": 1067560.0,
-    "SEADH (Fundo Estadual de Defesa do Consumidor (FEDC))": 1030000.0,
+    "SEASDH (Fundo Estadual de Defesa do Consumidor (FEDC))": 1030000.0,
     "SEICT (Fundo de Des. Sustentável (FDS))": 1020000.0,
     "IAPEN": 1001600.0,
     "SEASDH (Fundo de Assistência Social (FEAS))": 829000.0,
@@ -393,7 +393,7 @@
       "valor_climatico": 1067560.0
     },
     {
-      "sigla": "SEADH (Fundo Estadual de Defesa do Consumidor (FEDC))",
+      "sigla": "SEASDH (Fundo Estadual de Defesa do Consumidor (FEDC))",
       "valor_bruto": 1030000.0,
       "percentual": 1.0,
       "intensidade": "Exclusivo (0%) / Não Exclusivo (100%)",
@@ -751,7 +751,7 @@
       "Não Exclusivo": 0.0,
       "Total": 1000.0
     },
-    "SEADH (Fundo Estadual de Defesa do Consumidor (FEDC))": {
+    "SEASDH (Fundo Estadual de Defesa do Consumidor (FEDC))": {
       "Exclusivo": 0.0,
       "Não Exclusivo": 1030000.0,
       "Total": 1030000.0
@@ -948,7 +948,7 @@
     "FAPAC": 1156490.0,
     "SEICT (Fundo de Desenv. Sustentável (FDS))": 1090000.0,
     "SEMULHER": 1067560.0,
-    "SEADH (Fundo Estadual de Defesa do Consumidor (FEDC))": 1030000.0,
+    "SEASDH (Fundo Estadual de Defesa do Consumidor (FEDC))": 1030000.0,
     "SEICT (Fundo de Des. Sustentável (FDS))": 1020000.0,
     "IAPEN": 1001600.0,
     "SEASDH (Fundo de Assistência Social (FEAS))": 829000.0,
