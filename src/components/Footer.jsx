@@ -61,7 +61,7 @@ export default function Footer() {
               lineHeight: 1.5,
               margin: '0 0 8px 0'
             }}>
-              composição técnica: Denyscley Oliveira Bandeira (coordenador - Gestor de Políticas Públicas), ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).
+              Composição Técnica: Denyscley Oliveira Bandeira (coordenador - Gestor de Políticas Públicas), ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).
             </p>
             <p style={{
               color: 'var(--text-primary)',
