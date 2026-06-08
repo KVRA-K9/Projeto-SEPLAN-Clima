@@ -79,17 +79,16 @@ export default function Footer() {
             }}>
               Av. Getúlio Vargas, 232 — Centro — Rio Branco — Acre — CEP: 69900-060 Palácio das Secretarias — Fone: (68) 3215-2514
             </p>
+            <p style={{
+              color: 'var(--text-muted)',
+              fontSize: 11,
+              textAlign: 'center',
+              margin: '12px 0 0 0'
+            }}>
+              Dashboard de Orçamento Climático — Estado do Acre
+            </p>
           </div>
         </div>
-
-        <p style={{
-          color: 'var(--text-muted)',
-          fontSize: 11,
-          textAlign: 'center',
-          margin: '8px 0 0 0'
-        }}>
-          Dashboard de Orçamento Climático — Estado do Acre
-        </p>
       </div>
     </footer>
   );
