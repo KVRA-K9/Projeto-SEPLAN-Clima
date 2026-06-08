@@ -601,7 +601,7 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
 export default function ProjectsTable() {
   const { orgaosFiltrados, filtros, atualizarFiltros, aplicacoesPorOrgaoEixo } = useData();
   const [expandido, setExpandido] = useState(null);
-  const [eixoExpandido, setEixoExpandido] = useState(null);
+  const [eixoExpandido, setEixoExpandido] = useState(new Set());
 
   const toggleExpandir = (id) => {
     setExpandido(expandido === id ? null : id);
@@ -609,7 +609,15 @@ export default function ProjectsTable() {
 
   const toggleEixo = (orgaoId, eixoNome) => {
     const chave = `${orgaoId}|${eixoNome}`;
-    setEixoExpandido(eixoExpandido === chave ? null : chave);
+    setEixoExpandido(prev => {
+      const next = new Set(prev);
+      if (next.has(chave)) {
+        next.delete(chave);
+      } else {
+        next.add(chave);
+      }
+      return next;
+    });
   };
 
   const orgaosAgrupados = useMemo(() => {
@@ -781,7 +789,7 @@ export default function ProjectsTable() {
                             ).map(([eixo, valorTotal]) => {
                               const apps = aplicacoesPorOrgaoEixo[o.nome]?.[eixo] || [];
                               const chave = `${o.id}|${eixo}`;
-                              const eixoAberto = eixoExpandido === chave;
+                              const eixoAberto = eixoExpandido.has(chave);
                               return (
                                 <div key={eixo} style={{ borderRadius: 6, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
                                   {/* Cabeçalho do Eixo — clicável */}
