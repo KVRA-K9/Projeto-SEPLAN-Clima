@@ -201,7 +201,7 @@ const odsConteudo = {
   },
 };
 
-function EixoTooltip({ num, children }) {
+function EixoTooltip({ num }) {
   const [hover, setHover] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const ref = useRef(null);
@@ -225,14 +225,11 @@ function EixoTooltip({ num, children }) {
     <>
       <span
         ref={ref}
-        style={{ cursor: 'help' }}
+        style={{ color: '#4ade80', fontWeight: 600, whiteSpace: 'nowrap', cursor: 'help' }}
         onMouseEnter={() => { updatePos(); setHover(true); }}
         onMouseLeave={() => setHover(false)}
       >
-        {children}
-        <span style={{ color: '#4ade80', fontWeight: 600, whiteSpace: 'nowrap' }}>
-          {' '} (Eixo {num})
-        </span>
+        {' '} (Eixo {num})
       </span>
       {hover && createPortal(
         <div
@@ -402,10 +399,9 @@ export default function ODSModal({ ods, posicao, onClose }) {
             <ul style={{ paddingLeft: 16, margin: 0 }}>
               {info.indicadores.map((item, idx) => (
                 <li key={idx} style={{ marginBottom: 6, textAlign: 'justify' }}>
-                  {item.eixo ? (
-                    <EixoTooltip num={parseInt(item.eixo)}>{item.texto}.</EixoTooltip>
-                  ) : (
-                    <>{item.texto}.</>
+                  {item.texto}.{' '}
+                  {item.eixo && (
+                    <EixoTooltip num={parseInt(item.eixo)} />
                   )}
                 </li>
               ))}
