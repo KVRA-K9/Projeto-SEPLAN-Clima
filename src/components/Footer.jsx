@@ -46,7 +46,7 @@ export default function Footer() {
             />
           </div>
 
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'justify' }}>
             <p style={{
               color: 'var(--text-primary)',
               fontSize: 14,
@@ -66,7 +66,7 @@ export default function Footer() {
             <p style={{
               color: 'var(--text-primary)',
               fontSize: 14,
-              fontWeight: 400,
+              fontWeight: 700,
               margin: '0 0 4px 0'
             }}>
               Secretaria de Estado de Planejamento — Governo do Estado do Acre
