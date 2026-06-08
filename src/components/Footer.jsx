@@ -46,7 +46,7 @@ export default function Footer() {
             />
           </div>
 
-          <div style={{ textAlign: 'justify' }}>
+          <div style={{ textAlign: 'center' }}>
             <p style={{
               color: 'var(--text-primary)',
               fontSize: 14,
