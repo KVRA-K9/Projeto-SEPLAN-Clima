@@ -50,6 +50,22 @@ export default function Footer() {
             <p style={{
               color: 'var(--text-primary)',
               fontSize: 14,
+              fontWeight: 700,
+              margin: '0 0 4px 0'
+            }}>
+              Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN
+            </p>
+            <p style={{
+              color: 'var(--text-secondary)',
+              fontSize: 12,
+              lineHeight: 1.5,
+              margin: '0 0 8px 0'
+            }}>
+              composição técnica: Denyscley Oliveira Bandeira (coordenador - Gestor de Políticas Públicas), ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).
+            </p>
+            <p style={{
+              color: 'var(--text-primary)',
+              fontSize: 14,
               fontWeight: 400,
               margin: '0 0 4px 0'
             }}>
