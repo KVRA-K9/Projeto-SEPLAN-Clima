@@ -8,14 +8,31 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 const orgaosLista = [
-  'AGEAC', 'ANAC', 'CAGEACRE', 'CBMAC', 'CDSA', 'CGE', 'COHAB',
-  'COORD. EST. PROTEÇÃO E DEFESA CIVIL', 'DERACRE', 'DPE', 'EMATER',
-  'FAPAC', 'FEM', 'FUNTAC', 'IAPEN', 'IDAF', 'IEPTEC', 'IMAC',
-  'IMC', 'ISE', 'ITERACRE', 'JUICEAC', 'MPAC', 'PCAC', 'PGE',
-  'PMAC', 'PROCON', 'SANEACRE', 'SEAD', 'SEASDH', 'SEAGRI',
-  'SEASDH', 'SEE', 'SEEL', 'SEFAZ', 'SEGOV', 'SEHURB', 'SEICT',
-  'SEJUSP', 'SEMA', 'SEMULHER', 'SEOP', 'SEPI', 'SEPLAN',
-  'SESACRE', 'SETE', 'TCE', 'TJAC'
+  '445/001 - SEGOV', '448/001 - CGE', '451/001 - PCAC', '452/001 - DEFESA CIVIL',
+  '510/001 - PGE', '608/001 - PMAC', '609/001 - CBMAC',
+  '609/632 - CBMAC (Fundo Esp. do Corpo de Bombeiros Militar do Estado do Acre - FUNESBOM)',
+  '713/001 - SEPLAN', '714/001 - SEAD', '714/211 - ACREPREVIDÊNCIA',
+  '715/001 - SEFAZ', '715/199 - SEFAZ', '715/199 - SEFAZ (Departamento do Tesouro Estadual)', '715/205 - JUCEAC', '715/210 - AGEAC',
+  '715/501 - COHAB', '715/512 - CDSA', '717/001 - SEE', '717/212 - IEPTEC',
+  '717/303 - FEM', '717/628 - FEM (Fundo Estadual de Cultura  - Funcultura)',
+  '718/001 - SEEL', '719/001 - SEJUSP', '719/209 - IAPEN', '719/213 - ISE',
+  '719/216 - PROCON', '719/626 - SEJUSP (Fundo Penitenciário do Estado do Acre)',
+  '719/637 - SEJUSP (Fundo Est. de Segurança - FUNDESEG)', '720/001 - SEMA',
+  '720/202 - IMAC', '720/215 - IMC', '720/605 - SEMA (Fundo Est. de Comando e Controle Ambiental)',
+  '720/622 - SEMA (Fundo Est. de Meio Ambiente e Florestas)',
+  '721/607 - SESACRE (Fundo Estadual de Saúde - FUNDES)', '722/001 - SEPI',
+  '744/001 - SEHURB', '744/201 - DERACRE', '744/203 - SANEACRE',
+  '744/206 - ITERACRE', '744/619 - SEHURB (Fundo Est. Habitação - FEH)',
+  '744/643 - SEHURB (Fundo Est. Esp. Recup. Bacia Igarapé S. Francisco)',
+  '753/001 - SEAGRI', '753/207 - IDAF', '753/401 - CAGEACRE',
+  '753/402 - EMATER', '753/610 - SEAGRI (Fundo Agropecuário - FUNAGRO)',
+  '754/001 - SEOP', '759/001 - SETE', '760/001 - SEASDH',
+  '760/608 - SEASDH (Fundo de Assistência Social - FEAS)',
+  '760/640 - SEADH (Fundo Estadual de Defesa do Consumidor - FEDC)',
+  '760/640 - SEASDH (Fundo Est. Def. Consumidor  - DEFC)', '761/001 - SEICT',
+  '761/301 - FUNTAC', '761/309 - FAPAC', '761/506 - ANAC',
+  '761/615 - SEICT (Fundo de Desenvolvimento Sustentável - FDS)',
+  '762/001 - SEMULHER'
 ];
 
 const eixosLista = [
@@ -34,6 +51,9 @@ function limparNomeOrgao(nome) {
   if (idxAbre !== -1 && idxFecha !== -1 && idxFecha > idxAbre) {
     const dentro = nome.slice(idxAbre + 1, idxFecha).trim();
     if (dentro.toLowerCase().startsWith('fundo')) {
+      return nome; // mantém nome completo
+    }
+    if (dentro.toLowerCase().startsWith('departamento do tesouro estadual')) {
       return nome; // mantém nome completo
     }
     return nome.slice(0, idxAbre).trim();

@@ -3,13 +3,35 @@ import { createPortal } from 'react-dom';
 import { useData } from '../context/DataContext';
 import { TrendingUp, DollarSign, Coins, Hourglass, Info, X } from 'lucide-react';
 
-function KPICard({ titulo, valor, icone: Icone, subtitulo }) {
+function KPICard({ titulo, valor, icone: Icone, subtitulo, rotuloValor }) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div className="kpi-card">
       <div className="kpi-header">
         <div>
           <div className="kpi-label">{titulo}</div>
-          <div className="kpi-value">{valor}</div>
+          <div
+            className="kpi-value"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'default' }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {valor}
+            {rotuloValor && (
+              <span
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  opacity: isHovered ? 1 : 0,
+                  transition: 'opacity 0.25s ease',
+                  pointerEvents: 'none'
+                }}
+              >
+                {rotuloValor}
+              </span>
+            )}
+          </div>
           <div className="kpi-sub">{subtitulo}</div>
         </div>
         <div className="kpi-icon">
@@ -20,9 +42,10 @@ function KPICard({ titulo, valor, icone: Icone, subtitulo }) {
   );
 }
 
-function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo }) {
+function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo, rotuloValor }) {
   const [showPopup, setShowPopup] = useState(false);
   const [popupPos, setPopupPos] = useState({ top: 0, left: 0 });
+  const [isHovered, setIsHovered] = useState(false);
   const infoBtnRef = useRef(null);
 
   const abrirPopup = useCallback(() => {
@@ -49,7 +72,27 @@ function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo }) {
       <div className="kpi-header">
         <div>
           <div className="kpi-label">{titulo}</div>
-          <div className="kpi-value">{valor}</div>
+          <div
+            className="kpi-value"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'default' }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {valor}
+            {rotuloValor && (
+              <span
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  opacity: isHovered ? 1 : 0,
+                  transition: 'opacity 0.25s ease',
+                  pointerEvents: 'none'
+                }}
+              >
+                {rotuloValor}
+              </span>
+            )}
+          </div>
           <div className="kpi-sub">{subtitulo}</div>
         </div>
         <div className="kpi-icon">
@@ -242,8 +285,8 @@ function KPICards() {
     <div className="kpi-grid">
       <KPICard titulo="Órgãos Atuantes" valor={numeroOrgaosAtuantes} icone={TrendingUp} subtitulo="Identificados" />
       <KPICard titulo="Orçamento Climático Exclusivo Planejado" valor={fmt(gastoExclusivo)} icone={DollarSign} subtitulo={`${pctExclusivo}% do total`} />
-      <KPICard titulo="Dotação Exclusiva" valor={acoesExclusivas} icone={Coins} subtitulo={fmt(gastoExclusivo)} />
-      <KPICardNaoExclusivo titulo="Dotação Não Exclusiva" valor={acoesNaoExclusivas} icone={Hourglass} subtitulo={fmt(gastoNaoExclusivo)} />
+      <KPICard titulo="Dotação Exclusiva" valor={acoesExclusivas} icone={Coins} subtitulo={fmt(gastoExclusivo)} rotuloValor="Aplicações Programadas" />
+      <KPICardNaoExclusivo titulo="Dotação Não Exclusiva" valor={acoesNaoExclusivas} icone={Hourglass} subtitulo={fmt(gastoNaoExclusivo)} rotuloValor="Aplicações Programadas" />
     </div>
   );
 }
