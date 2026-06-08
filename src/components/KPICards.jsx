@@ -291,8 +291,8 @@ function KPICards() {
     <div className="kpi-grid">
       <KPICard titulo="Órgãos Atuantes" valor={numeroOrgaosAtuantes} icone={TrendingUp} subtitulo="Identificados" />
       <KPICard titulo="Orçamento Climático Exclusivo Planejado" valor={fmt(gastoExclusivo)} icone={DollarSign} subtitulo={`${pctExclusivo}% do total`} />
-      <KPICard titulo="Dotação Exclusiva" valor={acoesExclusivas} icone={Coins} subtitulo={fmt(gastoExclusivo)} rotuloValor="Aplicação Programada" />
-      <KPICardNaoExclusivo titulo="Dotação Não Exclusiva" valor={acoesNaoExclusivas} icone={Hourglass} subtitulo={fmt(gastoNaoExclusivo)} rotuloValor="Aplicação Programada" />
+      <KPICard titulo="Dotação Exclusiva" valor={acoesExclusivas} icone={Coins} subtitulo={fmt(gastoExclusivo)} rotuloValor="Aplicações Programadas" />
+      <KPICardNaoExclusivo titulo="Dotação Não Exclusiva" valor={acoesNaoExclusivas} icone={Hourglass} subtitulo={fmt(gastoNaoExclusivo)} rotuloValor="Aplicações Programadas" />
     </div>
   );
 }
