@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const nomesEixos = {
   1: 'Desenvolvimento Sustentável e Bioeconomia',
@@ -200,40 +201,63 @@ const odsConteudo = {
   },
 };
 
-function EixoTooltip({ num }) {
+function EixoTooltip({ num, children }) {
   const [hover, setHover] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const ref = useRef(null);
+
+  const updatePos = () => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const tooltipWidth = 280;
+      let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+      if (left < 8) left = 8;
+      if (left + tooltipWidth > window.innerWidth - 8) left = window.innerWidth - tooltipWidth - 8;
+      setPos({ top: rect.top - 8, left });
+    }
+  };
+
+  useEffect(() => {
+    if (hover) updatePos();
+  }, [hover]);
+
   return (
-    <span
-      style={{ position: 'relative', display: 'inline-block' }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <span style={{ color: '#4ade80', fontWeight: 600, whiteSpace: 'nowrap', cursor: 'default' }}>
-        {' '} (Eixo {num})
+    <>
+      <span
+        ref={ref}
+        style={{ cursor: 'help' }}
+        onMouseEnter={() => { updatePos(); setHover(true); }}
+        onMouseLeave={() => setHover(false)}
+      >
+        {children}
+        <span style={{ color: '#4ade80', fontWeight: 600, whiteSpace: 'nowrap' }}>
+          {' '} (Eixo {num})
+        </span>
       </span>
-      {hover && (
-        <span
+      {hover && createPortal(
+        <div
           style={{
-            position: 'absolute',
-            bottom: '100%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            marginBottom: 6,
+            position: 'fixed',
+            top: pos.top,
+            left: pos.left,
+            transform: 'translateY(-100%)',
             background: '#052e16',
             color: '#4ade80',
             border: '1px solid #2d5a3d',
-            borderRadius: 6,
-            padding: '4px 8px',
-            fontSize: 11,
+            borderRadius: 8,
+            padding: '8px 12px',
+            fontSize: 12,
             fontWeight: 500,
-            whiteSpace: 'nowrap',
-            zIndex: 10000,
+            zIndex: 2147483647,
             pointerEvents: 'none',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
+            boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+            maxWidth: 280,
+            lineHeight: 1.4
           }}
         >
-          {nomesEixos[num]}
-          <span
+          <div style={{ fontWeight: 700, marginBottom: 4 }}>Eixo {num}</div>
+          <div>{nomesEixos[num]}</div>
+          <div
             style={{
               position: 'absolute',
               top: '100%',
@@ -241,14 +265,15 @@ function EixoTooltip({ num }) {
               transform: 'translateX(-50%)',
               width: 0,
               height: 0,
-              borderLeft: '4px solid transparent',
-              borderRight: '4px solid transparent',
-              borderTop: '4px solid #2d5a3d'
+              borderLeft: '5px solid transparent',
+              borderRight: '5px solid transparent',
+              borderTop: '5px solid #2d5a3d'
             }}
           />
-        </span>
+        </div>,
+        document.body
       )}
-    </span>
+    </>
   );
 }
 
@@ -377,9 +402,10 @@ export default function ODSModal({ ods, posicao, onClose }) {
             <ul style={{ paddingLeft: 16, margin: 0 }}>
               {info.indicadores.map((item, idx) => (
                 <li key={idx} style={{ marginBottom: 6, textAlign: 'justify' }}>
-                  {item.texto}.{' '}
-                  {item.eixo && (
-                    <EixoTooltip num={parseInt(item.eixo)} />
+                  {item.eixo ? (
+                    <EixoTooltip num={parseInt(item.eixo)}>{item.texto}.</EixoTooltip>
+                  ) : (
+                    <>{item.texto}.</>
                   )}
                 </li>
               ))}
