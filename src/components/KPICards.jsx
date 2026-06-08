@@ -7,15 +7,18 @@ function KPICard({ titulo, valor, icone: Icone, subtitulo, rotuloValor }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="kpi-card">
+    <div
+      className="kpi-card"
+      style={{ cursor: 'default' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="kpi-header">
         <div>
           <div className="kpi-label">{titulo}</div>
           <div
             className="kpi-value"
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'default' }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
             {valor}
             {rotuloValor && (
@@ -68,15 +71,18 @@ function KPICardNaoExclusivo({ titulo, valor, icone: Icone, subtitulo, rotuloVal
   }, []);
 
   return (
-    <div className="kpi-card" style={{ position: 'relative' }}>
+    <div
+      className="kpi-card"
+      style={{ position: 'relative', cursor: 'default' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="kpi-header">
         <div>
           <div className="kpi-label">{titulo}</div>
           <div
             className="kpi-value"
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'default' }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
             {valor}
             {rotuloValor && (
