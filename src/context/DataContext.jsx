@@ -152,20 +152,22 @@ const dadosExemplo = {
     { ano: 2025, gastoExclusivo: 0, gastoNaoExclusivo: 0, creditosGerados: 0, creditosVendidos: 0, emissaoEvitada: 0 },
     { ano: 2026, gastoExclusivo: orcamentoReal.gasto_exclusivo || 0, gastoNaoExclusivo: orcamentoReal.gasto_nao_exclusivo || 0, creditosGerados: 12800000, creditosVendidos: 8900000, emissaoEvitada: 12000000 }
   ],
-  orgaos: Object.entries(orcamentoReal.distribuicao_por_orgao || {}).map(([nome, valores]) => {
-    const detalhesEixo = orcamentoPorOrgaoEixo[nome]?.eixos || {};
-    return {
-      id: nome,
-      nome,
-      exclusivo: valores['Exclusivo'] || 0,
-      naoExclusivo: valores['Não Exclusivo'] || 0,
-      total: valores['Total'] || 0,
-      status: 'Ativo',
-      eixos: eixosPorOrgao[nome] || ['Governança Ambiental e Transparência'],
-      valoresPorEixo: detalhesEixo,
-      anoInicio: 2026,
-    };
-  })
+  orgaos: Object.entries(orcamentoReal.distribuicao_por_orgao || {})
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([nome, valores]) => {
+      const detalhesEixo = orcamentoPorOrgaoEixo[nome]?.eixos || {};
+      return {
+        id: nome,
+        nome,
+        exclusivo: valores['Exclusivo'] || 0,
+        naoExclusivo: valores['Não Exclusivo'] || 0,
+        total: valores['Total'] || 0,
+        status: 'Ativo',
+        eixos: eixosPorOrgao[nome] || ['Governança Ambiental e Transparência'],
+        valoresPorEixo: detalhesEixo,
+        anoInicio: 2026,
+      };
+    })
 };
 
 const DataContext = createContext();
@@ -186,10 +188,12 @@ export function DataProvider({ children }) {
     ), [dados.projetos, filtros]);
 
   const orgaosFiltrados = useMemo(() =>
-    dados.orgaos.filter(o =>
-      (!filtros.secretaria?.length || filtros.secretaria.includes(o.nome)) &&
-      (!filtros.eixo?.length || o.eixos.some(e => filtros.eixo.includes(e)))
-    ), [dados.orgaos, filtros]);
+    dados.orgaos
+      .filter(o =>
+        (!filtros.secretaria?.length || filtros.secretaria.includes(o.nome)) &&
+        (!filtros.eixo?.length || o.eixos.some(e => filtros.eixo.includes(e)))
+      )
+      .sort((a, b) => a.nome.localeCompare(b.nome)), [dados.orgaos, filtros]);
 
   const totais = useMemo(() => {
     const totalProjetos = projetosFiltrados.length;
