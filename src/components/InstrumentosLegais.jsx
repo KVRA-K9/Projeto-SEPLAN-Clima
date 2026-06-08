@@ -64,7 +64,8 @@ const instrumentos = [
     icone: Gavel,
     itens: [
       { titulo: 'Lei nº 12.187/2009 (PNMC)', descricao: 'Política Nacional sobre Mudança do Clima, estabelecendo a meta de redução de emissões e o papel dos estados na implementação de ações climáticas.', url: 'https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2009/lei/l12187.htm' },
-      { titulo: 'Plano Nacional sobre Mudança do Clima (Plano Clima 2024-2035)', descricao: 'Estratégia de longo prazo para a descarbonização da economia brasileira, com metas setoriais de mitigação e adaptação às mudanças climáticas.', url: 'https://www.gov.br/mma/pt-br/composicao/smc/plano-clima' }
+      { titulo: 'Plano Nacional sobre Mudança do Clima (Plano Clima 2024-2035)', descricao: 'Estratégia de longo prazo para a descarbonização da economia brasileira, com metas setoriais de mitigação e adaptação às mudanças climáticas.', url: 'https://www.gov.br/mma/pt-br/composicao/smc/plano-clima' },
+      { titulo: 'Decreto Nº 12.705, de 31 de outubro de 2025', descricao: 'Estabelece a Taxonomia Sustentável Brasileira – TSB como instrumento do Plano de Transformação Ecológica do Poder Executivo federal.', url: 'https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/decreto/d12705.htm?shem=rimspwouoe' }
     ]
   }
 ];
