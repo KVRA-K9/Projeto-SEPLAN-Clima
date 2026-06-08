@@ -1,13 +1,4 @@
 {
-  "715/199 - SEFAZ": {
-    "Eixo I – Desenvolvimento Sustentável e Bioeconomia": [
-      {
-        "aplicacao": "PROSPECÇÃO DE MERCADO DA ECONOMIA VERDE NACIONAL E INTERNACIONAL.",
-        "dotacao": 5000000.0,
-        "classificacao": "Exclusivo"
-      }
-    ]
-  },
   "715/512 - CDSA": {
     "Eixo I – Desenvolvimento Sustentável e Bioeconomia": [
       {
@@ -668,6 +659,13 @@
         "aplicacao": "MODERNIZAÇÃO, APARELHAMENTO E MANUTENÇÃO DA ESTRUTURA DO FISCO.",
         "dotacao": 4000000.0,
         "classificacao": "Não Exclusivo"
+      }
+    ],
+    "Eixo I – Desenvolvimento Sustentável e Bioeconomia": [
+      {
+        "aplicacao": "PROSPECÇÃO DE MERCADO DA ECONOMIA VERDE NACIONAL E INTERNACIONAL.",
+        "dotacao": 5000000.0,
+        "classificacao": "Exclusivo"
       }
     ]
   },

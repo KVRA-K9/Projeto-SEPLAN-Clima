@@ -74,17 +74,12 @@
     },
     "total": 21950941.5
   },
-  "715/199 - SEFAZ": {
-    "eixos": {
-      "Eixo I – Desenvolvimento Sustentável e Bioeconomia": 5000000.0
-    },
-    "total": 5000000.0
-  },
   "715/199 - SEFAZ (Departamento do Tesouro Estadual)": {
     "eixos": {
+      "Eixo I – Desenvolvimento Sustentável e Bioeconomia": 5000000.0,
       "Eixo III – Adaptação às Mudanças Climáticas": 25000000.0
     },
-    "total": 25000000.0
+    "total": 30000000.0
   },
   "715/205 - JUCEAC": {
     "eixos": {

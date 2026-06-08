@@ -12,7 +12,7 @@ const orgaosLista = [
   '510/001 - PGE', '608/001 - PMAC', '609/001 - CBMAC',
   '609/632 - CBMAC (Fundo Esp. do Corpo de Bombeiros Militar do Estado do Acre - FUNESBOM)',
   '713/001 - SEPLAN', '714/001 - SEAD', '714/211 - ACREPREVIDÊNCIA',
-  '715/001 - SEFAZ', '715/199 - SEFAZ', '715/199 - SEFAZ (Departamento do Tesouro Estadual)', '715/205 - JUCEAC', '715/210 - AGEAC',
+  '715/001 - SEFAZ', '715/199 - SEFAZ (Departamento do Tesouro Estadual)', '715/205 - JUCEAC', '715/210 - AGEAC',
   '715/501 - COHAB', '715/512 - CDSA', '717/001 - SEE', '717/212 - IEPTEC',
   '717/303 - FEM', '717/628 - FEM (Fundo Estadual de Cultura  - Funcultura)',
   '718/001 - SEEL', '719/001 - SEJUSP', '719/209 - IAPEN', '719/213 - ISE',

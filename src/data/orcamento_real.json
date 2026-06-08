@@ -1,5 +1,5 @@
 {
-  "numero_orgaos_atuantes": 59,
+  "numero_orgaos_atuantes": 58,
   "acoes_exclusivas": 83,
   "acoes_nao_exclusivas": 117,
   "orcamento_por_secretaria": {
@@ -15,8 +15,7 @@
     "714/001 - SEAD": 1000.0,
     "714/211 - ACREPREVIDÊNCIA": 4100000.0,
     "715/001 - SEFAZ": 21950941.5,
-    "715/199 - SEFAZ": 5000000.0,
-    "715/199 - SEFAZ (Departamento do Tesouro Estadual)": 25000000.0,
+    "715/199 - SEFAZ (Departamento do Tesouro Estadual)": 30000000.0,
     "715/205 - JUCEAC": 1361000.0,
     "715/210 - AGEAC": 876000.0,
     "715/501 - COHAB": 100000.0,
@@ -164,20 +163,12 @@
       "valor_climatico": 21950941.5
     },
     {
-      "sigla": "715/199 - SEFAZ",
-      "valor_bruto": 5000000.0,
+      "sigla": "715/199 - SEFAZ (Departamento do Tesouro Estadual)",
+      "valor_bruto": 30000000.0,
       "percentual": 1.0,
       "intensidade": "Exclusivo (100%) / Não Exclusivo (0%)",
       "tipo": "Exclusivo",
-      "valor_climatico": 5000000.0
-    },
-    {
-      "sigla": "715/199 - SEFAZ (Departamento do Tesouro Estadual)",
-      "valor_bruto": 25000000.0,
-      "percentual": 0.0,
-      "intensidade": "Exclusivo (0%) / Não Exclusivo (100%)",
-      "tipo": "Não Exclusivo",
-      "valor_climatico": 25000000.0
+      "valor_climatico": 30000000.0
     },
     {
       "sigla": "715/205 - JUCEAC",
@@ -601,15 +592,10 @@
       "Não Exclusivo": 21949941.5,
       "Total": 21950941.5
     },
-    "715/199 - SEFAZ": {
-      "Exclusivo": 5000000.0,
-      "Não Exclusivo": 0,
-      "Total": 5000000.0
-    },
     "715/199 - SEFAZ (Departamento do Tesouro Estadual)": {
-      "Exclusivo": 0,
+      "Exclusivo": 5000000.0,
       "Não Exclusivo": 25000000.0,
-      "Total": 25000000.0
+      "Total": 30000000.0
     },
     "715/205 - JUCEAC": {
       "Exclusivo": 0,
@@ -850,8 +836,7 @@
     "714/001 - SEAD": 1000.0,
     "714/211 - ACREPREVIDÊNCIA": 4100000.0,
     "715/001 - SEFAZ": 21950941.5,
-    "715/199 - SEFAZ": 5000000.0,
-    "715/199 - SEFAZ (Departamento do Tesouro Estadual)": 25000000.0,
+    "715/199 - SEFAZ (Departamento do Tesouro Estadual)": 30000000.0,
     "715/205 - JUCEAC": 1361000.0,
     "715/210 - AGEAC": 876000.0,
     "715/501 - COHAB": 100000.0,

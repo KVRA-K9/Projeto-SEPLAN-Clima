@@ -22,7 +22,6 @@ const COR_NAO_EXCLUSIVO = '#1e3a5f';
 const NOMES_SECRETARIAS = {
   '714/001 - SEAD': 'Secretaria de Estado de Administração',
   '715/001 - SEFAZ': 'Secretaria de Estado da Fazenda',
-  '715/199 - SEFAZ': 'Secretaria de Estado da Fazenda',
   '715/199 - SEFAZ (Departamento do Tesouro Estadual)': 'Secretaria de Estado da Fazenda - Departamento do Tesouro Estadual',
   '715/512 - CDSA': 'Companhia de Desenvolvimento e Serviços Ambientais',
   '720/215 - IMC': 'Instituto de Mudanças Climáticas',
