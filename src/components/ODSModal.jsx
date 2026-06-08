@@ -225,7 +225,7 @@ function EixoTooltip({ num }) {
     <>
       <span
         ref={ref}
-        style={{ color: '#4ade80', fontWeight: 600, whiteSpace: 'nowrap', cursor: 'help' }}
+        style={{ color: '#4ade80', fontWeight: 600, whiteSpace: 'nowrap', cursor: 'default' }}
         onMouseEnter={() => { updatePos(); setHover(true); }}
         onMouseLeave={() => setHover(false)}
       >
