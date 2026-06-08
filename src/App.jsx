@@ -12,6 +12,7 @@ import InstrumentosLegais from './components/InstrumentosLegais';
 import ThemeToggle from './components/ThemeToggle';
 import ODSModal from './components/ODSModal';
 import AnimatedSection from './components/AnimatedSection';
+import Footer from './components/Footer';
 
 function ODSBadge({ ods, onSelect }) {
   const ref = React.useRef(null);
@@ -480,9 +481,7 @@ function Dashboard() {
         <ODSModal ods={odsSelecionado} posicao={odsPosicao} onClose={() => { setOdsSelecionado(null); setOdsPosicao(null); }} />
       )}
 
-      <footer className="dashboard-footer">
-        <p>Dashboard de Orçamento Climático — Estado do Acre</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
