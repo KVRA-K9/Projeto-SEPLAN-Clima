@@ -582,59 +582,23 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
         ]);
       });
 
-      const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 108;
-
-      // Footer institucional
-      const footerY = finalY + 30;
-      const pageH = doc.internal.pageSize.getHeight();
-
-      if (footerY < pageH - 80) {
-        // Linha separadora
-        doc.setDrawColor(200, 200, 200);
-        doc.setLineWidth(0.5);
-        doc.line(30, footerY, pageWidth - 30, footerY);
-
-        // Logo no footer (menor)
-        if (logoBase64) {
-          doc.addImage(logoBase64, 'PNG', pageWidth - 100, footerY + 10, 70, 50);
-        }
-
-        doc.setFontSize(9);
-        doc.setTextColor(21, 128, 61);
-        doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', 30, footerY + 18);
-
-        doc.setFontSize(8);
-        doc.setTextColor(80, 80, 80);
-        doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', 30, footerY + 30);
-
-        doc.setFontSize(7);
-        doc.setTextColor(100, 100, 100);
-        const compText = 'Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).';
-        doc.text(compText, 30, footerY + 42, { maxWidth: pageWidth - 140 });
-
-        doc.setFontSize(8);
-        doc.setTextColor(150, 150, 150);
-        doc.text('Av. Getúlio Vargas, 232 — Centro — Rio Branco — Acre — CEP: 69900-060 Palácio das Secretarias — Fone: (68) 3215-2514', 30, footerY + 55);
-      }
-
       // Footer institucional ao final do documento — replica layout do Footer.jsx
-      const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 108;
-      const pageH = doc.internal.pageSize.getHeight();
-      let footerY = finalY + 24;
+      const footerFinalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 108;
+      const footerPageH = doc.internal.pageSize.getHeight();
+      let footerY = footerFinalY + 24;
 
-      if (footerY + 120 > pageH) {
+      if (footerY + 120 > footerPageH) {
         doc.addPage();
         footerY = 40;
       }
 
-      const pageW = doc.internal.pageSize.getWidth();
-      const centerX = pageW / 2;
-      const usableW = pageW - 60; // 30 de margem em cada lado
+      const footerPageW = doc.internal.pageSize.getWidth();
+      const centerX = footerPageW / 2;
 
       // Linha separadora (full width)
       doc.setDrawColor(200, 200, 200);
       doc.setLineWidth(0.8);
-      doc.line(30, footerY, pageW - 30, footerY);
+      doc.line(30, footerY, footerPageW - 30, footerY);
 
       footerY += 16;
 
@@ -647,7 +611,7 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
 
       // Bloco de texto centralizado à DIREITA do logo
       const textBlockX = logoBase64 ? 50 + footerLogoW + 30 : 50;
-      const textBlockW = pageW - textBlockX - 50;
+      const textBlockW = footerPageW - textBlockX - 50;
       const textCenter = textBlockX + textBlockW / 2;
 
       doc.setFontSize(10);
@@ -666,10 +630,10 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       doc.setTextColor(100, 100, 100);
       doc.text('Av. Getúlio Vargas, 232 — Centro — Rio Branco — Acre — CEP: 69900-060 Palácio das Secretarias — Fone: (68) 3215-2514', textCenter, footerY + 56, { align: 'center', maxWidth: textBlockW });
 
-      // "Dashboard de Orçamento Climático — Estado do Acre" centralizado no final
+      // "Dashboard de Orçamento Climático — Estado do Acre" centralizado abaixo dos dizeres do departamento/secretaria
       doc.setFontSize(9);
       doc.setTextColor(120, 120, 120);
-      doc.text('Dashboard de Orçamento Climático — Estado do Acre', centerX, footerY + 72, { align: 'center' });
+      doc.text('Dashboard de Orçamento Climático — Estado do Acre', textCenter, footerY + 72, { align: 'center' });
 
       doc.save(`orgaos_orcamento_climatico_${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (err) {
