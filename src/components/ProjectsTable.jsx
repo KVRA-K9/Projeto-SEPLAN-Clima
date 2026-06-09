@@ -481,10 +481,10 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
       const pageWidth = doc.internal.pageSize.getWidth();
 
-      // Tenta carregar o logo como base64
+      // Tenta carregar o logo como base64 (usa logo vertical SEPLAN)
       let logoBase64 = null;
       try {
-        const response = await fetch('/logo_seplan.png');
+        const response = await fetch('/logo_vertical_seplan.png');
         const blob = await response.blob();
         logoBase64 = await new Promise((resolve) => {
           const reader = new FileReader();
@@ -495,23 +495,23 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
         console.warn('Não foi possível carregar o logo:', e);
       }
 
-      // Cabeçalho com logo
+      // Cabeçalho com logo (proporção ~1.39:1)
       if (logoBase64) {
-        doc.addImage(logoBase64, 'PNG', 40, 12, 55, 55);
+        doc.addImage(logoBase64, 'PNG', 30, 10, 68, 49);
       }
 
       doc.setFontSize(14);
       doc.setTextColor(21, 128, 61);
-      doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', logoBase64 ? 105 : 40, 32);
+      doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', logoBase64 ? 110 : 30, 30);
       doc.setFontSize(11);
       doc.setTextColor(80, 80, 80);
-      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', logoBase64 ? 105 : 40, 48);
+      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', logoBase64 ? 110 : 30, 46);
       doc.setFontSize(12);
       doc.setTextColor(0, 0, 0);
-      doc.text('Orçamento Climático – Detalhamento dos Órgãos', logoBase64 ? 105 : 40, 78);
+      doc.text('Orçamento Climático – Detalhamento dos Órgãos', logoBase64 ? 110 : 30, 82);
       doc.setFontSize(9);
       doc.setTextColor(100, 100, 100);
-      doc.text(`Exportado em: ${new Date().toLocaleDateString('pt-BR')} — Total de ${dados.length} órgão(s)`, logoBase64 ? 105 : 40, 94);
+      doc.text(`Exportado em: ${new Date().toLocaleDateString('pt-BR')} — Total de ${dados.length} órgão(s)`, logoBase64 ? 110 : 30, 98);
 
       const tableColumn = ['Órgão', 'Eixos Temáticos', 'Ano', 'Eixo (Detalhamento)', 'Valor por Eixo (R$)', 'Aplicação Programada', 'Dotação (R$)', 'Classificação', 'Exclusivo (R$)', 'Não Exclusivo (R$)', 'Total (R$)'];
       const tableRows = [];
@@ -595,23 +595,23 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       autoTable(doc, {
         head: [tableColumn],
         body: tableRows,
-        startY: 110,
-        styles: { fontSize: 7, cellPadding: 3, overflow: 'linebreak', valign: 'middle' },
-        headStyles: { fillColor: [21, 128, 61], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+        startY: 115,
+        styles: { fontSize: 7, cellPadding: 3, overflow: 'linebreak', valign: 'middle', lineWidth: 0.2, lineColor: [200, 200, 200] },
+        headStyles: { fillColor: [21, 128, 61], textColor: 255, fontStyle: 'bold', fontSize: 8, halign: 'center' },
         alternateRowStyles: { fillColor: [252, 255, 252] },
-        margin: { left: 15, right: 15, top: 110, bottom: 40 },
+        margin: { left: 20, right: 20, top: 115, bottom: 40 },
         columnStyles: {
-          0: { cellWidth: 80, fontSize: 7 },
-          1: { cellWidth: 95, fontSize: 6 },
-          2: { cellWidth: 25, fontSize: 7 },
-          3: { cellWidth: 105, fontSize: 7 },
-          4: { cellWidth: 60, fontSize: 7, halign: 'right' },
-          5: { cellWidth: 125, fontSize: 6 },
-          6: { cellWidth: 60, fontSize: 7, halign: 'right' },
-          7: { cellWidth: 50, fontSize: 6 },
-          8: { cellWidth: 60, fontSize: 7, halign: 'right' },
-          9: { cellWidth: 60, fontSize: 7, halign: 'right' },
-          10: { cellWidth: 60, fontSize: 7, halign: 'right' },
+          0: { cellWidth: 80, fontSize: 7, halign: 'left' },
+          1: { cellWidth: 95, fontSize: 6, halign: 'left' },
+          2: { cellWidth: 28, fontSize: 7, halign: 'center' },
+          3: { cellWidth: 105, fontSize: 7, halign: 'left' },
+          4: { cellWidth: 65, fontSize: 7, halign: 'center' },
+          5: { cellWidth: 130, fontSize: 6, halign: 'left' },
+          6: { cellWidth: 65, fontSize: 7, halign: 'center' },
+          7: { cellWidth: 55, fontSize: 6, halign: 'center' },
+          8: { cellWidth: 65, fontSize: 7, halign: 'center' },
+          9: { cellWidth: 65, fontSize: 7, halign: 'center' },
+          10: { cellWidth: 65, fontSize: 7, halign: 'center' },
         },
         didDrawPage: (data) => {
           doc.setFontSize(8);
