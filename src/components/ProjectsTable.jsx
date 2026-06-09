@@ -617,6 +617,60 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
         doc.text('Av. Getúlio Vargas, 232 — Centro — Rio Branco — Acre — CEP: 69900-060 Palácio das Secretarias — Fone: (68) 3215-2514', 30, footerY + 55);
       }
 
+      // Footer institucional ao final do documento — replica layout do Footer.jsx
+      const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 108;
+      const pageH = doc.internal.pageSize.getHeight();
+      let footerY = finalY + 24;
+
+      if (footerY + 120 > pageH) {
+        doc.addPage();
+        footerY = 40;
+      }
+
+      const pageW = doc.internal.pageSize.getWidth();
+      const centerX = pageW / 2;
+      const usableW = pageW - 60; // 30 de margem em cada lado
+
+      // Linha separadora (full width)
+      doc.setDrawColor(200, 200, 200);
+      doc.setLineWidth(0.8);
+      doc.line(30, footerY, pageW - 30, footerY);
+
+      footerY += 16;
+
+      // Logo à ESQUERDA (como no Footer.jsx)
+      const footerLogoH = 50;
+      const footerLogoW = (3113 / 2235) * footerLogoH; // proporção da imagem ~1.39
+      if (logoBase64) {
+        doc.addImage(logoBase64, 'PNG', 50, footerY, footerLogoW, footerLogoH);
+      }
+
+      // Bloco de texto centralizado à DIREITA do logo
+      const textBlockX = logoBase64 ? 50 + footerLogoW + 30 : 50;
+      const textBlockW = pageW - textBlockX - 50;
+      const textCenter = textBlockX + textBlockW / 2;
+
+      doc.setFontSize(10);
+      doc.setTextColor(21, 128, 61);
+      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', textCenter, footerY + 8, { align: 'center', maxWidth: textBlockW });
+
+      doc.setFontSize(8);
+      doc.setTextColor(80, 80, 80);
+      doc.text('Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).', textCenter, footerY + 20, { align: 'center', maxWidth: textBlockW });
+
+      doc.setFontSize(10);
+      doc.setTextColor(0, 0, 0);
+      doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', textCenter, footerY + 42, { align: 'center', maxWidth: textBlockW });
+
+      doc.setFontSize(8);
+      doc.setTextColor(100, 100, 100);
+      doc.text('Av. Getúlio Vargas, 232 — Centro — Rio Branco — Acre — CEP: 69900-060 Palácio das Secretarias — Fone: (68) 3215-2514', textCenter, footerY + 56, { align: 'center', maxWidth: textBlockW });
+
+      // "Dashboard de Orçamento Climático — Estado do Acre" centralizado no final
+      doc.setFontSize(9);
+      doc.setTextColor(120, 120, 120);
+      doc.text('Dashboard de Orçamento Climático — Estado do Acre', centerX, footerY + 72, { align: 'center' });
+
       doc.save(`orgaos_orcamento_climatico_${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (err) {
       console.error('Erro ao exportar PDF:', err);
