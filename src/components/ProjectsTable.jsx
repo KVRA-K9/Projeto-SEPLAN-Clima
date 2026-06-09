@@ -481,10 +481,10 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
       const pageWidth = doc.internal.pageSize.getWidth();
 
-      // Tenta carregar o logo como base64 (usa logo vertical SEPLAN)
+      // Tenta carregar o logo como base64 (usa logo Governo do Acre completo)
       let logoBase64 = null;
       try {
-        const response = await fetch('/logo_vertical_seplan.png');
+        const response = await fetch('/logo_governo_acre.png');
         const blob = await response.blob();
         logoBase64 = await new Promise((resolve) => {
           const reader = new FileReader();
@@ -495,33 +495,33 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
         console.warn('Não foi possível carregar o logo:', e);
       }
 
-      // Cabeçalho com logo (proporção ~1.39:1)
+      // Cabeçalho: textos à ESQUERDA, logo à DIREITA
+      const logoW = 115;
+      const logoH = 34;
+      const logoX = pageWidth - logoW - 30;
       if (logoBase64) {
-        doc.addImage(logoBase64, 'PNG', 30, 10, 68, 49);
+        doc.addImage(logoBase64, 'PNG', logoX, 12, logoW, logoH);
       }
 
       doc.setFontSize(14);
       doc.setTextColor(21, 128, 61);
-      doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', logoBase64 ? 110 : 30, 30);
+      doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', 30, 28);
       doc.setFontSize(11);
       doc.setTextColor(80, 80, 80);
-      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', logoBase64 ? 110 : 30, 46);
+      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', 30, 44);
       doc.setFontSize(12);
       doc.setTextColor(0, 0, 0);
-      doc.text('Orçamento Climático – Detalhamento dos Órgãos', logoBase64 ? 110 : 30, 82);
+      doc.text('Orçamento Climático – Detalhamento dos Órgãos', 30, 76);
       doc.setFontSize(9);
       doc.setTextColor(100, 100, 100);
-      doc.text(`Exportado em: ${new Date().toLocaleDateString('pt-BR')} — Total de ${dados.length} órgão(s)`, logoBase64 ? 110 : 30, 98);
+      doc.text(`Exportado em: ${new Date().toLocaleDateString('pt-BR')} — Total de ${dados.length} órgão(s)`, 30, 92);
 
-      const tableColumn = ['Órgão', 'Eixos Temáticos', 'Ano', 'Eixo (Detalhamento)', 'Valor por Eixo (R$)', 'Aplicação Programada', 'Dotação (R$)', 'Classificação', 'Exclusivo (R$)', 'Não Exclusivo (R$)', 'Total (R$)'];
+      // 10 colunas (removida Eixo Detalhamento)
+      const tableColumn = ['Órgão', 'Eixos Temáticos', 'Ano', 'Valor por Eixo (R$)', 'Aplicação Programada', 'Dotação (R$)', 'Classificação', 'Exclusivo (R$)', 'Não Exclusivo (R$)', 'Total (R$)'];
       const tableRows = [];
 
       dados.forEach((o) => {
         const eixosEntries = Object.entries(o.valoresPorEixo || {});
-        const pctExc = o.total > 0 ? ((o.exclusivo / o.total) * 100) : 0;
-        const pctNao = o.total > 0 ? ((o.naoExclusivo / o.total) * 100) : 0;
-        const propExc = pctExc > 0 && pctExc < 0.1 ? '< 0,1%' : pctExc.toFixed(1) + '%';
-        const propNao = pctNao > 0 && pctNao < 0.1 ? '< 0,1%' : pctNao.toFixed(1) + '%';
         const appsDoOrgao = aplicacoesPorOrgaoEixo?.[o.nomeOriginal] || {};
 
         // Linha de resumo do órgão (DESTACADA)
@@ -529,7 +529,6 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
           { content: limparNomeOrgao(o.nome), styles: { fontStyle: 'bold', fillColor: [230, 245, 230] } },
           { content: o.eixos.join(', '), styles: { fillColor: [230, 245, 230] } },
           { content: String(o.anoInicio), styles: { fillColor: [230, 245, 230] } },
-          { content: 'DETALHAMENTO DO ÓRGÃO', styles: { fontStyle: 'bold', fillColor: [230, 245, 230] } },
           { content: '', styles: { fillColor: [230, 245, 230] } },
           { content: '', styles: { fillColor: [230, 245, 230] } },
           { content: '', styles: { fillColor: [230, 245, 230] } },
@@ -540,38 +539,30 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
         ]);
 
         if (eixosEntries.length > 0) {
-          // Eixos
-          tableRows.push([
-            '', '', '',
-            { content: 'EIXOS ABRANGIDOS', styles: { fontStyle: 'bold', textColor: [21, 128, 61], fillColor: [245, 255, 245] } },
-            '', '', '', '', '', '', ''
-          ]);
-
           eixosEntries.forEach(([eixo, valor]) => {
-            tableRows.push([
-              '', '', '',
-              eixo,
-              'R$ ' + valor.toLocaleString('pt-BR'),
-              '', '', '', '', '', ''
-            ]);
-
-            // Aplicações programadas do eixo
             const appsDoEixo = appsDoOrgao[eixo] || [];
+
             if (appsDoEixo.length > 0) {
-              tableRows.push([
-                '', '', '', '', '',
-                { content: 'Aplicações Programadas', styles: { fontStyle: 'italic', textColor: [100, 100, 100], fillColor: [250, 250, 250] } },
-                '', '', '', '', ''
-              ]);
-              appsDoEixo.forEach((app) => {
+              // Uma linha por aplicação — aplicação, dotação e classificação juntas
+              appsDoEixo.forEach((app, idx) => {
                 tableRows.push([
-                  '', '', '', '', '',
+                  idx === 0 ? '' : '',
+                  idx === 0 ? '' : '',
+                  idx === 0 ? '' : '',
+                  idx === 0 ? 'R$ ' + valor.toLocaleString('pt-BR') : '',
                   app.aplicacao,
                   'R$ ' + app.dotacao.toLocaleString('pt-BR'),
                   app.classificacao,
                   '', '', ''
                 ]);
               });
+            } else {
+              // Eixo sem aplicações
+              tableRows.push([
+                '', '', '',
+                'R$ ' + valor.toLocaleString('pt-BR'),
+                '', '', '', '', '', ''
+              ]);
             }
           });
         }
@@ -588,30 +579,28 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
           { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
           { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
           { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
         ]);
       });
 
       autoTable(doc, {
         head: [tableColumn],
         body: tableRows,
-        startY: 115,
-        styles: { fontSize: 7, cellPadding: 3, overflow: 'linebreak', valign: 'middle', lineWidth: 0.2, lineColor: [200, 200, 200] },
+        startY: 108,
+        styles: { fontSize: 7, cellPadding: 3, overflow: 'linebreak', valign: 'middle', lineWidth: 0.3, lineColor: [180, 180, 180] },
         headStyles: { fillColor: [21, 128, 61], textColor: 255, fontStyle: 'bold', fontSize: 8, halign: 'center' },
         alternateRowStyles: { fillColor: [252, 255, 252] },
-        margin: { left: 20, right: 20, top: 115, bottom: 40 },
+        margin: { left: 20, right: 20, top: 108, bottom: 40 },
         columnStyles: {
           0: { cellWidth: 80, fontSize: 7, halign: 'left' },
           1: { cellWidth: 95, fontSize: 6, halign: 'left' },
           2: { cellWidth: 28, fontSize: 7, halign: 'center' },
-          3: { cellWidth: 105, fontSize: 7, halign: 'left' },
-          4: { cellWidth: 65, fontSize: 7, halign: 'center' },
-          5: { cellWidth: 130, fontSize: 6, halign: 'left' },
-          6: { cellWidth: 65, fontSize: 7, halign: 'center' },
-          7: { cellWidth: 55, fontSize: 6, halign: 'center' },
-          8: { cellWidth: 65, fontSize: 7, halign: 'center' },
-          9: { cellWidth: 65, fontSize: 7, halign: 'center' },
-          10: { cellWidth: 65, fontSize: 7, halign: 'center' },
+          3: { cellWidth: 70, fontSize: 7, halign: 'center' },
+          4: { cellWidth: 145, fontSize: 6, halign: 'left' },
+          5: { cellWidth: 70, fontSize: 7, halign: 'center' },
+          6: { cellWidth: 80, fontSize: 6, halign: 'center' },
+          7: { cellWidth: 70, fontSize: 7, halign: 'center' },
+          8: { cellWidth: 70, fontSize: 7, halign: 'center' },
+          9: { cellWidth: 70, fontSize: 7, halign: 'center' },
         },
         didDrawPage: (data) => {
           doc.setFontSize(8);
