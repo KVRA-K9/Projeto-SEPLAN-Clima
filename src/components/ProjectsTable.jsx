@@ -481,10 +481,10 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
       const pageWidth = doc.internal.pageSize.getWidth();
 
-      // Tenta carregar o logo como base64 (usa logo Governo do Acre completo)
+      // Tenta carregar o logo como base64 (usa logo SEPLAN + Brasão + Governo do Acre)
       let logoBase64 = null;
       try {
-        const response = await fetch('/logo_governo_acre.png');
+        const response = await fetch('/logo_completo_governo.png');
         const blob = await response.blob();
         logoBase64 = await new Promise((resolve) => {
           const reader = new FileReader();
@@ -496,11 +496,11 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       }
 
       // Cabeçalho: textos à ESQUERDA, logo à DIREITA
-      const logoW = 115;
-      const logoH = 34;
+      const logoW = 130;
+      const logoH = 94;
       const logoX = pageWidth - logoW - 30;
       if (logoBase64) {
-        doc.addImage(logoBase64, 'PNG', logoX, 12, logoW, logoH);
+        doc.addImage(logoBase64, 'PNG', logoX, 8, logoW, logoH);
       }
 
       doc.setFontSize(14);
@@ -582,32 +582,40 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
         ]);
       });
 
-      autoTable(doc, {
-        head: [tableColumn],
-        body: tableRows,
-        startY: 108,
-        styles: { fontSize: 7, cellPadding: 3, overflow: 'linebreak', valign: 'middle', lineWidth: 0.3, lineColor: [180, 180, 180] },
-        headStyles: { fillColor: [21, 128, 61], textColor: 255, fontStyle: 'bold', fontSize: 8, halign: 'center' },
-        alternateRowStyles: { fillColor: [252, 255, 252] },
-        margin: { left: 20, right: 20, top: 108, bottom: 40 },
-        columnStyles: {
-          0: { cellWidth: 80, fontSize: 7, halign: 'left' },
-          1: { cellWidth: 95, fontSize: 6, halign: 'left' },
-          2: { cellWidth: 28, fontSize: 7, halign: 'center' },
-          3: { cellWidth: 70, fontSize: 7, halign: 'center' },
-          4: { cellWidth: 145, fontSize: 6, halign: 'left' },
-          5: { cellWidth: 70, fontSize: 7, halign: 'center' },
-          6: { cellWidth: 80, fontSize: 6, halign: 'center' },
-          7: { cellWidth: 70, fontSize: 7, halign: 'center' },
-          8: { cellWidth: 70, fontSize: 7, halign: 'center' },
-          9: { cellWidth: 70, fontSize: 7, halign: 'center' },
-        },
-        didDrawPage: (data) => {
-          doc.setFontSize(8);
-          doc.setTextColor(150, 150, 150);
-          doc.text(`Dashboard de Orçamento Climático — Estado do Acre — Página ${data.pageNumber}`, data.settings.margin.left, doc.internal.pageSize.height - 20);
+      const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 108;
+
+      // Footer institucional
+      const footerY = finalY + 30;
+      const pageH = doc.internal.pageSize.getHeight();
+
+      if (footerY < pageH - 80) {
+        // Linha separadora
+        doc.setDrawColor(200, 200, 200);
+        doc.setLineWidth(0.5);
+        doc.line(30, footerY, pageWidth - 30, footerY);
+
+        // Logo no footer (menor)
+        if (logoBase64) {
+          doc.addImage(logoBase64, 'PNG', pageWidth - 100, footerY + 10, 70, 50);
         }
-      });
+
+        doc.setFontSize(9);
+        doc.setTextColor(21, 128, 61);
+        doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', 30, footerY + 18);
+
+        doc.setFontSize(8);
+        doc.setTextColor(80, 80, 80);
+        doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', 30, footerY + 30);
+
+        doc.setFontSize(7);
+        doc.setTextColor(100, 100, 100);
+        const compText = 'Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).';
+        doc.text(compText, 30, footerY + 42, { maxWidth: pageWidth - 140 });
+
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text('Av. Getúlio Vargas, 232 — Centro — Rio Branco — Acre — CEP: 69900-060 Palácio das Secretarias — Fone: (68) 3215-2514', 30, footerY + 55);
+      }
 
       doc.save(`orgaos_orcamento_climatico_${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (err) {
