@@ -329,38 +329,61 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
     }
   }, [aberto]);
 
-  const exportarXLSX = () => {
-    const rows = [];
+  const exportarXLSX = async () => {
+    const ExcelJS = (await import('exceljs')).default;
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Órgãos Orçamento Climático');
 
-    // Cabeçalho institucional
-    rows.push({
-      'Órgão': 'Secretaria de Estado de Planejamento — Governo do Estado do Acre',
-      'Eixos Temáticos': '', 'Ano': '', 'Eixo (Detalhamento)': '',
-      'Valor por Eixo (R$)': '', 'Aplicação Programada': '', 'Dotação Aplicação (R$)': '',
-      'Classificação': '', 'Orçamento Exclusivo (R$)': '', 'Orçamento Não Exclusivo (R$)': '',
-      'Total Orçamentário (R$)': '', 'Proporção Exclusiva': '', 'Proporção Não Exclusiva': ''
-    });
-    rows.push({
-      'Órgão': 'Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN',
-      'Eixos Temáticos': '', 'Ano': '', 'Eixo (Detalhamento)': '',
-      'Valor por Eixo (R$)': '', 'Aplicação Programada': '', 'Dotação Aplicação (R$)': '',
-      'Classificação': '', 'Orçamento Exclusivo (R$)': '', 'Orçamento Não Exclusivo (R$)': '',
-      'Total Orçamentário (R$)': '', 'Proporção Exclusiva': '', 'Proporção Não Exclusiva': ''
-    });
-    rows.push({
-      'Órgão': `Dashboard de Orçamento Climático — Exportado em ${new Date().toLocaleDateString('pt-BR')} — Total de ${dados.length} órgão(s)`,
-      'Eixos Temáticos': '', 'Ano': '', 'Eixo (Detalhamento)': '',
-      'Valor por Eixo (R$)': '', 'Aplicação Programada': '', 'Dotação Aplicação (R$)': '',
-      'Classificação': '', 'Orçamento Exclusivo (R$)': '', 'Orçamento Não Exclusivo (R$)': '',
-      'Total Orçamentário (R$)': '', 'Proporção Exclusiva': '', 'Proporção Não Exclusiva': ''
-    });
-    rows.push({
-      'Órgão': '', 'Eixos Temáticos': '', 'Ano': '', 'Eixo (Detalhamento)': '',
-      'Valor por Eixo (R$)': '', 'Aplicação Programada': '', 'Dotação Aplicação (R$)': '',
-      'Classificação': '', 'Orçamento Exclusivo (R$)': '', 'Orçamento Não Exclusivo (R$)': '',
-      'Total Orçamentário (R$)': '', 'Proporção Exclusiva': '', 'Proporção Não Exclusiva': ''
-    });
+    // Carrega a logo SEPLAN para o XLSX
+    let logoBuffer = null;
+    try {
+      const response = await fetch('/logo_seplan.png');
+      const blob = await response.blob();
+      logoBuffer = new Uint8Array(await blob.arrayBuffer());
+    } catch (e) {
+      console.warn('Não foi possível carregar o logo SEPLAN para XLSX:', e);
+    }
 
+    // Insere a logo no canto superior direito
+    // Dizeres institucionais (linhas 1-3)
+    worksheet.mergeCells('A1:D1');
+    worksheet.getCell('A1').value = 'Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN';
+    worksheet.getCell('A1').font = { size: 11, color: { argb: 'FF15803D' }, bold: false };
+
+    worksheet.mergeCells('A2:D2');
+    worksheet.getCell('A2').value = 'Secretaria de Estado de Planejamento - SEPLAN';
+    worksheet.getCell('A2').font = { size: 11, color: { argb: 'FF15803D' }, bold: false };
+
+    worksheet.mergeCells('A3:D3');
+    worksheet.getCell('A3').value = 'Orçamento Climático – Órgãos';
+    worksheet.getCell('A3').font = { size: 11, color: { argb: 'FF15803D' }, bold: false };
+
+    // Insere a logo na coluna D (ao lado dos dizeres)
+    if (logoBuffer) {
+      const imageId = workbook.addImage({
+        buffer: logoBuffer,
+        extension: 'png',
+      });
+      worksheet.addImage(imageId, {
+        tl: { col: 3.2, row: 0 },
+        ext: { width: 180, height: 52 },
+      });
+    }
+
+    // Linha em branco
+    // Cabeçalho das colunas (aparece apenas aqui)
+    const headers = [
+      'Órgão', 'Eixos Temáticos', 'Ano',
+      'Valor por Eixo (R$)', 'Aplicação Programada', 'Dotação Aplicação (R$)',
+      'Classificação', 'Orçamento Exclusivo (R$)', 'Orçamento Não Exclusivo (R$)',
+      'Total Orçamentário (R$)', 'Proporção Exclusiva', 'Proporção Não Exclusiva'
+    ];
+    const headerRow = worksheet.addRow(headers);
+    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF15803D' } };
+    headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // Dados dos órgãos
     dados.forEach((o) => {
       const eixosEntries = Object.entries(o.valoresPorEixo || {});
       const pctExc = o.total > 0 ? ((o.exclusivo / o.total) * 100) : 0;
@@ -369,110 +392,71 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       const propNao = pctNao > 0 && pctNao < 0.1 ? '< 0,1%' : pctNao.toFixed(1) + '%';
       const appsDoOrgao = aplicacoesPorOrgaoEixo?.[o.nomeOriginal] || {};
 
-      // Linha de resumo do órgão (aparece uma única vez)
-      rows.push({
-        'Órgão': '>>> ' + limparNomeOrgao(o.nome),
-        'Eixos Temáticos': o.eixos.join(', '),
-        'Ano': o.anoInicio,
-        'Eixo (Detalhamento)': 'RESUMO DO ÓRGÃO',
-        'Valor por Eixo (R$)': '',
-        'Aplicação Programada': '',
-        'Dotação Aplicação (R$)': '',
-        'Classificação': '',
-        'Orçamento Exclusivo (R$)': o.exclusivo,
-        'Orçamento Não Exclusivo (R$)': o.naoExclusivo,
-        'Total Orçamentário (R$)': o.total,
-        'Proporção Exclusiva': propExc,
-        'Proporção Não Exclusiva': propNao,
-      });
+      // Linha de resumo do órgão
+      worksheet.addRow([
+        limparNomeOrgao(o.nome),
+        o.eixos.join(', '),
+        o.anoInicio,
+        '', '', '', '',
+        o.exclusivo,
+        o.naoExclusivo,
+        o.total,
+        propExc,
+        propNao,
+      ]);
 
       if (eixosEntries.length > 0) {
-        // Detalhamento por Eixo
-        rows.push({
-          'Órgão': '',
-          'Eixos Temáticos': '',
-          'Ano': '',
-          'Eixo (Detalhamento)': '--- EIXOS ABRANGIDOS ---',
-          'Valor por Eixo (R$)': '',
-          'Aplicação Programada': '',
-          'Dotação Aplicação (R$)': '',
-          'Classificação': '',
-          'Orçamento Exclusivo (R$)': '',
-          'Orçamento Não Exclusivo (R$)': '',
-          'Total Orçamentário (R$)': '',
-          'Proporção Exclusiva': '',
-          'Proporção Não Exclusiva': '',
-        });
-
         eixosEntries.forEach(([eixo, valor]) => {
-          rows.push({
-            'Órgão': '',
-            'Eixos Temáticos': '',
-            'Ano': '',
-            'Eixo (Detalhamento)': eixo,
-            'Valor por Eixo (R$)': valor,
-            'Aplicação Programada': '',
-            'Dotação Aplicação (R$)': '',
-            'Classificação': '',
-            'Orçamento Exclusivo (R$)': '',
-            'Orçamento Não Exclusivo (R$)': '',
-            'Total Orçamentário (R$)': '',
-            'Proporção Exclusiva': '',
-            'Proporção Não Exclusiva': '',
-          });
+          worksheet.addRow([
+            '', '', '',
+            valor,
+            '', '', '', '', '', '', '', '',
+          ]);
 
-          // Linhas de aplicações programadas do eixo
           const appsDoEixo = appsDoOrgao[eixo] || [];
           if (appsDoEixo.length > 0) {
-            rows.push({
-              'Órgão': '',
-              'Eixos Temáticos': '',
-              'Ano': '',
-              'Eixo (Detalhamento)': '',
-              'Valor por Eixo (R$)': '',
-              'Aplicação Programada': '--- APLICAÇÕES PROGRAMADAS ---',
-              'Dotação Aplicação (R$)': '',
-              'Classificação': '',
-              'Orçamento Exclusivo (R$)': '',
-              'Orçamento Não Exclusivo (R$)': '',
-              'Total Orçamentário (R$)': '',
-              'Proporção Exclusiva': '',
-              'Proporção Não Exclusiva': '',
-            });
             appsDoEixo.forEach((app) => {
-              rows.push({
-                'Órgão': '',
-                'Eixos Temáticos': '',
-                'Ano': '',
-                'Eixo (Detalhamento)': '',
-                'Valor por Eixo (R$)': '',
-                'Aplicação Programada': app.aplicacao,
-                'Dotação Aplicação (R$)': app.dotacao,
-                'Classificação': app.classificacao,
-                'Orçamento Exclusivo (R$)': '',
-                'Orçamento Não Exclusivo (R$)': '',
-                'Total Orçamentário (R$)': '',
-                'Proporção Exclusiva': '',
-                'Proporção Não Exclusiva': '',
-              });
+              worksheet.addRow([
+                '', '', '', '',
+                app.aplicacao,
+                app.dotacao,
+                app.classificacao,
+                '', '', '', '', '',
+              ]);
             });
           }
         });
       }
 
       // Linha em branco separadora entre órgãos
-      rows.push({
-        'Órgão': '', 'Eixos Temáticos': '', 'Ano': '', 'Eixo (Detalhamento)': '',
-        'Valor por Eixo (R$)': '', 'Aplicação Programada': '', 'Dotação Aplicação (R$)': '',
-        'Classificação': '', 'Orçamento Exclusivo (R$)': '', 'Orçamento Não Exclusivo (R$)': '',
-        'Total Orçamentário (R$)': '', 'Proporção Exclusiva': '', 'Proporção Não Exclusiva': ''
-      });
+      worksheet.addRow([]);
     });
 
-    const worksheet = XLSX.utils.json_to_sheet(rows);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Órgãos Orçamento Climático');
-    XLSX.writeFile(workbook, `orgaos_orcamento_climatico_${new Date().toISOString().split('T')[0]}.xlsx`);
+    // Informações no final do documento
+    worksheet.addRow([]);
+    worksheet.addRow([`Exportado em: ${new Date().toLocaleDateString('pt-BR')}`]);
+    worksheet.addRow([`Total: ${dados.length} órgão(s)`]);
+    worksheet.addRow([]);
+    worksheet.addRow([
+      'Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).'
+    ]);
+
+    // Ajusta larguras das colunas
+    worksheet.columns = [
+      { width: 45 }, { width: 25 }, { width: 10 },
+      { width: 20 }, { width: 45 }, { width: 20 },
+      { width: 20 }, { width: 20 }, { width: 20 },
+      { width: 20 }, { width: 15 }, { width: 15 }
+    ];
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `orgaos_orcamento_climatico_${new Date().toISOString().split('T')[0]}.xlsx`;
+    a.click();
+    URL.revokeObjectURL(url);
     setAberto(false);
   };
 
@@ -481,10 +465,10 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
       const pageWidth = doc.internal.pageSize.getWidth();
 
-      // Tenta carregar o logo como base64 (usa logo SEPLAN + Brasão + Governo do Acre)
+      // Carrega a logo SEPLAN como base64
       let logoBase64 = null;
       try {
-        const response = await fetch('/logo_completo_governo.png');
+        const response = await fetch('/logo_seplan.png');
         const blob = await response.blob();
         logoBase64 = await new Promise((resolve) => {
           const reader = new FileReader();
@@ -492,148 +476,113 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
           reader.readAsDataURL(blob);
         });
       } catch (e) {
-        console.warn('Não foi possível carregar o logo:', e);
+        console.warn('Não foi possível carregar o logo SEPLAN:', e);
       }
 
-      // Cabeçalho: textos à ESQUERDA, logo à DIREITA
-      const logoW = 130;
-      const logoH = 94;
-      const logoX = pageWidth - logoW - 30;
+      // Logo no canto superior direito, discreta e proporcional
       if (logoBase64) {
-        doc.addImage(logoBase64, 'PNG', logoX, 8, logoW, logoH);
+        const logoH = 56; // discreto, sem cortar
+        const logoW = (2800 / 800) * logoH; // proporção da logo_seplan.png ~3.5
+        const logoX = pageWidth - logoW - 30;
+        doc.addImage(logoBase64, 'PNG', logoX, 10, logoW, logoH);
       }
 
-      doc.setFontSize(14);
-      doc.setTextColor(21, 128, 61);
-      doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', 30, 28);
+      // Textos institucionais à esquerda — mesmo tamanho (11pt) e mesma cor verde
       doc.setFontSize(11);
-      doc.setTextColor(80, 80, 80);
-      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', 30, 44);
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      doc.text('Orçamento Climático – Detalhamento dos Órgãos', 30, 76);
-      doc.setFontSize(9);
-      doc.setTextColor(100, 100, 100);
-      doc.text(`Exportado em: ${new Date().toLocaleDateString('pt-BR')} — Total de ${dados.length} órgão(s)`, 30, 92);
+      doc.setTextColor(21, 128, 61);
+      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', 30, 28);
+      doc.text('Secretaria de Estado de Planejamento - SEPLAN', 30, 44);
+      doc.text('Orçamento Climático – Órgãos', 30, 60);
 
-      // 10 colunas (removida Eixo Detalhamento)
       const tableColumn = ['Órgão', 'Eixos Temáticos', 'Ano', 'Valor por Eixo (R$)', 'Aplicação Programada', 'Dotação (R$)', 'Classificação', 'Exclusivo (R$)', 'Não Exclusivo (R$)', 'Total (R$)'];
       const tableRows = [];
 
       dados.forEach((o) => {
         const eixosEntries = Object.entries(o.valoresPorEixo || {});
         const appsDoOrgao = aplicacoesPorOrgaoEixo?.[o.nomeOriginal] || {};
+        if (eixosEntries.length === 0) {
+          tableRows.push([
+            limparNomeOrgao(o.nome),
+            o.eixos.join(', '),
+            String(o.anoInicio),
+            '-',
+            '-',
+            '-',
+            '-',
+            String(o.exclusivo),
+            String(o.naoExclusivo),
+            String(o.total),
+          ]);
+        } else {
+          eixosEntries.forEach(([eixo, valor], idx) => {
+            tableRows.push([
+              idx === 0 ? limparNomeOrgao(o.nome) : '',
+              idx === 0 ? o.eixos.join(', ') : '',
+              idx === 0 ? String(o.anoInicio) : '',
+              String(valor),
+              '',
+              '',
+              '',
+              idx === 0 ? String(o.exclusivo) : '',
+              idx === 0 ? String(o.naoExclusivo) : '',
+              idx === 0 ? String(o.total) : '',
+            ]);
 
-        // Linha de resumo do órgão (DESTACADA)
-        tableRows.push([
-          { content: limparNomeOrgao(o.nome), styles: { fontStyle: 'bold', fillColor: [230, 245, 230] } },
-          { content: o.eixos.join(', '), styles: { fillColor: [230, 245, 230] } },
-          { content: String(o.anoInicio), styles: { fillColor: [230, 245, 230] } },
-          { content: '', styles: { fillColor: [230, 245, 230] } },
-          { content: '', styles: { fillColor: [230, 245, 230] } },
-          { content: '', styles: { fillColor: [230, 245, 230] } },
-          { content: '', styles: { fillColor: [230, 245, 230] } },
-          { content: 'R$ ' + o.exclusivo.toLocaleString('pt-BR'), styles: { fontStyle: 'bold', fillColor: [230, 245, 230] } },
-          { content: 'R$ ' + o.naoExclusivo.toLocaleString('pt-BR'), styles: { fontStyle: 'bold', fillColor: [230, 245, 230] } },
-          { content: 'R$ ' + o.total.toLocaleString('pt-BR'), styles: { fontStyle: 'bold', fillColor: [230, 245, 230] } },
-        ]);
-
-        if (eixosEntries.length > 0) {
-          eixosEntries.forEach(([eixo, valor]) => {
+            // Linhas de aplicações programadas do eixo
             const appsDoEixo = appsDoOrgao[eixo] || [];
-
-            if (appsDoEixo.length > 0) {
-              // Uma linha por aplicação — aplicação, dotação e classificação juntas
-              appsDoEixo.forEach((app, idx) => {
-                tableRows.push([
-                  idx === 0 ? '' : '',
-                  idx === 0 ? '' : '',
-                  idx === 0 ? '' : '',
-                  idx === 0 ? 'R$ ' + valor.toLocaleString('pt-BR') : '',
-                  app.aplicacao,
-                  'R$ ' + app.dotacao.toLocaleString('pt-BR'),
-                  app.classificacao,
-                  '', '', ''
-                ]);
-              });
-            } else {
-              // Eixo sem aplicações
+            appsDoEixo.forEach((app) => {
               tableRows.push([
-                '', '', '',
-                'R$ ' + valor.toLocaleString('pt-BR'),
-                '', '', '', '', '', ''
+                '',
+                '',
+                '',
+                '',
+                app.aplicacao,
+                String(app.dotacao),
+                app.classificacao,
+                '',
+                '',
+                '',
               ]);
-            }
+            });
           });
         }
-
-        // Linha separadora
-        tableRows.push([
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-          { content: '', styles: { fillColor: [200, 200, 200], minCellHeight: 3 } },
-        ]);
       });
 
-      // Footer institucional ao final do documento — replica layout do Footer.jsx
-      const footerFinalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 108;
-      const footerPageH = doc.internal.pageSize.getHeight();
-      let footerY = footerFinalY + 24;
+      autoTable(doc, {
+        head: [tableColumn],
+        body: tableRows,
+        startY: 72,
+        styles: { fontSize: 7, cellPadding: 2, overflow: 'linebreak', lineColor: [200, 200, 200], lineWidth: 0.5 },
+        headStyles: { fillColor: [21, 128, 61], textColor: 255, fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [245, 255, 250] },
+        margin: { left: 30, right: 30 },
+        tableWidth: 'auto',
+        didDrawPage: (data) => {
+          doc.setFontSize(8);
+          doc.text(`Página ${data.pageNumber}`, data.settings.margin.left, doc.internal.pageSize.height - 20);
+        }
+      });
 
-      if (footerY + 120 > footerPageH) {
+      // Informações de exportação no final da última página
+      const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 108;
+      const pageH = doc.internal.pageSize.getHeight();
+      const pageW = doc.internal.pageSize.getWidth();
+      let infoY = finalY + 20;
+
+      if (infoY + 40 > pageH - 30) {
         doc.addPage();
-        footerY = 40;
+        infoY = 40;
       }
 
-      const footerPageW = doc.internal.pageSize.getWidth();
-      const centerX = footerPageW / 2;
-
-      // Linha separadora (full width)
-      doc.setDrawColor(200, 200, 200);
-      doc.setLineWidth(0.8);
-      doc.line(30, footerY, footerPageW - 30, footerY);
-
-      footerY += 16;
-
-      // Logo à ESQUERDA (como no Footer.jsx)
-      const footerLogoH = 50;
-      const footerLogoW = (3113 / 2235) * footerLogoH; // proporção da imagem ~1.39
-      if (logoBase64) {
-        doc.addImage(logoBase64, 'PNG', 50, footerY, footerLogoW, footerLogoH);
-      }
-
-      // Bloco de texto centralizado à DIREITA do logo
-      const textBlockX = logoBase64 ? 50 + footerLogoW + 30 : 50;
-      const textBlockW = footerPageW - textBlockX - 50;
-      const textCenter = textBlockX + textBlockW / 2;
-
       doc.setFontSize(10);
-      doc.setTextColor(21, 128, 61);
-      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', textCenter, footerY + 8, { align: 'center', maxWidth: textBlockW });
-
-      doc.setFontSize(8);
-      doc.setTextColor(80, 80, 80);
-      doc.text('Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).', textCenter, footerY + 20, { align: 'center', maxWidth: textBlockW });
-
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0);
-      doc.text('Secretaria de Estado de Planejamento — Governo do Estado do Acre', textCenter, footerY + 42, { align: 'center', maxWidth: textBlockW });
-
-      doc.setFontSize(8);
       doc.setTextColor(100, 100, 100);
-      doc.text('Av. Getúlio Vargas, 232 — Centro — Rio Branco — Acre — CEP: 69900-060 Palácio das Secretarias — Fone: (68) 3215-2514', textCenter, footerY + 56, { align: 'center', maxWidth: textBlockW });
+      doc.text(`Exportado em: ${new Date().toLocaleDateString('pt-BR')}`, 30, infoY);
+      doc.text(`Total: ${dados.length} órgão(s)`, 30, infoY + 14);
 
-      // "Dashboard de Orçamento Climático — Estado do Acre" centralizado abaixo dos dizeres do departamento/secretaria
-      doc.setFontSize(9);
-      doc.setTextColor(120, 120, 120);
-      doc.text('Dashboard de Orçamento Climático — Estado do Acre', textCenter, footerY + 72, { align: 'center' });
+      // Equipe técnica — discreta, abaixo das informações de exportação
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text('Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).', 30, infoY + 32, { maxWidth: pageW - 60 });
 
       doc.save(`orgaos_orcamento_climatico_${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (err) {
