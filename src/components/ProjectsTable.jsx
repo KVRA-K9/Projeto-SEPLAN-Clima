@@ -5,7 +5,7 @@ import { ClipboardList, ChevronDown, ChevronUp, Download, FileSpreadsheet, FileT
 import AnimatedSection from './AnimatedSection';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import { autoTable } from 'jspdf-autotable';
 
 const orgaosLista = [
   '445/001 - SEGOV', '448/001 - CGE', '451/001 - PCAC', '452/001 - DEFESA CIVIL',
@@ -284,6 +284,74 @@ function MultiSelectDropdown({ value = [], onChange, options, placeholder }) {
   );
 }
 
+// ─── helpers de PDF ──────────────────────────────
+const formatMoney = (valor) => {
+  if (!valor || isNaN(valor)) return 'R$ 0,00';
+  return `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+};
+
+const drawPageHeader = (doc, pageNum) => {
+  const pageW = doc.internal.pageSize.getWidth();
+  const verdeEscuro = [27, 77, 62];
+  
+  // Fundo verde escuro do cabeçalho (no topo)
+  doc.setFillColor(...verdeEscuro);
+  doc.rect(0, 0, pageW, 90, 'F');
+  
+  // Título
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.text('Orçamento Climático – Detalhamento por Órgão', 40, 35);
+  
+  // Subtítulo
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.text('Departamento de Estudos e Planejamento Orçamentário – DEPPO/SEPLAN', 40, 52);
+  
+  // Metadados
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.text(`Exercício: 2026     Exportado em: ${new Date().toLocaleDateString('pt-BR')}     Página ${pageNum}`, 40, 68);
+  
+  // Reset cor
+  doc.setTextColor(0, 0, 0);
+};
+
+const drawPageFooter = (doc) => {
+  const pageH = doc.internal.pageSize.getHeight();
+  const pageW = doc.internal.pageSize.getWidth();
+  const cinzaMedio = [156, 163, 175];
+  
+  // Linha separadora
+  doc.setDrawColor(...cinzaMedio);
+  doc.setLineWidth(0.5);
+  doc.line(40, pageH - 35, pageW - 40, pageH - 35);
+  
+  // Texto do rodapé
+  doc.setTextColor(...cinzaMedio);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.text('Secretaria de Estado de Planejamento – SEPLAN | Governo do Estado do Acre', pageW / 2, pageH - 22, { align: 'center' });
+  
+  // Reset cor
+  doc.setTextColor(0, 0, 0);
+};
+
+// ─── Cores do PDF de referência ──────────────────────────────
+const COLORS = {
+  verdeEscuro: [27, 77, 62],
+  verdeMedio: [45, 122, 95],
+  verdeClaro: [232, 245, 233],
+  verdeTexto: [21, 128, 61],
+  cinzaTexto: [55, 65, 81],
+  cinzaClaro: [243, 244, 246],
+  cinzaMedio: [156, 163, 175],
+  azulExclusivo: [37, 99, 235],
+  cinzaNaoExclusivo: [107, 114, 128],
+  branco: [255, 255, 255],
+};
+
 function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
   const [aberto, setAberto] = useState(false);
   const [posicao, setPosicao] = useState({ top: 0, left: 0, width: 0 });
@@ -332,9 +400,46 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
   const exportarXLSX = async () => {
     const ExcelJS = (await import('exceljs')).default;
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Órgãos Orçamento Climático');
+    const worksheet = workbook.addWorksheet('Orçamento Climático');
 
-    // Carrega a logo SEPLAN para o XLSX
+    const verdeEscuroArgb = 'FF1B4D3E';
+    const verdeClaroArgb = 'FFE8F5E9';
+    const verdeMuitoClaroArgb = 'FFF5FAF5';
+    const verdeMedioArgb = 'FF9ED4B3';
+    const verdeTextoArgb = 'FF15803D';
+    const cinzaTextoArgb = 'FF374151';
+    const cinzaClaroArgb = 'FFF3F4F6';
+    const azulExclusivoArgb = 'FF2563EB';
+    const cinzaNaoExclusivoArgb = 'FF6B7280';
+    const brancoArgb = 'FFFFFFFF';
+
+    const thinBorder = { style: 'thin', color: { argb: verdeEscuroArgb } };
+    const thickBorder = { style: 'medium', color: { argb: verdeEscuroArgb } };
+
+    const applyBorders = (row, cols, border) => {
+      const b = border || thinBorder;
+      for (let c = 1; c <= cols; c++) {
+        const cell = row.getCell(c);
+        cell.border = { top: b, bottom: b, left: b, right: b };
+      }
+    };
+
+    const applyOuterBorders = (startRow, endRow, cols, border) => {
+      const b = border || thickBorder;
+      for (let r = startRow; r <= endRow; r++) {
+        const row = worksheet.getRow(r);
+        for (let c = 1; c <= cols; c++) {
+          const cell = row.getCell(c);
+          cell.border = {
+            top: r === startRow ? b : (cell.border?.top || thinBorder),
+            bottom: r === endRow ? b : (cell.border?.bottom || thinBorder),
+            left: c === 1 ? b : (cell.border?.left || thinBorder),
+            right: c === cols ? b : (cell.border?.right || thinBorder),
+          };
+        }
+      }
+    };
+
     let logoBuffer = null;
     try {
       const response = await fetch('/logo_seplan.png');
@@ -344,109 +449,181 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       console.warn('Não foi possível carregar o logo SEPLAN para XLSX:', e);
     }
 
-    // Insere a logo no canto superior direito
-    // Dizeres institucionais (linhas 1-3)
     worksheet.mergeCells('A1:D1');
-    worksheet.getCell('A1').value = 'Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN';
-    worksheet.getCell('A1').font = { size: 11, color: { argb: 'FF15803D' }, bold: false };
+    worksheet.getCell('A1').value = 'Orçamento Climático – Detalhamento por Órgão';
+    worksheet.getCell('A1').font = { size: 14, bold: true, color: { argb: brancoArgb } };
+    worksheet.getCell('A1').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+    applyBorders(worksheet.getRow(1), 4);
 
     worksheet.mergeCells('A2:D2');
-    worksheet.getCell('A2').value = 'Secretaria de Estado de Planejamento - SEPLAN';
-    worksheet.getCell('A2').font = { size: 11, color: { argb: 'FF15803D' }, bold: false };
+    worksheet.getCell('A2').value = 'Departamento de Estudos e Planejamento Orçamentário – DEPPO/SEPLAN';
+    worksheet.getCell('A2').font = { size: 10, color: { argb: brancoArgb } };
+    worksheet.getCell('A2').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+    applyBorders(worksheet.getRow(2), 4);
 
     worksheet.mergeCells('A3:D3');
-    worksheet.getCell('A3').value = 'Orçamento Climático – Órgãos';
-    worksheet.getCell('A3').font = { size: 11, color: { argb: 'FF15803D' }, bold: false };
+    worksheet.getCell('A3').value = `Exercício: 2026     Exportado em: ${new Date().toLocaleDateString('pt-BR')}`;
+    worksheet.getCell('A3').font = { size: 9, color: { argb: brancoArgb } };
+    worksheet.getCell('A3').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+    applyBorders(worksheet.getRow(3), 4);
 
-    // Insere a logo na coluna D (ao lado dos dizeres)
     if (logoBuffer) {
-      const imageId = workbook.addImage({
-        buffer: logoBuffer,
-        extension: 'png',
-      });
-      worksheet.addImage(imageId, {
-        tl: { col: 3.2, row: 0 },
-        ext: { width: 180, height: 52 },
-      });
+      const imageId = workbook.addImage({ buffer: logoBuffer, extension: 'png' });
+      worksheet.addImage(imageId, { tl: { col: 3.2, row: 0 }, ext: { width: 180, height: 52 } });
     }
 
-    // Linha em branco
-    // Cabeçalho das colunas (aparece apenas aqui)
-    const headers = [
-      'Órgão', 'Eixos Temáticos', 'Ano',
-      'Valor por Eixo (R$)', 'Aplicação Programada', 'Dotação Aplicação (R$)',
-      'Classificação', 'Orçamento Exclusivo (R$)', 'Orçamento Não Exclusivo (R$)',
-      'Total Orçamentário (R$)', 'Proporção Exclusiva', 'Proporção Não Exclusiva'
-    ];
-    const headerRow = worksheet.addRow(headers);
-    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF15803D' } };
-    headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
+    worksheet.addRow([]);
 
-    // Dados dos órgãos
+    let totalExclusivo = 0;
+    let totalNaoExclusivo = 0;
+
     dados.forEach((o) => {
       const eixosEntries = Object.entries(o.valoresPorEixo || {});
-      const pctExc = o.total > 0 ? ((o.exclusivo / o.total) * 100) : 0;
-      const pctNao = o.total > 0 ? ((o.naoExclusivo / o.total) * 100) : 0;
-      const propExc = pctExc > 0 && pctExc < 0.1 ? '< 0,1%' : pctExc.toFixed(1) + '%';
-      const propNao = pctNao > 0 && pctNao < 0.1 ? '< 0,1%' : pctNao.toFixed(1) + '%';
       const appsDoOrgao = aplicacoesPorOrgaoEixo?.[o.nomeOriginal] || {};
+      const orgTotal = o.total || 0;
+      const orgExclusivo = o.exclusivo || 0;
+      const orgNaoExclusivo = o.naoExclusivo || 0;
+      totalExclusivo += orgExclusivo;
+      totalNaoExclusivo += orgNaoExclusivo;
 
-      // Linha de resumo do órgão
-      worksheet.addRow([
-        limparNomeOrgao(o.nome),
-        o.eixos.join(', '),
-        o.anoInicio,
-        '', '', '', '',
-        o.exclusivo,
-        o.naoExclusivo,
-        o.total,
-        propExc,
-        propNao,
-      ]);
+      const nomeExibicao = o.nomeOriginal || o.nome;
+      const codigoOrgao = nomeExibicao.match(/^(\d{3}\/\d{3})/)?.[0] || '';
+      const nomeLimpo = nomeExibicao.replace(/^\d{3}\/\d{3}\s*-\s*/, '');
+      const eixosTexto = o.eixos.join(' | ');
 
-      if (eixosEntries.length > 0) {
-        eixosEntries.forEach(([eixo, valor]) => {
-          worksheet.addRow([
-            '', '', '',
-            valor,
-            '', '', '', '', '', '', '', '',
-          ]);
+      const blockStart = worksheet.rowCount + 1;
 
+      const headerRow1 = worksheet.addRow([`${codigoOrgao} ${nomeLimpo}`.trim(), '', `Total do Órgão`, '']);
+      worksheet.mergeCells(headerRow1.number, 1, headerRow1.number, 2);
+      worksheet.mergeCells(headerRow1.number, 3, headerRow1.number, 4);
+      headerRow1.getCell(1).font = { size: 11, bold: true, color: { argb: brancoArgb } };
+      headerRow1.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+      headerRow1.getCell(3).font = { size: 9, color: { argb: brancoArgb } };
+      headerRow1.getCell(3).alignment = { horizontal: 'right' };
+      headerRow1.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+      applyBorders(headerRow1, 4);
+
+      const headerRow2 = worksheet.addRow([eixosTexto, '', formatMoney(orgTotal), '']);
+      worksheet.mergeCells(headerRow2.number, 1, headerRow2.number, 2);
+      worksheet.mergeCells(headerRow2.number, 3, headerRow2.number, 4);
+      headerRow2.getCell(1).font = { size: 9, color: { argb: verdeTextoArgb } };
+      headerRow2.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMuitoClaroArgb } };
+      headerRow2.getCell(3).font = { size: 13, bold: true, color: { argb: verdeEscuroArgb } };
+      headerRow2.getCell(3).alignment = { horizontal: 'right' };
+      headerRow2.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMuitoClaroArgb } };
+      applyBorders(headerRow2, 4);
+
+      const colHeaderRow = worksheet.addRow(['Aplicação Programada', '', 'Classificação', 'Dotação (R$)']);
+      worksheet.mergeCells(colHeaderRow.number, 1, colHeaderRow.number, 2);
+      colHeaderRow.eachCell((cell) => {
+        cell.font = { size: 9, bold: true, color: { argb: verdeEscuroArgb } };
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMuitoClaroArgb } };
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+      applyBorders(colHeaderRow, 4);
+
+      if (eixosEntries.length === 0) {
+        const row = worksheet.addRow(['Sem aplicações programadas', '', '', '']);
+        worksheet.mergeCells(row.number, 1, row.number, 2);
+        applyBorders(row, 4);
+      } else {
+        eixosEntries.forEach(([eixo]) => {
           const appsDoEixo = appsDoOrgao[eixo] || [];
-          if (appsDoEixo.length > 0) {
+          if (appsDoEixo.length === 0) {
+            const row = worksheet.addRow([`[${eixo}]`, '', '', '']);
+            worksheet.mergeCells(row.number, 1, row.number, 2);
+            applyBorders(row, 4);
+          } else {
             appsDoEixo.forEach((app) => {
-              worksheet.addRow([
-                '', '', '', '',
-                app.aplicacao,
-                app.dotacao,
-                app.classificacao,
-                '', '', '', '', '',
+              const classificacao = app.classificacao || 'Não Exclusivo';
+              const eixoAbrev = eixo.match(/^(Eixo\s+[IVX]+)/)?.[0] || eixo;
+              const row = worksheet.addRow([
+                `${app.aplicacao} (${eixoAbrev})`, '',
+                classificacao,
+                formatMoney(app.dotacao)
               ]);
+              worksheet.mergeCells(row.number, 1, row.number, 2);
+              row.getCell(3).font = { color: { argb: classificacao === 'Exclusivo' ? azulExclusivoArgb : cinzaNaoExclusivoArgb } };
+              row.getCell(4).alignment = { horizontal: 'right' };
+              row.eachCell((cell) => {
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMuitoClaroArgb } };
+              });
+              applyBorders(row, 4);
             });
           }
         });
       }
 
-      // Linha em branco separadora entre órgãos
+      const totalsRow = worksheet.addRow([
+        `Exclusivo: ${formatMoney(orgExclusivo)}`,
+        '',
+        `Não Exclusivo: ${formatMoney(orgNaoExclusivo)}`,
+        formatMoney(orgTotal)
+      ]);
+      worksheet.mergeCells(totalsRow.number, 1, totalsRow.number, 2);
+      totalsRow.getCell(1).font = { bold: true, color: { argb: azulExclusivoArgb } };
+      totalsRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMedioArgb } };
+      totalsRow.getCell(3).font = { bold: true, color: { argb: cinzaTextoArgb } };
+      totalsRow.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMedioArgb } };
+      totalsRow.getCell(4).font = { bold: true, color: { argb: verdeEscuroArgb } };
+      totalsRow.getCell(4).alignment = { horizontal: 'right' };
+      totalsRow.getCell(4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMedioArgb } };
+      applyBorders(totalsRow, 4);
+
+      const blockEnd = worksheet.rowCount;
+      applyOuterBorders(blockStart, blockEnd, 4);
+
       worksheet.addRow([]);
     });
 
-    // Informações no final do documento
-    worksheet.addRow([]);
-    worksheet.addRow([`Exportado em: ${new Date().toLocaleDateString('pt-BR')}`]);
-    worksheet.addRow([`Total: ${dados.length} órgão(s)`]);
-    worksheet.addRow([]);
-    worksheet.addRow([
-      'Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).'
-    ]);
+    const totalGeral = totalExclusivo + totalNaoExclusivo;
 
-    // Ajusta larguras das colunas
+    const tgStart = worksheet.rowCount + 1;
+
+    const tgTitleRow = worksheet.addRow(['TOTAL GERAL', '', '', '']);
+    worksheet.mergeCells(tgTitleRow.number, 1, tgTitleRow.number, 4);
+    tgTitleRow.getCell(1).font = { size: 16, bold: true, color: { argb: brancoArgb } };
+    tgTitleRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+    tgTitleRow.getCell(1).alignment = { horizontal: 'center' };
+    applyBorders(tgTitleRow, 4);
+
+    const tgCountRow = worksheet.addRow([`(${dados.length} órgãos)`, '', '', '']);
+    worksheet.mergeCells(tgCountRow.number, 1, tgCountRow.number, 4);
+    tgCountRow.getCell(1).font = { size: 11, color: { argb: brancoArgb } };
+    tgCountRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+    tgCountRow.getCell(1).alignment = { horizontal: 'center' };
+    applyBorders(tgCountRow, 4);
+
+    const tgLabelsRow = worksheet.addRow(['Exclusivo', '', 'Não Exclusivo', 'Total']);
+    worksheet.mergeCells(tgLabelsRow.number, 1, tgLabelsRow.number, 2);
+    tgLabelsRow.eachCell((cell) => {
+      cell.font = { size: 10, color: { argb: brancoArgb } };
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+      cell.alignment = { horizontal: 'center' };
+    });
+    applyBorders(tgLabelsRow, 4);
+
+    const tgValuesRow = worksheet.addRow([formatMoney(totalExclusivo), '', formatMoney(totalNaoExclusivo), formatMoney(totalGeral)]);
+    worksheet.mergeCells(tgValuesRow.number, 1, tgValuesRow.number, 2);
+    tgValuesRow.eachCell((cell) => {
+      cell.font = { size: 13, bold: true, color: { argb: brancoArgb } };
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
+      cell.alignment = { horizontal: 'center' };
+    });
+    applyBorders(tgValuesRow, 4);
+
+    const tgEnd = worksheet.rowCount;
+    applyOuterBorders(tgStart, tgEnd, 4);
+
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    const coordRow1 = worksheet.addRow(['Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas) | Equipe Técnica: Ícaro Lebre Gundim (Economista),']);
+    coordRow1.getCell(1).font = { size: 8, color: { argb: cinzaTextoArgb } };
+    const coordRow2 = worksheet.addRow(['Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista)']);
+    coordRow2.getCell(1).font = { size: 8, color: { argb: cinzaTextoArgb } };
+
     worksheet.columns = [
-      { width: 45 }, { width: 25 }, { width: 10 },
-      { width: 20 }, { width: 45 }, { width: 20 },
-      { width: 20 }, { width: 20 }, { width: 20 },
-      { width: 20 }, { width: 15 }, { width: 15 }
+      { width: 50 }, { width: 20 }, { width: 20 }, { width: 22 }
     ];
 
     const buffer = await workbook.xlsx.writeBuffer();
@@ -454,7 +631,7 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `orgaos_orcamento_climatico_${new Date().toISOString().split('T')[0]}.xlsx`;
+    a.download = `relatorio_orcamento_climatico_${new Date().toISOString().split('T')[0]}.xlsx`;
     a.click();
     URL.revokeObjectURL(url);
     setAberto(false);
@@ -462,10 +639,11 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
 
   const exportarPDF = async () => {
     try {
-      const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
-      const pageWidth = doc.internal.pageSize.getWidth();
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
+      const { verdeEscuro, verdeClaro, verdeTexto, cinzaTexto, cinzaClaro, cinzaMedio, azulExclusivo, cinzaNaoExclusivo, branco } = COLORS;
 
-      // Carrega a logo SEPLAN como base64
       let logoBase64 = null;
       try {
         const response = await fetch('/logo_seplan.png');
@@ -479,112 +657,283 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
         console.warn('Não foi possível carregar o logo SEPLAN:', e);
       }
 
-      // Logo no canto superior direito, discreta e proporcional
-      if (logoBase64) {
-        const logoH = 56; // discreto, sem cortar
-        const logoW = (2800 / 800) * logoH; // proporção da logo_seplan.png ~3.5
-        const logoX = pageWidth - logoW - 30;
-        doc.addImage(logoBase64, 'PNG', logoX, 10, logoW, logoH);
-      }
+      let pageNum = 1;
+      let currentY = 105;
+      const marginTop = 100;
+      const marginBottom = 50;
+      const usableHeight = pageH - marginTop - marginBottom;
 
-      // Textos institucionais à esquerda — mesmo tamanho (11pt) e mesma cor verde
-      doc.setFontSize(11);
-      doc.setTextColor(21, 128, 61);
-      doc.text('Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN', 30, 28);
-      doc.text('Secretaria de Estado de Planejamento - SEPLAN', 30, 44);
-      doc.text('Orçamento Climático – Órgãos', 30, 60);
+      const pagesWithHeader = new Set();
+      const pagesWithFooter = new Set();
 
-      const tableColumn = ['Órgão', 'Eixos Temáticos', 'Ano', 'Valor por Eixo (R$)', 'Aplicação Programada', 'Dotação (R$)', 'Classificação', 'Exclusivo (R$)', 'Não Exclusivo (R$)', 'Total (R$)'];
-      const tableRows = [];
+      const drawHeaderOnPage = (pg) => {
+        if (pagesWithHeader.has(pg)) return;
+        pagesWithHeader.add(pg);
+        if (logoBase64) {
+          const logoH = 56;
+          const logoW = (2800 / 800) * logoH;
+          const logoX = pageW - logoW - 30;
+          doc.addImage(logoBase64, 'PNG', logoX, 10, logoW, logoH);
+        }
+        drawPageHeader(doc, pg);
+      };
+
+      const drawFooterOnPage = (pg) => {
+        if (pagesWithFooter.has(pg)) return;
+        pagesWithFooter.add(pg);
+        drawPageFooter(doc);
+      };
+
+      const addNewPage = () => {
+        drawFooterOnPage(pageNum);
+        doc.addPage();
+        pageNum++;
+        currentY = marginTop;
+        drawHeaderOnPage(pageNum);
+      };
+
+      const ensureSpace = (needed) => {
+        if (currentY + needed > pageH - marginBottom) {
+          addNewPage();
+        }
+      };
+
+      drawHeaderOnPage(pageNum);
+
+      let totalExclusivo = 0;
+      let totalNaoExclusivo = 0;
 
       dados.forEach((o) => {
         const eixosEntries = Object.entries(o.valoresPorEixo || {});
         const appsDoOrgao = aplicacoesPorOrgaoEixo?.[o.nomeOriginal] || {};
-        if (eixosEntries.length === 0) {
-          tableRows.push([
-            limparNomeOrgao(o.nome),
-            o.eixos.join(', '),
-            String(o.anoInicio),
-            '-',
-            '-',
-            '-',
-            '-',
-            String(o.exclusivo),
-            String(o.naoExclusivo),
-            String(o.total),
-          ]);
-        } else {
-          eixosEntries.forEach(([eixo, valor], idx) => {
-            tableRows.push([
-              idx === 0 ? limparNomeOrgao(o.nome) : '',
-              idx === 0 ? o.eixos.join(', ') : '',
-              idx === 0 ? String(o.anoInicio) : '',
-              String(valor),
-              '',
-              '',
-              '',
-              idx === 0 ? String(o.exclusivo) : '',
-              idx === 0 ? String(o.naoExclusivo) : '',
-              idx === 0 ? String(o.total) : '',
-            ]);
+        const orgTotal = o.total || 0;
+        const orgExclusivo = o.exclusivo || 0;
+        const orgNaoExclusivo = o.naoExclusivo || 0;
+        totalExclusivo += orgExclusivo;
+        totalNaoExclusivo += orgNaoExclusivo;
 
-            // Linhas de aplicações programadas do eixo
+        const nomeExibicao = o.nomeOriginal || o.nome;
+        const codigoOrgao = nomeExibicao.match(/^(\d{3}\/\d{3})/)?.[0] || '';
+        const nomeLimpo = nomeExibicao.replace(/^\d{3}\/\d{3}\s*-\s*/, '');
+        const eixosTexto = o.eixos.join(' | ');
+
+        const tableBody = [];
+        if (eixosEntries.length === 0) {
+          tableBody.push(['Sem aplicações programadas', '', '']);
+        } else {
+          eixosEntries.forEach(([eixo]) => {
             const appsDoEixo = appsDoOrgao[eixo] || [];
-            appsDoEixo.forEach((app) => {
-              tableRows.push([
-                '',
-                '',
-                '',
-                '',
-                app.aplicacao,
-                String(app.dotacao),
-                app.classificacao,
-                '',
-                '',
-                '',
-              ]);
-            });
+            if (appsDoEixo.length === 0) {
+              tableBody.push([`[${eixo}]`, '', '']);
+            } else {
+              appsDoEixo.forEach((app) => {
+                const classificacao = app.classificacao || 'Não Exclusivo';
+                const rowColor = classificacao === 'Exclusivo' ? azulExclusivo : cinzaNaoExclusivo;
+                const eixoAbrev = eixo.match(/^(Eixo\s+[IVX]+)/)?.[0] || eixo;
+                tableBody.push([
+                  `${app.aplicacao} (${eixoAbrev})`,
+                  { content: classificacao, styles: { textColor: rowColor } },
+                  formatMoney(app.dotacao)
+                ]);
+              });
+            }
           });
         }
+
+        const headerBlockHeight = 55;
+        const appsTableHeight = tableBody.length * 28 + 40;
+        const totalsBlockHeight = 40;
+        const blockHeight = headerBlockHeight + appsTableHeight + totalsBlockHeight;
+
+        ensureSpace(headerBlockHeight + 40);
+
+        autoTable(doc, {
+          startY: currentY,
+          margin: { left: 40, right: 40 },
+          tableWidth: pageW - 80,
+          body: [
+            [
+              { content: `${codigoOrgao}\n${nomeLimpo}`, styles: { fontSize: 11, fontStyle: 'bold', textColor: verdeEscuro } },
+              { content: 'Total do Órgão', styles: { fontSize: 9, textColor: cinzaTexto, halign: 'right' } },
+            ],
+            [
+              { content: eixosTexto, styles: { fontSize: 9, textColor: verdeTexto } },
+              { content: formatMoney(orgTotal), styles: { fontSize: 13, fontStyle: 'bold', textColor: verdeEscuro, halign: 'right' } },
+            ],
+          ],
+          theme: 'plain',
+          styles: {
+            cellPadding: { top: 4, bottom: 4, left: 6, right: 6 },
+            valign: 'middle',
+          },
+          didParseCell: (data) => {
+            data.cell.styles.fillColor = verdeClaro;
+          },
+          didDrawCell: (data) => {
+            doc.setDrawColor(...verdeEscuro);
+            doc.setLineWidth(0.3);
+            const { x, y, width, height } = data.cell;
+            doc.rect(x, y, width, height, 'S');
+            if (data.row.index === 0 && data.column.index === 0) {
+              const totalW = data.table.columns.reduce((s, c) => s + c.width, 0);
+              const totalH = data.table.body.reduce((s, r) => s + r.height, 0);
+              doc.setLineWidth(0.8);
+              doc.rect(x, y, totalW, totalH, 'S');
+            }
+          },
+        });
+
+        currentY = doc.lastAutoTable.finalY + 4;
+
+        autoTable(doc, {
+          startY: currentY,
+          margin: { left: 40, right: 40, top: marginTop, bottom: marginBottom },
+          tableWidth: pageW - 80,
+          head: [['Aplicação Programada', 'Classificação', 'Dotação (R$)']],
+          body: tableBody,
+          theme: 'plain',
+          headStyles: {
+            fillColor: verdeEscuro,
+            textColor: branco,
+            fontSize: 9,
+            fontStyle: 'bold',
+            cellPadding: { top: 6, bottom: 6, left: 6, right: 6 },
+          },
+          styles: {
+            fontSize: 9,
+            cellPadding: { top: 5, bottom: 5, left: 6, right: 6 },
+            valign: 'middle',
+          },
+          columnStyles: {
+            0: { cellWidth: 'auto' },
+            1: { cellWidth: 100, halign: 'left' },
+            2: { cellWidth: 80, halign: 'right' },
+          },
+          alternateRowStyles: {
+            fillColor: cinzaClaro,
+          },
+          didDrawCell: (data) => {
+            const { x, y, width, height } = data.cell;
+            const isFirstCol = data.column.index === 0;
+            const isLastCol = data.column.index === data.table.columns.length - 1;
+            const isLastRow = data.row.index === data.table.body.length - 1;
+
+            if (data.section === 'head') {
+              doc.setDrawColor(...verdeEscuro);
+              doc.setLineWidth(0.3);
+              doc.rect(x, y, width, height, 'S');
+            } else {
+              doc.setDrawColor(...verdeEscuro);
+              doc.setLineWidth(0.3);
+              doc.line(x, y + height, x + width, y + height);
+              if (isFirstCol) doc.line(x, y, x, y + height);
+              if (isLastCol) doc.line(x + width, y, x + width, y + height);
+              if (isLastRow) doc.line(x, y, x + width, y);
+            }
+          },
+          didDrawPage: (data) => {
+            const pg = doc.internal.getCurrentPageInfo().pageNumber;
+            drawHeaderOnPage(pg);
+            drawFooterOnPage(pg);
+          },
+        });
+
+        const totalPagesAfterApps = doc.internal.getNumberOfPages();
+        pageNum = totalPagesAfterApps;
+        currentY = doc.lastAutoTable.finalY + 4;
+
+        ensureSpace(totalsBlockHeight);
+
+        autoTable(doc, {
+          startY: currentY,
+          margin: { left: 40, right: 40 },
+          tableWidth: pageW - 80,
+          body: [
+            [
+              { content: `Exclusivo: ${formatMoney(orgExclusivo)}`, styles: { fontStyle: 'bold', textColor: azulExclusivo } },
+              { content: `Não Exclusivo: ${formatMoney(orgNaoExclusivo)}`, styles: { fontStyle: 'bold', textColor: cinzaTexto } },
+              { content: formatMoney(orgTotal), styles: { fontStyle: 'bold', textColor: verdeEscuro, halign: 'right' } },
+            ],
+          ],
+          theme: 'plain',
+          styles: {
+            fontSize: 9,
+            cellPadding: { top: 6, bottom: 6, left: 6, right: 6 },
+            valign: 'middle',
+          },
+          didParseCell: (data) => {
+            data.cell.styles.fillColor = verdeClaro;
+          },
+          didDrawCell: (data) => {
+            doc.setDrawColor(...verdeEscuro);
+            doc.setLineWidth(0.3);
+            const { x, y, width, height } = data.cell;
+            doc.rect(x, y, width, height, 'S');
+            if (data.row.index === 0 && data.column.index === 0) {
+              const totalW = data.table.columns.reduce((s, c) => s + c.width, 0);
+              doc.setLineWidth(0.8);
+              doc.rect(x, y, totalW, height, 'S');
+            }
+          },
+        });
+
+        currentY = doc.lastAutoTable.finalY + 16;
       });
 
-      autoTable(doc, {
-        head: [tableColumn],
-        body: tableRows,
-        startY: 72,
-        styles: { fontSize: 7, cellPadding: 2, overflow: 'linebreak', lineColor: [200, 200, 200], lineWidth: 0.5 },
-        headStyles: { fillColor: [21, 128, 61], textColor: 255, fontStyle: 'bold' },
-        alternateRowStyles: { fillColor: [245, 255, 250] },
-        margin: { left: 30, right: 30 },
-        tableWidth: 'auto',
-        didDrawPage: (data) => {
-          doc.setFontSize(8);
-          doc.text(`Página ${data.pageNumber}`, data.settings.margin.left, doc.internal.pageSize.height - 20);
-        }
-      });
+      const totalGeral = totalExclusivo + totalNaoExclusivo;
+      const totalGeralBlockHeight = 110;
+      const coordReserved = 60;
 
-      // Informações de exportação no final da última página
-      const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 108;
-      const pageH = doc.internal.pageSize.getHeight();
-      const pageW = doc.internal.pageSize.getWidth();
-      let infoY = finalY + 20;
-
-      if (infoY + 40 > pageH - 30) {
-        doc.addPage();
-        infoY = 40;
+      if (currentY + totalGeralBlockHeight + coordReserved > pageH - marginBottom) {
+        addNewPage();
       }
 
+      doc.setFillColor(...verdeEscuro);
+      doc.roundedRect(40, currentY, pageW - 80, 100, 4, 4, 'F');
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.text('TOTAL GERAL', pageW / 2, currentY + 25, { align: 'center' });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(11);
+      doc.text(`(${dados.length} órgãos)`, pageW / 2, currentY + 42, { align: 'center' });
+
+      doc.setDrawColor(...branco);
+      doc.setLineWidth(1);
+      doc.line(60, currentY + 52, pageW - 60, currentY + 52);
+
+      doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
-      doc.setTextColor(100, 100, 100);
-      doc.text(`Exportado em: ${new Date().toLocaleDateString('pt-BR')}`, 30, infoY);
-      doc.text(`Total: ${dados.length} órgão(s)`, 30, infoY + 14);
+      const colWidth = (pageW - 120) / 3;
+      doc.text('Exclusivo', 60 + colWidth * 0.5, currentY + 68, { align: 'center' });
+      doc.text('Não Exclusivo', 60 + colWidth * 1.5, currentY + 68, { align: 'center' });
+      doc.text('Total', 60 + colWidth * 2.5, currentY + 68, { align: 'center' });
 
-      // Equipe técnica — discreta, abaixo das informações de exportação
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.text(formatMoney(totalExclusivo), 60 + colWidth * 0.5, currentY + 88, { align: 'center' });
+      doc.text(formatMoney(totalNaoExclusivo), 60 + colWidth * 1.5, currentY + 88, { align: 'center' });
+      doc.text(formatMoney(totalGeral), 60 + colWidth * 2.5, currentY + 88, { align: 'center' });
+
+      const coordY = pageH - 55;
+      doc.setTextColor(cinzaTexto[0], cinzaTexto[1], cinzaTexto[2]);
+      doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
-      doc.setTextColor(150, 150, 150);
-      doc.text('Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).', 30, infoY + 32, { maxWidth: pageW - 60 });
+      doc.text(
+        'Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas) | Equipe Técnica: Ícaro Lebre Gundim (Economista),',
+        pageW / 2, coordY, { align: 'center' }
+      );
+      doc.text(
+        'Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista)',
+        pageW / 2, coordY + 14, { align: 'center' }
+      );
 
-      doc.save(`orgaos_orcamento_climatico_${new Date().toISOString().split('T')[0]}.pdf`);
+      drawFooterOnPage(pageNum);
+
+      const dataHoje = new Date().toISOString().split('T')[0];
+      doc.save(`relatorio_orcamento_climatico_${dataHoje}.pdf`);
     } catch (err) {
       console.error('Erro ao exportar PDF:', err);
       alert('Erro ao gerar PDF. Tente novamente.');
@@ -687,11 +1036,29 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
 
 export default function ProjectsTable() {
   const { orgaosFiltrados, filtros, atualizarFiltros, aplicacoesPorOrgaoEixo } = useData();
-  const [expandido, setExpandido] = useState(null);
+  const [expandido, setExpandido] = useState(new Set());
   const [eixoExpandido, setEixoExpandido] = useState(new Set());
 
   const toggleExpandir = (id) => {
-    setExpandido(expandido === id ? null : id);
+    setExpandido(prev => {
+      const next = new Set(prev);
+      const estavaAberto = next.has(id);
+      if (estavaAberto) {
+        next.delete(id);
+        setEixoExpandido(prevEixo => {
+          const nextEixo = new Set(prevEixo);
+          for (const chave of nextEixo) {
+            if (chave.startsWith(`${id}|`)) {
+              nextEixo.delete(chave);
+            }
+          }
+          return nextEixo;
+        });
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
   };
 
   const toggleEixo = (orgaoId, eixoNome) => {
@@ -816,7 +1183,7 @@ export default function ProjectsTable() {
 
           {/* Accordion */}
           {orgaosAgrupados.map((o) => {
-            const isExpandido = expandido === o.id;
+            const isExpandido = expandido.has(o.id);
             const eixosDoOrgao = Object.keys(o.valoresPorEixo || {});
             return (
               <div key={o.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
