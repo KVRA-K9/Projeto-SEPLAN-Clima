@@ -469,7 +469,7 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
 
     if (logoBuffer) {
       const imageId = workbook.addImage({ buffer: logoBuffer, extension: 'png' });
-      worksheet.addImage(imageId, { tl: { col: 3.2, row: 0 }, ext: { width: 180, height: 52 } });
+      worksheet.addImage(imageId, { tl: { col: 2.5, row: 0.2 }, ext: { width: 140, height: 40 } });
     }
 
     worksheet.addRow([]);
@@ -669,13 +669,13 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
       const drawHeaderOnPage = (pg) => {
         if (pagesWithHeader.has(pg)) return;
         pagesWithHeader.add(pg);
+        drawPageHeader(doc, pg);
         if (logoBase64) {
-          const logoH = 56;
+          const logoH = 35;
           const logoW = (2800 / 800) * logoH;
           const logoX = pageW - logoW - 30;
-          doc.addImage(logoBase64, 'PNG', logoX, 10, logoW, logoH);
+          doc.addImage(logoBase64, 'PNG', logoX, 22, logoW, logoH);
         }
-        drawPageHeader(doc, pg);
       };
 
       const drawFooterOnPage = (pg) => {
