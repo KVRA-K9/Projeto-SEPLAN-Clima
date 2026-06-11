@@ -753,12 +753,12 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
           tableWidth: pageW - 80,
           body: [
             [
-              { content: `${codigoOrgao}\n${nomeLimpo}`, styles: { fontSize: 11, fontStyle: 'bold', textColor: verdeEscuro } },
-              { content: 'Total do Órgão', styles: { fontSize: 9, textColor: cinzaTexto, halign: 'right' } },
+              { content: `${codigoOrgao}\n${nomeLimpo}`, styles: { fontSize: 11, fontStyle: 'bold', textColor: branco } },
+              { content: 'Total do Órgão', styles: { fontSize: 9, textColor: branco, halign: 'right' } },
             ],
             [
-              { content: eixosTexto, styles: { fontSize: 9, textColor: verdeTexto } },
-              { content: formatMoney(orgTotal), styles: { fontSize: 13, fontStyle: 'bold', textColor: verdeEscuro, halign: 'right' } },
+              { content: eixosTexto, styles: { fontSize: 9, textColor: branco } },
+              { content: formatMoney(orgTotal), styles: { fontSize: 13, fontStyle: 'bold', textColor: branco, halign: 'right' } },
             ],
           ],
           theme: 'plain',
@@ -767,10 +767,10 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
             valign: 'middle',
           },
           didParseCell: (data) => {
-            data.cell.styles.fillColor = verdeClaro;
+            data.cell.styles.fillColor = verdeEscuro;
           },
           didDrawCell: (data) => {
-            doc.setDrawColor(...verdeEscuro);
+            doc.setDrawColor(...branco);
             doc.setLineWidth(0.3);
             const { x, y, width, height } = data.cell;
             doc.rect(x, y, width, height, 'S');
@@ -793,8 +793,8 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
           body: tableBody,
           theme: 'plain',
           headStyles: {
-            fillColor: verdeEscuro,
-            textColor: branco,
+            fillColor: verdeClaro,
+            textColor: verdeEscuro,
             fontSize: 9,
             fontStyle: 'bold',
             cellPadding: { top: 6, bottom: 6, left: 6, right: 6 },
@@ -819,7 +819,7 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
             const isLastRow = data.row.index === data.table.body.length - 1;
 
             if (data.section === 'head') {
-              doc.setDrawColor(...verdeEscuro);
+              doc.setDrawColor(...verdeClaro);
               doc.setLineWidth(0.3);
               doc.rect(x, y, width, height, 'S');
             } else {
