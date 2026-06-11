@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import { useData } from '../context/DataContext';
 import { ClipboardList, ChevronDown, ChevronUp, Download, FileSpreadsheet, FileText, Eraser } from 'lucide-react';
 import AnimatedSection from './AnimatedSection';
-import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import { autoTable } from 'jspdf-autotable';
 
