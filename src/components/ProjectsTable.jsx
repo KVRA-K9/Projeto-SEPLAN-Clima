@@ -493,24 +493,16 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
 
       const blockStart = worksheet.rowCount + 1;
 
-      const headerRow1 = worksheet.addRow([`${codigoOrgao} ${nomeLimpo}`.trim(), '', `Total do Órgão`, '']);
-      worksheet.mergeCells(headerRow1.number, 1, headerRow1.number, 2);
-      worksheet.mergeCells(headerRow1.number, 3, headerRow1.number, 4);
+      const headerRow1 = worksheet.addRow([`${codigoOrgao} ${nomeLimpo}`.trim(), '', '', '']);
+      worksheet.mergeCells(headerRow1.number, 1, headerRow1.number, 4);
       headerRow1.getCell(1).font = { size: 11, bold: true, color: { argb: brancoArgb } };
       headerRow1.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
-      headerRow1.getCell(3).font = { size: 9, color: { argb: brancoArgb } };
-      headerRow1.getCell(3).alignment = { horizontal: 'right' };
-      headerRow1.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeEscuroArgb } };
       applyBorders(headerRow1, 4);
 
-      const headerRow2 = worksheet.addRow([eixosTexto, '', formatMoney(orgTotal), '']);
-      worksheet.mergeCells(headerRow2.number, 1, headerRow2.number, 2);
-      worksheet.mergeCells(headerRow2.number, 3, headerRow2.number, 4);
+      const headerRow2 = worksheet.addRow([eixosTexto, '', '', '']);
+      worksheet.mergeCells(headerRow2.number, 1, headerRow2.number, 4);
       headerRow2.getCell(1).font = { size: 9, color: { argb: verdeTextoArgb } };
       headerRow2.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMuitoClaroArgb } };
-      headerRow2.getCell(3).font = { size: 13, bold: true, color: { argb: verdeEscuroArgb } };
-      headerRow2.getCell(3).alignment = { horizontal: 'right' };
-      headerRow2.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: verdeMuitoClaroArgb } };
       applyBorders(headerRow2, 4);
 
       const colHeaderRow = worksheet.addRow(['Aplicação Programada', '', 'Classificação', 'Dotação (R$)']);
@@ -558,7 +550,7 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
         `Exclusivo: ${formatMoney(orgExclusivo)}`,
         '',
         `Não Exclusivo: ${formatMoney(orgNaoExclusivo)}`,
-        formatMoney(orgTotal)
+        `TOTAL: ${formatMoney(orgTotal)}`
       ]);
       worksheet.mergeCells(totalsRow.number, 1, totalsRow.number, 2);
       totalsRow.getCell(1).font = { bold: true, color: { argb: azulExclusivoArgb } };
@@ -754,11 +746,9 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
           body: [
             [
               { content: `${codigoOrgao}\n${nomeLimpo}`, styles: { fontSize: 11, fontStyle: 'bold', textColor: branco } },
-              { content: 'Total do Órgão', styles: { fontSize: 9, textColor: branco, halign: 'right' } },
             ],
             [
               { content: eixosTexto, styles: { fontSize: 9, textColor: branco } },
-              { content: formatMoney(orgTotal), styles: { fontSize: 13, fontStyle: 'bold', textColor: branco, halign: 'right' } },
             ],
           ],
           theme: 'plain',
@@ -771,13 +761,13 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
           },
           didDrawCell: (data) => {
             doc.setDrawColor(...branco);
-            doc.setLineWidth(0.3);
+            doc.setLineWidth(0.5);
             const { x, y, width, height } = data.cell;
             doc.rect(x, y, width, height, 'S');
             if (data.row.index === 0 && data.column.index === 0) {
               const totalW = data.table.columns.reduce((s, c) => s + c.width, 0);
               const totalH = data.table.body.reduce((s, r) => s + r.height, 0);
-              doc.setLineWidth(0.8);
+              doc.setLineWidth(1);
               doc.rect(x, y, totalW, totalH, 'S');
             }
           },
@@ -819,16 +809,17 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
             const isLastRow = data.row.index === data.table.body.length - 1;
 
             if (data.section === 'head') {
-              doc.setDrawColor(...verdeClaro);
-              doc.setLineWidth(0.3);
+              doc.setDrawColor(...verdeEscuro);
+              doc.setLineWidth(0.5);
               doc.rect(x, y, width, height, 'S');
             } else {
-              doc.setDrawColor(...verdeEscuro);
+              doc.setDrawColor(...cinzaMedio);
               doc.setLineWidth(0.3);
-              doc.line(x, y + height, x + width, y + height);
-              if (isFirstCol) doc.line(x, y, x, y + height);
-              if (isLastCol) doc.line(x + width, y, x + width, y + height);
-              if (isLastRow) doc.line(x, y, x + width, y);
+              doc.rect(x, y, width, height, 'S');
+              if (isLastRow) {
+                doc.setLineWidth(0.8);
+                doc.line(x, y + height, x + width, y + height);
+              }
             }
           },
           didDrawPage: (data) => {
@@ -852,7 +843,7 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
             [
               { content: `Exclusivo: ${formatMoney(orgExclusivo)}`, styles: { fontStyle: 'bold', textColor: azulExclusivo } },
               { content: `Não Exclusivo: ${formatMoney(orgNaoExclusivo)}`, styles: { fontStyle: 'bold', textColor: cinzaTexto } },
-              { content: formatMoney(orgTotal), styles: { fontStyle: 'bold', textColor: verdeEscuro, halign: 'right' } },
+              { content: `TOTAL: ${formatMoney(orgTotal)}`, styles: { fontStyle: 'bold', textColor: verdeEscuro, halign: 'right' } },
             ],
           ],
           theme: 'plain',
@@ -866,12 +857,12 @@ function ExportarDados({ dados, aplicacoesPorOrgaoEixo }) {
           },
           didDrawCell: (data) => {
             doc.setDrawColor(...verdeEscuro);
-            doc.setLineWidth(0.3);
+            doc.setLineWidth(0.5);
             const { x, y, width, height } = data.cell;
             doc.rect(x, y, width, height, 'S');
             if (data.row.index === 0 && data.column.index === 0) {
               const totalW = data.table.columns.reduce((s, c) => s + c.width, 0);
-              doc.setLineWidth(0.8);
+              doc.setLineWidth(1);
               doc.rect(x, y, totalW, height, 'S');
             }
           },
