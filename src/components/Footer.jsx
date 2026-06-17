@@ -48,14 +48,6 @@ export default function Footer() {
 
           <div style={{ textAlign: 'center' }}>
             <p style={{
-              color: 'var(--text-primary)',
-              fontSize: 14,
-              fontWeight: 700,
-              margin: '0 0 4px 0'
-            }}>
-              Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN
-            </p>
-            <p style={{
               color: 'var(--text-secondary)',
               fontSize: 12,
               lineHeight: 1.5,
@@ -64,12 +56,12 @@ export default function Footer() {
               Coordenador: Denyscley Oliveira Bandeira (Gestor de Políticas Públicas); Equipe Técnica: Ícaro Lebre Gundim (Economista), Luísa Nascimento Ribeiro (Economista), Roseneide Sena (Especialista Executiva Administradora), Vinícius Carneiro de Farias (Economista).
             </p>
             <p style={{
-              color: 'var(--text-primary)',
-              fontSize: 14,
-              fontWeight: 700,
-              margin: '0 0 4px 0'
+              color: 'var(--text-secondary)',
+              fontSize: 12,
+              lineHeight: 1.5,
+              margin: '0 0 8px 0'
             }}>
-              Secretaria de Estado de Planejamento — Governo do Estado do Acre
+              Secretaria de Estado de Planejamento do Acre - Departamento de Estudos e Planejamento Orçamentário - DEPPO/SEPLAN
             </p>
             <p style={{
               color: 'var(--text-secondary)',
